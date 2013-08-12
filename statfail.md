@@ -9,7 +9,15 @@ In (xx%) of articles of the most recent (XX) volumes of *B&L*, statistical tests
 
 ## Introduction
 
-Although many of the same tests are used for both descriptive and inferential statistics (and indeed the two are deeply related in the frequentist interpretation via probability theory), the p-value makes little sense in descriptive statistics. The p-value represents the probability that any sample of the same size as the present one would have the same property 
+Although many of the same tests are used for both descriptive and inferential statistics (and indeed the two are deeply related in the frequentist interpretation via probability theory), the p-value makes little sense in descriptive statistics. 
+
+The p-value represents the probability that any sample of the same size would have the same descriptive properties as the sample actually taken, under the assumption of the null hypothesis. That is, the p-value is inherently an inferential method, despite its reliance on descriptive methods.[^convert-to-p] 
+
+[^convert-to-p]:The actual conversion from a descriptive statistic to a p-value depends on either theoretical distributions (parametric tests) or simulated distributions (non parametric tests, e.g., permutation tests). 
+
+For example, the F-test provides a measure for inter- vs. intra-group variation.  When constructing stimuli, it thus makes sense to use an F-test to compare the variation between conditions to the variation within conditions, i.e. whether the stimuli actually provide distinct conditions. However, it does not make sense to calculate a p-value in such cases *because the stimuli were not constructed/chosen randomly*. We are not inferences about the likelihood of having the given distribution under chance, but rather trying to determine how clear the division between conditions is.  
+
+Moreover, the null hypothesis is, per definition, false in such situations. We know that the stimuli were not chosen by chance. We do not need to test for the likelihood of something happening under the assumption of a condition we know to be false. The p-value in such cases just tells us the likelihood of a randomly generated stimulus set having the same properties as a carefully constructed one -- not very useful at all. 
 
 Consider the following quotes (neither from *Brain & Language*):
 
@@ -19,7 +27,7 @@ Consider the following quotes (neither from *Brain & Language*):
 >The CWs across conditions were matched on word length and frequency: log frequency in CELEX (Baayen et al., 1993): HC = 2.71, LC = 2.70, SV = 2.69, *F* (2,646) = 2.35, *p* = 0.10.
 [@Wang:2012rn]
 
-The *p*-values are meaningless, less than redundant, and imply that the researchers in question have false intuitions regarding statistical inference tests. Specifically, they imply that *statistical significance* is confused with *practical relevance*; this can be deduced from the observation that a crude parameter *estimation* test was applied to a *known* parameter, which indicates that the researchers misunderstand *p*-values as *magnitude quantifications*.
+The *p*-values are meaningless, less than redundant, and imply that the researchers in question have false intuitions regarding statistical inference tests. They show only that researches have become stuck in a rut of understanding statistics only as "significant", "not significant", and when it suits me, "tending towards significance". More explicitly, p-values in such cases imply that *statistical significance* is confused with *practical relevance*; this can be deduced from the observation that a crude parameter *estimation* test was applied to a *known* parameter, which indicates that the researchers misunderstand *p*-values as *magnitude quantifications*.
 I do not wish to single out and ridicule any specific researcher. I freely admit that in the past, I have conducted similar tests, or worse, avoided them out of laziness even though I (lazily) believed them to be appropriate. However, the scientific literature is full of such statements, implying that many researchers, editors and reviewers make the same mistake. Even the volumes of high-quality journals such as *Brain & Language* are full of such misuses of statistics. In the following, I will discuss the appropriate interpretation of such tests, attempt to explain what they are (wrongly) used for instead, and show how prevalent such mistakes are by presenting the number of these mistakes in the last two years of *B&L*.
 
 ## What's in a *p*?
