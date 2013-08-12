@@ -1,4 +1,3 @@
-
 # Many *Brain & Language* authors, editors and reviewers confuse significance and *statistical* significance
 
 
@@ -9,7 +8,8 @@ In (xx%) of articles of the most recent (XX) volumes of *B&L*, statistical tests
 
 
 ## Introduction
-Although many of the same tests are used for both descriptive and inferential statistics (and indeed the two are deeply related in the frequentist interpretation via probability theory), we must not forget that the p-value makes little sense in descriptive statistics. 
+Although many of the same tests are used for both descriptive and inferential statistics (and indeed the two are deeply related in the frequentist interpretation via probability theory), we must not forget that the p-value makes little sense in descriptive statistics. The p-value represents the probability that any sample of the same size as the present one would have the same property 
+
 Consider the following quotes (neither from *Brain & Language*):
 
 >Demographic and clinical characteristics of the two groups of participants are presented in Table 1. The two groups differed significantly in age, *t*(50) = 2.87, *p* < .05
