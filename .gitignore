@@ -1,3 +1,6 @@
 .DS_Store
 statfail*.pdf
 statfail*.html
+# vim swap files
+.*.swp
+*\~
