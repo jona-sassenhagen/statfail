@@ -1,54 +1,92 @@
-# Many *Brain & Language* authors, editors and reviewers confuse significance and *statistical* significance
+% Many *Brain & Language* authors, editors and reviewers confuse significance and *statistical* significance
+% Jona Sassenhagen and Phillip M. Alday
+% Summer and Fall 2013
 
-
-## Abstract
+# Abstract
 In (xx%) of articles of the most recent (XX) volumes of *B&L*, statistical tests were used in a way that strongly implies that many authors, editors and reviewers falsely understood *statistical* significance as absolute significance. 
 Specifically, completely known populations (such as word length of preselected, closed stimulus lists) are subjected to parameter estimation tests such as the *t*-test; thus, tests *estimating* a population parameter based on a sample are used on an exhaustively *measured* quantity, a population parameter that did not have to be estimated since it is precisely known. 
 Such usage of inference tests indicates that researchers use them to quantify the practical relevance, or (common-language) significance, of a finding via *p*-value calculation - a crass misunderstanding. 
 Researchers, including editors, reviewers and authors, must deepen their understanding of statistics.
 
 
-## Misuse of inferential statistics
+# Misuse of inferential statistics
 
-### Introduction
-Suppose the authors of this manuscript wish to learn who amongst us is able to eat the most. Over 5 days, we conduct 10 experiments where we  attempt to eat as many bread rolls as we can. We conduct a repeated-measures one-way ANOVA of the number of bread rolls eaten per day, with the factors AUTHOR (levels: first author, second author, third author). When we find a 'significant $p$-value', we conclude that the author who ate the most bread rolls [bread] is likely able to eat more than all others (because if we all had equal stomaches, finding such a large discrepancy in achieved bread rolls would be weird).
-Now, we wish to know which of us has the largest feet. Consequently, we measure our respective shoe sizes; whoever provides the largest value has the tallest feet [shoes]. Since we think ourselves competent enough to measure shoe size, we do not consider using an ANOVA this time.
+## Introduction
+Suppose the authors of this manuscript wish to learn who amongst us is able to eat the most. 
+Over 5 days, we conduct 10 experiments where we  attempt to eat as many bread rolls as we can. 
+We conduct a repeated-measures one-way ANOVA of the number of rolls eaten per day, with the factors AUTHOR (levels: first author, second author, third author).
+When we find a 'significant $p$-value', we conclude that the author who ate the most bread is likely able to eat more than all others (because if we all had equal stomaches, finding such a large discrepancy in bread rolls consumed would be weird).
+Now, we wish to know which of us has the largest feet.
+Consequently, we measure our respective shoe sizes; whoever provides the largest value has biggest the feet.
+Since we think ourselves competent enough to measure shoe size, we do not consider using an ANOVA this time.
 
-We claim that contributors to *B&L* routinely conduct inferential statistics in situations such as the latter. Specifically, we find that in most of the situations where researchers aim to control for possible cofounds resulting from undesired non-equivalences in stimulus materials, they apply inferential tests even though this procedure is meaningless and not helpful. Consider a real example published under one of our names:
+We claim that contributors to *B&L* routinely conduct inferential statistics in situations such as the latter.
+Specifically, we find that in most of the situations where researchers aim to control for possible cofounds resulting from undesired non-equivalences in stimulus materials, they apply inferential tests even though this procedure is meaningless and not helpful.
+Consider a real example published under one of our names:
 
 > critical stimuli did not differ in frequency, F(2,237) = 1.43, p > .24, or word length, F(2,237) = 1.70, p>.18.
 
-By investigating multiple volumes of *Brain & Language*, we have found that in more than XXXX articles, researchers wrongly apply inferential statistics where they are neither licensed nor meaningful. For example, they compare the length of two fixed lists of words, those making up condition one and those in condition two, using a *t*-test. Often, they also claim that stimuli were “matched”/equal/equivalent regarding such parameters based on the nn-significant result of such inferential tests. Editors and reviewers often do not disallow such behavior either.
-Before anybody feels too safe here: similar misuse of statistics is found when two participant groups are compared with regards to precisely known quantities such as age or place of lesion.
-We do not wish to single out and ridicule any specific researcher. 
-We freely admit that in the past, we have conducted similar tests, or worse, avoided them out of laziness even though we (lazily) believed them to be appropriate. 
-However, the scientific literature is full of such statements, implying that many researchers, editors and reviewers make the same mistake. 
-Even the volumes of high-quality journals such as *Brain & Language* contain many such misuses of statistics. 
+By investigating multiple volumes of *Brain & Language*, we have found that in more than XXXX articles, researchers wrongly apply inferential statistics where they are neither licensed nor meaningful. 
+For example, they compare the length of two fixed lists of words, those making up condition one and those in condition two, using a *t*-test, i.e. they estimate a known value.
+Often, they also further claim that stimuli were “matched”/equal/equivalent regarding such parameters based on the non-significant result of such inferential tests.
+Editors and reviewers often do not disallow such behavior.
+The exact same mistake occur when comparing two participant groups in aspects that are not generalized beyond the group, e.g. age or lesion.
+The mistake we addressing here is using inference tests for a descriptive purpose.
+When comparing two participant groups, we are usually describing the distribution of certain features in those two groups, and not in the larger population (undergraduate students or neurological patients).
+We want to know if their feet are different sizes, not whether foot size in the broader population varies.
+
+We do not wish to single out and ridicule any specific researcher, especially given our previous failings.
+We want to show that this problem is endemic, even in such high-quality journals as *Brain & Language*, as well as address the misunderstandings that have lead to it.
 In the following, we discuss the appropriate interpretation of such tests, attempt to explain what they are (wrongly) used for instead, and show how prevalent such mistakes are by demonstrating the proportion of these mistakes in the last two years of *B&L*.
 
-[^bread]: Note that we did not actually conduct this test because we didn't want to deal with Ethics.
+[^bread]: Note that we did not actually conduct this test because we didn't want to deal with ethics.
 [^shoes]: We wish, ethics be damned, to inform the reader that it is Mr. Alday.
 
-### When all you have is a hammer: inferential statistics for known parameters
+## When all you have is a hammer: inferential statistics for known parameters
+In the following, we briefly review basic statistical principles and terminology to emphasize the fundamental mistake that we make when we use inferential statistics for fully sampled, closed populations.
+Moroever, it has been shown repeatedly that many, even most researchers gravely misunderstand statistical concepts such as the meaning of *p*-values [@Haller:2002vo][@Lecoutre:2003vz][@Oakes:1986tn][@Falk:1995vc].
+Indeed,  many of the most "basic", or perhaps better said, most commonly used statistical concepts are rather counterintuitive. 
+The material presented here is nothing new, but sometimes it pays to review the things we learned in school.
+Especially when in practice we find ourselves and others governed by incoherent rituals and heuristics [@Gigerenzer2004].
 
-We repeat here basic statistical terminology because our empirical findings indicate that contributors to *Brain & Language*, including editors and researchers, suffer from wrong intuitions regarding these basic concepts. It has been shown repeatedly that many, even most researchers gravely misunderstand statistical concepts such as the meaning of *p*-values [@Haller:2002vo][@Lecoutre:2003vz][@Oakes:1986tn][@Falk:1995vc]. We do not claim the following represents deep insights; instead, the propositions contained in the following paragraphs are likely known to the intended readership. We assume that researchers have studied statistics and are intellectually well-capable of understanding them. But in practice, we find ourselves and others governed by incoherent rituals and heuristics [@Gigerenzer2004].
-
-Inferential statistics estimate population parameters based on samples drawn from the population. We use estimation by inference because sampling from a population is not an exact *measurement* of a population. Sampling is almost always incomplete and introduces errors. In most experiments, if we were to repeat the sampling and sample measurement, we would, even though the population parameter is (fictitiously) assumed unchanged, find different values. This is why we need inferences: to estimate from a sample an unknown, but fixed parameter that we cannot observe by itself.
+Inferential statistics estimate population parameters based on samples drawn from the population. 
+We use estimation by inference because sampling from a population is not an exact **measurement** of a population. 
+We use sampling because it is often not practical to measure an entire population or even possible, for example when we wish to generalize over time. 
+As such, sampling is *necessarily* almost always incomplete and introduces errors. 
+In most experiments, if we were to repeat the sampling and sample measurement, we would, even though the population parameter is (fictitiously) assumed unchanged, find different values.[^alphabets]
+This is why we need inferences: to estimate from a sample an unknown, but fixed parameter that we cannot observe by itself.
+Inference tests attempt to provide a measure of whether obsevered differences arise are sampling artefacts or true differences.
 Consequently, exhaustive and error-free sampling does not require, license or benefit from inferential tests.
 
-Descriptive statistics include reporting parameters that only pertain to the sample at hand, such as sample size, sample variance, andnon-standardized (raw means) or standardized (Cohen's *d*) effect sizes. Essentially, what may be measured without error in the current sample is descriptive. Inferential procedures include the calculation of *p*-values and possibly matching them to an alpha level, confidence intervals of non-standardized or standardized effect sizes, or calculating the Bayes Factor; they are assumed to quantify the relationship between measurement and sampling error on one hand and the population parameter on the other.
+[^alphabets] The difference between the true and estimated parameter is expressed in the literature in the choice of alphabet: Greek for estimated parameters, Latin for true parameters.
 
-Inferential statistics are necessarily imprecise. This is by design; they are the right tool when a parameter is not known, so that claiming precise knowledge would be lying. In contrast, stimulus parameters often can be measured without error. The population is exhaustively sampled - we are not interested in the stimuli we might have selected, but haven't, but rather, and exclusively, in those we have selected. Furthermore, we measure our sample without error. Consider two very similar cases:
+Descriptive statistics include reporting parameters that only pertain to the sample at hand, such as sample size, sample variance, and non-standardized (raw means) or standardized (Cohen's *d*) effect sizes. 
+Essentially, what may be measured without error in the current sample is descriptive. 
+Inferential procedures include the calculation of *p*-values and possibly matching them to an alpha level, confidence intervals of non-standardized or standardized effect sizes, or calculating the Bayes Factor; they are assumed to quantify the relationship between measurement and sampling error on one hand and the population parameter on the other.
+Much like the decision whether to view a certain variable as a random or fixed factor, the decision whether to think descriptively or inferentially is somewhat experiment and hypothesis driven. 
+If we want to know which author ate the most bread rolls, then we would use descriptive measures. 
+Only we when wish to generalize to not fully measured population, e.g. when we want to know which author will eat the most bread rolls in the future, is the use of inferential measures licensed. 
 
-+ We wish to match two lists of stimuli on word length, frequency in a certain corpus, and word class.
-+ We wish to match two lists of stimuli on animacy, affect and concreteness.
+Inferential statistics are necessarily imprecise in a technical sense: They are subject to random error and thus lack *precision*
+(For now, we will not comment on *accuracy* or systematic error  in statistical practice.)
+For many stimulus parameters, there is no random (sampling) error, because the entire population is known and thus its parameters can be measured directly and without error.
+More directly, we are not interested in the stimuli we might have selected, but haven't, but rather, and exclusively, in those we have selected, and so we are not generally interested in inferences.
+
+Now, consider two very similar cases:
+
++ We wish to match two lists of stimuli on word length.
++ We wish to match two lists of stimuli on affect.
 
 The latter requires *ratings*; ratings are samples drawn with measurement error from a large population. Were we to repeat the measurement as precisely as we could, we would still find different (though hopefully similar) data, both because we might measure different people, and because even the same individual might not give the same rating each time it is asked to do so. Consequently, it makes sense to apply an inferential test of the population parameter, as an estimate of what might have happened had we asked *everybody* and if everyone were a robot.
-In contrast, we trust our student assistants well enough to correctly count letters and syllables, access frequency data bases and classify words by word class without error, so the former scenario should result in exactly the same values however often we repeat it. Also, the population we attempt to measure is not, as in the second example, beyond our reach; rather, we are interested in 80 words, and just these 80 words.
+In contrast, we trust our student assistants well enough to correctly count letters and syllables, access frequency data bases and classify words by word class without error, so the former scenario should result in exactly the same values however often we repeat it. 
+Also, the population we attempt to measure is not, as in the second example, beyond our reach; rather, we are interested in 80 words, and just these 80 words.
 
-Lastly, our inferential tests do not inform us about the question we are actually interested in - are the stimuli equivalent? They inform us about a numerical hypothesis we are actually very rarely interested in: how surprised would we be had we assumed that the population parameter is exactly 0? Inferential tests do not test research hypotheses and do not establish *practical* significance, they test numerical hypotheses (parameters) and establish *statistical* significance.
+frequency vs frequency in a corpus
 
-### Hitting the wall, not the nail: testing and accepting the null
+Lastly, our inferential tests do not inform us about the question we are actually interested in - are the stimuli equivalent?
+They inform us about a numerical hypothesis we are actually very rarely interested in: how surprised would we be had we assumed that the population parameter is exactly 0? Inferential tests do not test research hypotheses and do not establish *practical* significance, they test numerical hypotheses (parameters) and establish *statistical* significance.
+
+## Hitting the wall, not the nail: testing and accepting the null
 
 Many, and in brain and behavioral sciences, nearly all inferential statistics takes the form of hypothesis tests. We will in the following mostly concern ourselves with the two-sample test that estimates if two samples were drawn from one distribution, such as the two-sample  *t*-test or the one-by-two ANOVA.
 Two distinct schools of hypothesis test have left their marks on current statistical practice. The *Fischer*ian hypothesis test [@Fisher:1949uc] is to be conducted when only very little can be assumed regarding the population effect. It requires a null hypothesis, which, in the Fischerian framework, is defined thusly:
@@ -81,7 +119,7 @@ This means that even if the observed difference between two stimulus lists would
 Furthermore, as described above, the likelihood of rejecting a wrong H~0~ is not simply determined by the divergence of the two populations, but also by the size of the sample, because we derive more confidence from larger samples. When one wants to decrease the type II rate, since we do not have control over effect size, sample size must be increased. However, this is not sound when constructing stimulus sets.
 Of course, the power of tests, the likelihood of correctly rejecting a null hypothesis, is generally worryingly low in brain and behavioral sciences [@Button:2013dz][@Yarkoni:2009ub]. 
 
-### The hammer is too heavy. The hammer is made of wood.
+## The hammer is too heavy. The hammer is made of wood.
 
 We are still considering the situation of a researcher who constructs two stimulus sets so that they differ in one aspect, such as animacy or familiarity, and wishes to test if they are equivalent with regards to one aspect he deems uninteresting, such as word length or frequency, because he hopes that the two stimulus lists will result in different responses and that this difference may be safely assigned to the main aspect in question. He thus hopes to show that they are equivalent with regards to the uninteresting parameter.
 We believe researchers are not truly interested in the confidence with which they may reject the point null estimate. The nil-null is uninteresting and usually known to be wrong; as noted, if words differ by as little as .0001 letter, H~0~, as a point-null assuming the value 0, is wrong. But this does not invalidate the researcher's study; very often, a small, but non-zero difference is truly irrelevant and the two conditions can be considered equivalent regarding some aspect. We assume what researchers primarily want out of their inferential tests is an objective decision regarding the non-relevance of differences between conditions in some aspect.
@@ -101,7 +139,7 @@ Lastly, Bayesian methods allow the acceptance of the null hypothesis [@Dienes:20
 
 The only inferential test that establishes the relevance of the difference between stimuli regarding the primary outcomes we can think of is a regression from the factor that is hoped to be equivalent to the primary outcome. A multilevel/mixed model may provide a precise estimate of the effect of the stimulus parameters hoped to be equivalent between conditions on the primary outcome.
 
-### Stop the ritual
+## Stop the ritual
 
 Beyond the potentially overused cliché of the man who sees only nails because he only has a hammer, we wish to invoke a certain imagery here: the princess is about to be sacrificed at the altar of Cthulhu. The princess, here, may be the truth or the data; Cthulhu is best mapped to our thesis supervisor or grant institute; the sacrificial obsidian knife is the *t*-test. We must stop the ritual.
 Researchers are not stupid. They see patterns in complex, underdetermined situations, Yet, when they attempt to formalize their visions, they sometimes produce pointless, incoherent practices. Why? We can only assume that the procedure of submitting data to the next thing that will give a *p*-value has become so habituated, ritualized, that researchers apply it even in situations where it makes no sense. We fear that such mindless applications of a statistical ritual [@Gigerenzer2004] also impacts far more interesting and important aspects of research [carcrash]. If researchers have wrong intuitions regarding the comparatively simple statistics involved in comparing two lists of 40 words each for their mean length, how confident can we be when trying to understand fMRI data, multilevel regressions or gene association studies?
@@ -110,7 +148,7 @@ We must progress from the mindless statistical ritual to careful consideration o
 [^carcrash]: There are also reports of similar misuses of significance tests resulting in the loss of life, for example, in accident statistics influencing public policies [@Hauer:2004fz].
 
 
-## Prevalence of the problem in B&L
+# Prevalence of the problem in B&L
 The initial three examples for the problem where collected nonsystematically. 
 To estimate how common the problem is in neurolinguistics, a high-quality neurolinguistic journal, *Brain & Language*, was investigated. 
 Instances of the error can be easily found, not only in recent, but also in older publications:
@@ -121,7 +159,7 @@ However, the two prime categories were equivalent in text frequency (Carroll et 
 
 Here, the authors commit the "double sin" of both estimating a known quantity, and deducing equivalence (acceptance of the null) from a failed test - in this case, a test that leads the authors to accept a wrong null hypothesis; the difference in word length in this study was 0.16, a small quantity, but certainly not exactly zero.
 
-### Methods
+## Methods
 The analysis was restricted to current volumes. 
 For all articles published by B&L in the years 2012 and 2013 as of yet, two independent raters, neither of which was blind to the purpose of the experiment, investigated all published experimental papers (excluding reviews, simulation studies, editorials etc.). 
 For each experiment reported in a study, the stimulus/materials sections were investigated for descriptive and inferential statistics derived from populations that were exhaustively sampled without error. 
@@ -132,5 +170,5 @@ Rater agreement was generally good (yy%); in cases of disagreement, the author m
 Representative statements from every study committing an error are presented in the appendix. 
 We abstain from computing the statistical significance of this finding; the evaluation of the significance of the findings is left to the reader.
 
-### Results
+## Results
 In total, N studies where found where researchers reported known quantities in their stimulus/materials section, and M (xx%) of these reported inferential statistics of these known values. O (zz%%) accepted the null hypothesis.
