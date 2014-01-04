@@ -2,9 +2,9 @@
 
 
 ## Abstract
-In (xx%) of articles of the most recent (XX) volumes of *B&L*, statistical tests were used in a way that strongly implies that many authors, editors and reviewers falsely understood *statistical* significance as absolute significance.
+In the majority of the articles of the most recent 10 volumes of *B&L* where stimulus properties were quantified, statistical tests were used in a way that strongly implies that many authors, editors and reviewers falsely understood *statistical* significance as absolute significance.
 
-Specifically, completely known populations (such as word length of preselected, closed stimulus lists) are subjected to parameter estimation tests such as the *t*-test; thus, tests *estimating* a population parameter based on a sample are used on an exhaustively *measured* quantity, a population parameter that did not have to be estimated since it is precisely known.
+Specifically, 77% of the time, completely known populations (such as word length of preselected, closed stimulus lists) were subjected to parameter estimation tests such as the *t*-test; thus, tests *estimating* a population parameter based on a sample are used on an exhaustively *measured* quantity, a population parameter that did not have to be estimated since it is precisely known. Furthermore, in 54% of  such articles, authors interpreted a nonsignificant test as statistical evidence for the equivalence of the parameters.
 Such usage of inference tests indicates that researchers use them to quantify the practical relevance, or (common-language) significance, of a finding via *p*-value calculation - a crass misunderstanding.
 
 Researchers, including editors, reviewers and authors, must deepen their understanding of statistics.
