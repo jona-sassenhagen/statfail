@@ -1,192 +1,174 @@
-# Many *Brain & Language* authors, editors and reviewers confuse significance and *statistical* significance
+% Many *Brain & Language* authors, editors and reviewers confuse significance and *statistical* significance
+% Jona Sassenhagen and Phillip M. Alday
+% Summer and Fall 2013
 
-
-## Abstract
+# Abstract
 In (xx%) of articles of the most recent (XX) volumes of *B&L*, statistical tests were used in a way that strongly implies that many authors, editors and reviewers falsely understood *statistical* significance as absolute significance. 
 Specifically, completely known populations (such as word length of preselected, closed stimulus lists) are subjected to parameter estimation tests such as the *t*-test; thus, tests *estimating* a population parameter based on a sample are used on an exhaustively *measured* quantity, a population parameter that did not have to be estimated since it is precisely known. 
 Such usage of inference tests indicates that researchers use them to quantify the practical relevance, or (common-language) significance, of a finding via *p*-value calculation - a crass misunderstanding. 
 Researchers, including editors, reviewers and authors, must deepen their understanding of statistics.
 
 
-
+# Misuse of inferential statistics
 
 ## Introduction
+Suppose the authors of this manuscript wish to learn who amongst us is able to eat the most. 
+Over 5 days, we conduct 10 experiments where we  attempt to eat as many bread rolls as we can. 
+We conduct a repeated-measures one-way ANOVA of the number of rolls eaten per day, with the factors AUTHOR (levels: first author, second author, third author).
+When we find a 'significant $p$-value', we conclude that the author who ate the most bread is likely able to eat more than all others (because if we all had equal stomaches, finding such a large discrepancy in bread rolls consumed would be weird).
+Now, we wish to know which of us has the largest feet.
+Consequently, we measure our respective shoe sizes; whoever provides the largest value has biggest the feet.
+Since we think ourselves competent enough to measure shoe size, we do not consider using an ANOVA this time.
 
-Although many of the same tests are used for both descriptive and inferential statistics (and indeed the two are deeply related in the frequentist interpretation via probability theory), the p-value makes little sense in descriptive statistics. 
+We claim that contributors to *B&L* routinely conduct inferential statistics in situations such as the latter.
+Specifically, we find that in most of the situations where researchers aim to control for possible cofounds resulting from undesired non-equivalences in stimulus materials, they apply inferential tests even though this procedure is meaningless and not helpful.
+Consider a real example published under one of our names:
 
-The p-value represents the probability that any sample of the same size would have the same descriptive properties as the sample actually taken, under the assumption of the null hypothesis. 
-That is, the p-value is inherently an inferential method, despite its reliance on descriptive methods.[^convert-to-p] 
+> critical stimuli did not differ in frequency, F(2,237) = 1.43, p > .24, or word length, F(2,237) = 1.70, p>.18.
 
-[^convert-to-p]:The actual conversion from a descriptive statistic to a p-value depends on either theoretical distributions (parametric tests) or simulated distributions (non parametric tests, e.g., permutation tests). 
+By investigating multiple volumes of *Brain & Language*, we have found that in more than XXXX articles, researchers wrongly apply inferential statistics where they are neither licensed nor meaningful. 
+For example, they compare the length of two fixed lists of words, those making up condition one and those in condition two, using a *t*-test, i.e. they estimate a known value.
+Often, they also further claim that stimuli were “matched”/equal/equivalent regarding such parameters based on the non-significant result of such inferential tests.
+Editors and reviewers often do not disallow such behavior.
+The exact same mistake occur when comparing two participant groups in aspects that are not generalized beyond the group, e.g. age or lesion.
+The mistake we addressing here is using inference tests for a descriptive purpose.
+When comparing two participant groups, we are usually describing the distribution of certain features in those two groups, and not in the larger population (undergraduate students or neurological patients).
+We want to know if their feet are different sizes, not whether foot size in the broader population varies.
 
-For example, the F-test provides a measure for inter- vs. 
-intra-group variation.  
-When constructing stimuli, it thus makes sense to use an F-test to compare the variation between conditions to the variation within conditions, i.e. 
-whether the stimuli actually provide distinct conditions. 
-However, it does not make sense to calculate a p-value in such cases *because the stimuli were not constructed/chosen randomly*. 
-We are not inferences about the likelihood of having the given distribution under chance, but rather trying to determine how clear the division between conditions is.  
+We do not wish to single out and ridicule any specific researcher, especially given our previous failings.
+We want to show that this problem is endemic, even in such high-quality journals as *Brain & Language*, as well as address the misunderstandings that have lead to it.
+In the following, we discuss the appropriate interpretation of such tests, attempt to explain what they are (wrongly) used for instead, and show how prevalent such mistakes are by demonstrating the proportion of these mistakes in the last two years of *B&L*.
 
-Moreover, the null hypothesis is, per definition, false in such situations. 
-We know that the stimuli were not chosen by chance. 
-We do not need to test for the likelihood of something happening under the assumption of a condition we know to be false. 
-The p-value in such cases just tells us the likelihood of a randomly generated stimulus set having the same properties as a carefully constructed one -- not very useful at all. 
+[^bread]: Note that we did not actually conduct this test because we didn't want to deal with ethics.
+[^shoes]: We wish, ethics be damned, to inform the reader that it is Mr. Alday.
 
-Consider the following quotes (neither from *Brain & Language*):
+## When all you have is a hammer: inferential statistics for known parameters
+In the following, we briefly review basic statistical principles and terminology to emphasize the fundamental mistake that we make when we use inferential statistics for fully sampled, closed populations.
+Moroever, it has been shown repeatedly that many, even most researchers gravely misunderstand statistical concepts such as the meaning of *p*-values [@Haller:2002vo][@Lecoutre:2003vz][@Oakes:1986tn][@Falk:1995vc].
+Indeed,  many of the most "basic", or perhaps better said, most commonly used statistical concepts are rather counterintuitive. 
+The material presented here is nothing new, but sometimes it pays to review the things we learned in school.
+Especially when in practice we find ourselves and others governed by incoherent rituals and heuristics [@Gigerenzer2004].
 
->Demographic and clinical characteristics of the two groups of participants are presented in Table 1. 
-The two groups differed significantly in age, *t*(50) = 2.87, *p* < .05
-[@Joormann:2011jc]
+Inferential statistics estimate population parameters based on samples drawn from the population. 
+We use estimation by inference because sampling from a population is not an exact **measurement** of a population. 
+We use sampling because it is often not practical to measure an entire population or even possible, for example when we wish to generalize over time. 
+As such, sampling is *necessarily* almost always incomplete and introduces errors. 
+In most experiments, if we were to repeat the sampling and sample measurement, we would, even though the population parameter is (fictitiously) assumed unchanged, find different values.[^alphabets]
+This is why we need inferences: to estimate from a sample an unknown, but fixed parameter that we cannot observe by itself.
+Inference tests attempt to provide a measure of whether obsevered differences arise are sampling artefacts or true differences.
+Consequently, exhaustive and error-free sampling does not require, license or benefit from inferential tests.
 
->The CWs across conditions were matched on word length and frequency: log frequency in CELEX (Baayen et al., 1993): HC = 2.71, LC = 2.70, SV = 2.69, *F* (2,646) = 2.35, *p* = 0.10.
-[@Wang:2012rn]
+[^alphabets] The difference between the true and estimated parameter is expressed in the literature in the choice of alphabet: Greek for estimated parameters, Latin for true parameters.
 
-The *p*-values are meaningless, less than redundant, and imply that the researchers in question have false intuitions regarding statistical inference tests. 
-They show only that researches have become stuck in a rut of understanding statistics only as "significant", "not significant", and when it suits me, "tending towards significance". 
-More explicitly, p-values in such cases imply that *statistical significance* is confused with *practical relevance*; this can be deduced from the observation that a crude parameter *estimation* test was applied to a *known* parameter, which indicates that the researchers misunderstand *p*-values as *magnitude quantifications*.
-I do not wish to single out and ridicule any specific researcher. 
-I freely admit that in the past, I have conducted similar tests, or worse, avoided them out of laziness even though I (lazily) believed them to be appropriate. 
-However, the scientific literature is full of such statements, implying that many researchers, editors and reviewers make the same mistake. 
-Even the volumes of high-quality journals such as *Brain & Language* contain many such misuses of statistics. 
-In the following, I will discuss the appropriate interpretation of such tests, attempt to explain what they are (wrongly) used for instead, and show how prevalent such mistakes are by presenting the number of these mistakes in the last two years of *B&L*.
+Descriptive statistics include reporting parameters that only pertain to the sample at hand, such as sample size, sample variance, and non-standardized (raw means) or standardized (Cohen's *d*) effect sizes. 
+Essentially, what may be measured without error in the current sample is descriptive. 
+Inferential procedures include the calculation of *p*-values and possibly matching them to an alpha level, confidence intervals of non-standardized or standardized effect sizes, or calculating the Bayes Factor; they are assumed to quantify the relationship between measurement and sampling error on one hand and the population parameter on the other.
+Much like the decision whether to view a certain variable as a random or fixed factor, the decision whether to think descriptively or inferentially is somewhat experiment and hypothesis driven. 
+If we want to know which author ate the most bread rolls, then we would use descriptive measures. 
+Only we when wish to generalize to not fully measured population, e.g. when we want to know which author will eat the most bread rolls in the future, is the use of inferential measures licensed. 
 
-## What's in a *p*?
-Many statistical tests yield unintuitive results. 
-In common academic discourse, the results of hypothesis tests are referred to as *significance* or *not significant*. 
-Likely, many, possibly most researchers know the proper definition of the terms and the related statistical concepts, such as *p*-values. 
-They are repeated here for the sake of completeness for the example of a two-sample *t*-test:
+Inferential statistics are necessarily imprecise in a technical sense: They are subject to random error and thus lack *precision*
+(For now, we will not comment on *accuracy* or systematic error  in statistical practice.)
+For many stimulus parameters, there is no random (sampling) error, because the entire population is known and thus its parameters can be measured directly and without error.
+More directly, we are not interested in the stimuli we might have selected, but haven't, but rather, and exclusively, in those we have selected, and so we are not generally interested in inferences.
 
->Assuming the hypothesis under test (which is that the difference between the two populations is X) is true, the *p*-value gives the probability of obtaining a sample as far or further from X as the present data.
+Now, consider two very similar cases:
 
-At its heart, the NHST is a crude form of parameter estimation. 
-It presents how surprising a given sample drawn from some population(s) is to those who have assumed a certain value for the population parameter. 
-Although this is not what the null in null-hypothesis significance tests (NHST) refers to, in brain and behavioral sciences, X is near-universally set at 0, so *p* gives the surprise value of the obtained data for anybody who assumes the two populations to be identical. 
-A low p value means that the data is highly surprising to those who assume no difference between the sampled populations. 
-This is typically interpreted as allowing to say with some confidence (often 95%) that the parameter (the difference between the two populations) is not 0.
-No other entailment is afforded by the *p* value beyond providing some confidence in a  crude estimate of the population parameter, and (at least in the Fischerian tradition[^1]) only for the case where the test results in a low *p* value, which affords the estimation that the parameter is likely not 0.
++ We wish to match two lists of stimuli on word length.
++ We wish to match two lists of stimuli on affect.
 
-[^1]: In a Neyman-Pearson framework, entirely different problems become relevant [@Gigerenzer2004]. 
-I acknowledge that the present approach may at times not treat the fundamental differences between Neyman-Pearson and Fischerian concepts with enough care.
+The latter requires *ratings*; ratings are samples drawn with measurement error from a large population. Were we to repeat the measurement as precisely as we could, we would still find different (though hopefully similar) data, both because we might measure different people, and because even the same individual might not give the same rating each time it is asked to do so. Consequently, it makes sense to apply an inferential test of the population parameter, as an estimate of what might have happened had we asked *everybody* and if everyone were a robot.
+In contrast, we trust our student assistants well enough to correctly count letters and syllables, access frequency data bases and classify words by word class without error, so the former scenario should result in exactly the same values however often we repeat it. 
+Also, the population we attempt to measure is not, as in the second example, beyond our reach; rather, we are interested in 80 words, and just these 80 words.
 
-Trivially, statistical significance does not entail practical significance [@Goodman:2008gz]; a near-zero effect maybe result in extremely small *p*-values if the sample size is high and/or the sample variance is low, and small samples may produce low *p*-values that misrepresent a small, nonexistent or opposing-sign effect [@Gelman:2009um]. 
-The nonequivalence of statistical and practical significance is even emphasised in many textbooks [@Gliner:2002uu], and might be expected to be common knowledge.
+frequency vs frequency in a corpus
 
-However, it has been shown repeatedly that many, even most researchers, gravely misunderstand statistical concepts such as the meaning of p values [@Haller:2002vo][@Lecoutre:2003vz][@Oakes:1986tn][@Falk:1995vc]. 
-Typically, it is discussed [@Gigerenzer2004][@Cohen:1994uk] that researchers intuitively interpret *p*-values as if they reflect the probabilities of  hypotheses, that is, as p(Hypothesis|Data) - a Bayesian interpretation [@Wagenmakers:2008ti]. *P*-values do not inform us about the probability of a hypothesis given the data, but about the probability of the data given some hypothesis, and as Cohen [-@Cohen:1994uk] discusses, the *modus tollens* leading from p(Data|Hypothesis) to p(Hypothesis|Data) fails due to the probabilistic nature of the statement. 
-This is not the phenomenon to be discussed here. 
-Instead, the present essay investigates the following problem: researchers use *parameter estimators* on known parameters, likely because they are misinterpreting these parameter estimators as *magnitude quantificators*. 
-Such an interpretation is indefensible, wrong, and must be discontinued.
-A related problem is that researchers are also known to infer from a test that fails to reject the null hypothesis that the null hypothesis is true. 
-This is wrong [@Cohen:1994uk], but a precondition of the misuse of statistics in the way discussed here.
+Lastly, our inferential tests do not inform us about the question we are actually interested in - are the stimuli equivalent?
+They inform us about a numerical hypothesis we are actually very rarely interested in: how surprised would we be had we assumed that the population parameter is exactly 0? Inferential tests do not test research hypotheses and do not establish *practical* significance, they test numerical hypotheses (parameters) and establish *statistical* significance.
 
-Consider the following situation[^lindquist]: I wish to infer if I am significantly, or substantially, taller than my sister. 
-I measure my height (6') and my sister's height (5'7). 
-I now know that I am 5 inches taller than my sister. 
-It would make no sense at all to apply a *t*-test to these two values. 
-Even if a low *p* resulted, all that this would allow me to say is that I am probably not exactly the same height as my sister - which is not very useful since I already have much more precise knowledge of the parameter in question (5"). 
-Neither would an extremely low *p*-value give me any confidence in the statement that I am "extremely" or "a little" taller than my sister; this is not afforded by the *p*-value, which simply allows me to say that likely, I am not exactly the same height as my sister given that the obtained measures would be highly improbable if we were of equal height.
-If I wanted to infer if me and my brother are taller than my mother and my sister, it would likewise make little sense to follow the measurement of all of my siblings with a *t*-test. 
-Neither would the *t*-test make sense if I had 14 brothers and 15 sisters and wanted to see which group is, on average, taller, assuming I precisely knew all their heights, since I could simply calculate the two mean heights and precisely measure the difference.
-Contrast with the following two situations, where statistical inference may well make sense: I wish to know if I am taller than my sister, yet my ruler is somehow magically inaccurate and adds or subtracts a variable number of inches from every measurement. 
-Here it might make sense to take multiple measurements of my sister and I and calculate a 95% Confidence Interval; this would allow me to roughly estimate the difference in inches (ignoring the superior option of simply standing next to my sister and looking in the mirror). 
-Alternatively, I may wish to infer if men are generally taller than women. 
-While it is possible for me to measure all of my (hypothetical) 29 siblings, it would be practically impossible to measure all men and women; however, a reliable estimate of the parameter might result from measuring a lot of men and women and conducting a statistical test. 
-Cases such as the latter two are where parameter estimations such as the NHST make sense; cases such as the first are not meaningfully solved by ANOVAs.
+## Hitting the wall, not the nail: testing and accepting the null
 
-[^lindquist]: A similar example has been used by Lindquist et al. [-@Lindquist:2013gj]
+Many, and in brain and behavioral sciences, nearly all inferential statistics takes the form of hypothesis tests. We will in the following mostly concern ourselves with the two-sample test that estimates if two samples were drawn from one distribution, such as the two-sample  *t*-test or the one-by-two ANOVA.
+Two distinct schools of hypothesis test have left their marks on current statistical practice. The *Fischer*ian hypothesis test [@Fisher:1949uc] is to be conducted when only very little can be assumed regarding the population effect. It requires a null hypothesis, which, in the Fischerian framework, is defined thusly:
 
-## Researchers estimate known quantities
-A *t*-test comparing the length of two lists of 80 word stimuli each is equivalent to the former case in the above example, a *t*-test of 2x80 subject mean reaction times to these words in a classification task is equivalent to the latter. 
-Some researchers, under compliance by editors and reviewers, use the crude parameter estimator that is the *p*-value in both kinds of situations (see below for the prevalence of this practice). 
-They calculate *p* for the mean difference in ERP amplitude between two sentence types, between certain linguistic abilities for populations differing in some gene, or on reaction times following various stimuli. 
-Here, parameter estimation makes sense because the true parameter is unknown. 
-However, researchers also calculate *p*-values using parameter estimation tests such as the *t*-Test or the ANOVA for populations that are exhaustively measured (as are my sister and I's height), such as mean word length for two stimulus lists, or such as certain known parameters in two small, selected populations, like the age of two experimental groups.
+>H~0~ is the hypothesis under test.
 
-So researchers already *know* the parameter (since they in fact must know e.g. 
-the length of all their stimulus words to conduct the test of mean word length difference in the first place), and yet also *crudely estimate* it, with a tool allowing nothing but to say, with limited confidence, that e.g. 
-two groups are not exactly identical with regards to the parameter, without any standardised quantification of the magnitude of the (possibly non-zero) difference. 
-Statistical inference tests are validly used to infer a population parameter from a limited sample of the population. 
-It is pointless to apply them to an *exhaustive* sample of the total population, where the population parameter must not be estimated since it can be measured.
+It is often said that the null hypothesis in a comparison of two populations is that of no differences (nil-null). This is wrong. Yet, most null hypotheses in brain and behavioral sciences take the form of a point-null hypothesis, where μ is the population parameter and H~0~: μ = 0.
+H~0~ is a precise numeric postulate about a single value for the parameter in question. It is not a statement of the form “there is no meaningful difference between the two conditions”; it is nothing precisely that a certain parameter has a precise value. And it is only this hypothesis, of the parameter having a precise value, that is under test, and any derived conclusions refer only to this value.
+This is how *p*-values reveal themselves as parameter estimation: the null hypothesis is that the parameter is (e.g.) 0, and a test may then inform us that, with some confidence, the parameter may be assumed to be not precisely that value.
 
-## Interpreting low and high *p*'s
-It is probably well-known that a researcher who declares his two groups identical based on a failed test is committing a grave mistake. 
-Failed NHSTs do not at all allow the conclusion that the true parameter is that one under test (typically 0). 
-The most pressing problem in this regard is that the power of tests, the likelihood of correctly rejecting a null hypothesis, is worryingly low in brain and behavioral sciences [@Button:2013dz][@Yarkoni:2009ub]. 
-Even if the difference between two populations is substantial, a NHST may still fail to reject the hypothesis of no difference if only a small number of samples are investigated. 
-However, even beyond that, failed NHSTs do not afford accepting the null with great confidence [@Cohen:1994uk][@Wagenmakers:2008ti]. 
-A very simple demonstration of the fallacy of the test can be seen when considering that the actual status of the null hypothesis is *known*. 
-The researcher estimating word length differences *knows* by what amount the mean word length between groups differs. 
-If the words in one group measure on average 4.1 letters and the words in the other group 4.2, the population parameter is known to be 0.1 letter. 
-For even such a small difference, a non-significant NHST, a test that fails to reject the zero-null hypothesis, is failing to reject a wrong null; in a two-sample *t*-test of the population difference, the null is (typically) that the difference is 0, so if the difference is anything but 0, such as 0.1, the null is wrong. 
-Of course, many tests will fail to reject a null wrong by only such a small amount, for no other reason than insufficient power.
-A test that may only allows to make with confidence the statement that a difference *does* exist, and never allows to say with confidence that no difference exists, is also most likely fully irrelevant to what the researchers have in mind in such situations, since usually, they want to show the equivalence of two groups. 
-A *p*-value above 0.05 does not give confidence in the conclusion that two groups are equivalent; consider for example the situation of *p* = 0.1, a result clearly non-significant by current conventions. 
-However, *p* in this case means that only in one out of 10 cases, a zero effect would result in data as extreme as the present observation, which presents more evidence against the null than for it. 
-Of course, concluding that two populations are identical based on any other, even very high, *p*-value is similarly unjustified, for example since the test may simply be underpowered to detect a difference of the magnitude in the target population. 
-So even if it would make sense to estimate known quantities, *t*- and *F*-family tests would still not be the appropriate tool for any researcher aiming to establish the equivalence of two groups regarding a parameter since it can never actually prove equivalence and is, at least with conventional type I thresholds, biased against non-equivalence.
+In our survey, in all the not rejected H~0~'s, we have not found even one that was true. We know that they are wrong, because the null hypothesis is that the parameter is exactly 0, and it never was in our survey. When the two populations under test are 40 word stimuli in group one, and 40 word stimuli in group two, and the mean word length is 4.1002 in group one and 4.1001 in group two, the null hypothesis is wrong, because H~0~: μ = 0, but μ = 0.0001. Yet, inferential tests very often will fail to reject H~0~ in such cases, because the sample size is too small. However, this is what would be called a type II error in the Neyman-Pearson framework: we fail to reject a wrong null.
+In contrast, if your stimuli happened to be two groups of computer-generated non-word lists that were selected to precisely share mean length, we would not bother to test them using an inference test.
 
-Statistical methods for estimating population equivalence from samples do exist. 
-Necessarily, they are not useful for *known* quantities; however, I will discuss them here briefly.
-In the frequentist framework, researchers interested in the equivalence between two treatments may pre-define a Region of (practical) Equivalence [@Lesaffre:2001je] around the null and test if a CI falls entirely within this region; for example, a researcher investigating mean utterance length in men and women may assume that any difference in mean utterance length smaller than 2% is meaningless, and would infer from a 95% CI that falls entirely within [-0.02, 0.02] that likely, no meaningful difference exists and the populations are equivalent in this regard.
-Alternatively, researchers may employ methods that explicitly allow to quantify the evidence in favour of one hypothesis, including a null hypothesis versus an alternative hypothesis, leading to the justified acceptance of the null hypothesis; such methods are provided by Bayesian statistics [@Wagenmakers:2008ti].
+The inference test provides a *p*-value for the statement p(D|H~0~) so that
 
-A researcher who finds a significant difference in word length between two groups and then says, with confidence, that the two groups differ is not committing as grave of a sign as one who infers equivalence from a high *p*; however, he is still wasting time, print space and computing power to crudely estimate what he already precisely knows. 
-I assume that most researchers are smart people. 
-Why, then, are they practicing such a meaningless ritual?
-One answer is that the NHST is indeed ritualistic [@Gigerenzer2004], that it is done with much respect, but little consideration. 
-However, what is the meaning of this ritual? I argue that the most likely explanation is that researcher use the NHST ritual because they somehow believe it to be a measure of effect size - a magnitude estimator [^2].
-When mean word length differences of known populations (in contrast to, e.g., mean word length in unknown populations, such as when comparing mean word length in men vs. 
-women) are statistically estimated, the likely common rationale is excluding the relevance of the factor word length for the actual outcomes, such as reaction times or ERP amplitudes in response to these stimuli.
-This is not afforded by the test, regardless of its outcome. *P* informs us how unlikely the data are under the null, which at best can be interpreted to give us some confidence in saying the H~0~ is false; it entails no qualitative interpretation of the value, and it especially does not in any way help us decide how relevant the difference is. 
-For a quantification of word length, the simple mean word length per group and their standard deviation are vastly superior to the crude estimation of if the parameter is or is not 0. 
-To actually test if this difference in e.g. 
-word length influences the results, I see no other, but also a simple possibility in computing the correlation between e.g. 
-word length and the main outcome.
+>*p* is the probability of the data conditional on the null.
 
-The direct implications of this error may admittedly be quite trivial [^carcrash]. 
-Everybody is free to simply ignore a gratuitous *p*; if researchers argue that a non-significant inferential test establishes the equivalence of two groups regarding a parameter, it is easy to demonstrate the fallacy of this argument. 
-In the worst case, a study will be cofounded because researchers used stimulus lists not well-controlled  because an underpowered test failed to reject a false null.
-More problematic might be the entailment that many researchers, editors and reviewers sometimes see *p*-values as measures of the relevance and practical significance of an effect. 
-Since *p*-values are still the primary quantification of research outcomes in brain and behavioral sciences, this means that many researchers, editors and reviewers substantially misunderstand the main tool that is used to evaluate findings.
-Regarding quantifications of effect sizes, others [@Hentschke2011][@Cohen:1994uk][@Kruschke:2013jy][@Kline:2004vb], including the APA [@Wilkinson:1999wd], have convincingly argued that such measures are both critically called for, and readily available in the form of Confidence (or Credible) Intervals, standardised effect sizes, and CIs of standardised effect sizes. 
-However, regardless of the alternatives, researchers must understand, both intellectually and intuitively, the difference between practical and statistical significance.
+This means that *p* informs us how unlikely or weird[@Christensen:2005fp] the present sample parameter is for anybody who assumes the null to be true - for anybody who assumes that the population parameter is exactly that assumed by the null (e.g., 0). For repeated sampling from identical distributions, *p*-values will be uniformly distributed [@Murdoch:2008dc] - we expect unlikely events to occur, we just expect them to occur rarely (so that only 3% of samples should result in a *p*<.03 if the null hypothesis point estimate equals the center of the sampled distribution). Generally, from a low *p*, we then proceed to say that the null hypothesis can be considered unlikely with some confidence.
+This test is of course very coarse. It informs us only about the confidence with which we may assume the parameter to be not exactly zero. It does not tell us how far from zero it is, or even what exactly this difference might be. Compare the *p*-value resulting from the test of word length differences, and the simple mean of the differences from two stimulus lists. The *p* value, at its most informative, tells us how surprising it would be for the population parameter to be 0. The mean itself tells us, since we have measured the whole population, exactly what the population parameter is!
 
-[^carcrash]: Though there are also reports of similar misuses of significance tests resulting in the loss of life, for example, in accident statistics influencing public policies [@Hauer:2004fz].
+The Neyman-Pearson approach introduces the option of rejecting and accepting hypotheses, the alternative hypothesis H~1~, the long-run boundary for incorrectly rejecting H~0~, α, the long-run boundary for incorrectly rejecting H~1~, β, and resulting concepts such as type I and II errors, statistical power (1-β) and a fixed significance level (α). For the Neyman-Pearson approach, the goal is to optimise long-term error rates; it provides decision criteria for repeated experiments, such as in quality control. In the NP approach, H~0~ is rejected and H~1~ accepted if our test result suffices for our α; if not, we accept H~0~.
 
-In no way am I saying that all statistical tests of e.g. 
-word length are wrong. 
-Neither are all statistical tests of stimulus parameters wrong; for example, acceptability ratings of stimuli can be meaningfully subjected to statistical tests that result in parameter estimates (though a test that allows to conclude equivalence, such as Bayesian tests or checking if a 95% CI falls within a pre-defined region of practical equivalence, would be preferable to a test that can only ever reject a null), since acceptability ratings are random samples non-exhaustively drawn from a large population.
-However, parameter *estimation* of *known* parameters (such as a self-created stimulus list) reveal false intuitions regarding conventional statistics. 
-Researchers must understand the difference between *p*, which is the surprise value of the observed data under the null, and actual measures of effect size which may take a shape such as Cohen's *d* [@Hentschke2011]. 
-Note that standardised effect sizes (such as Cohen's rule of thumb of "small", "moderate" and "large" effects) do not straight-forwardly allow an assessment of the *relevance* of an effect either (since they are nothing but Cohen's rules of thumb). *t*-tests inform us how unlikely the parameter is to be zero, CIs inform us about a range of possible values for the effect, standardised effect sizes such as Cohen's *d* inform us how large a population effect is compared to the population variance; it is up to the researcher to understand and demonstrate how relevant any of these values are for his research questions. 
-Instead of offering clear-cut solutions, one can only recommend researchers to abstain from ritualistic testing of any form, and consider each method's applicability and meaning on a case-by-case basis.
+Both approaches share some aspects, such as *p*-values and the default proposal for a critical significance or decision criterion at .05 or 1/20. They are also fundamentally incompatible. In the *null ritual* dominating much of brain and behavioral science, they are combined into an incoherent default [@Gigerenzer2004].
 
-## Prevalence of the problem in B&L
+Neither from a Fischerian nor an NP perspective is it meaningful to apply an inferential test resulting in a *p*-value when a researcher wants to demonstrate the equivalence of two small populations. A Fischerian test simply does not provide any information regarding any other hypothesis but the one under test, which is the null. In the typical point null test comparing two samples, we will be able to say that just this point estimate is unlikely if *p* is low, but conversely, a high *p* does not tell us that the point estimate is likely correct. Inverting the *modus tollens* when the antecedent statement is probabilistic is a well-known fallacy [@Cohen:1994uk]. We do not find p(H|D), the probability of the hypothesis given the data [@Wagenmakers:2008ti]; we find p(D|H), the data given the hypothesis.
+Consequently, in the Fischerian framework, no other information can ever be derived from a *p* value but that either the data is unlikely to have come from a distribution described by the null, or that we are unable to speak with confidence about this distribution. It does not give us any confidence regarding any other possible hypotheses, such as the hypotheses that the population parameter is *almost* zero.
+
+Regarding the NP framework, from which we have our “p<.05” significance filter, it does provide the possibility of accepting either of the two hypotheses (one aspect where it is fundamentally incompatible with the Fischerian tradition). However, alpha and beta, the way they are almost always chosen, are set up just the wrong way to test for equivalence for situations where not detecting non-equivalence would be problematic. The error rate of rejecting H~0~ when it is true, of detecting non-equivalence, is deliberately chosen to be low (at 1/20). For a sample, we do not accept the hypothesis of non-equivalence if the likelihood of the current data under the null is 1/10, or 1/5. This might make sense in a scenario of quality control, where long-run error rates need to be controlled, but makes little sense when trying to check for e.g. the possibility of presenting in one experiment stimuli that are non-equivalent in some problematic aspect; yet, here, too a conservative alpha level is chosen.
+This means that even if the observed difference between two stimulus lists would have been a data set we would obtain only 1 out of 8 times when sampling from equivalent populations, the test would still not provide evidence against equivalence at the .05 level. Our test is conservative regarding the rejection of the null. See what happens when you increase your α to make the test less conservative; your stimuli will be found non-equivalent.
+Furthermore, as described above, the likelihood of rejecting a wrong H~0~ is not simply determined by the divergence of the two populations, but also by the size of the sample, because we derive more confidence from larger samples. When one wants to decrease the type II rate, since we do not have control over effect size, sample size must be increased. However, this is not sound when constructing stimulus sets.
+Of course, the power of tests, the likelihood of correctly rejecting a null hypothesis, is generally worryingly low in brain and behavioral sciences [@Button:2013dz][@Yarkoni:2009ub]. 
+
+## The hammer is too heavy. The hammer is made of wood.
+
+We are still considering the situation of a researcher who constructs two stimulus sets so that they differ in one aspect, such as animacy or familiarity, and wishes to test if they are equivalent with regards to one aspect he deems uninteresting, such as word length or frequency, because he hopes that the two stimulus lists will result in different responses and that this difference may be safely assigned to the main aspect in question. He thus hopes to show that they are equivalent with regards to the uninteresting parameter.
+We believe researchers are not truly interested in the confidence with which they may reject the point null estimate. The nil-null is uninteresting and usually known to be wrong; as noted, if words differ by as little as .0001 letter, H~0~, as a point-null assuming the value 0, is wrong. But this does not invalidate the researcher's study; very often, a small, but non-zero difference is truly irrelevant and the two conditions can be considered equivalent regarding some aspect. We assume what researchers primarily want out of their inferential tests is an objective decision regarding the non-relevance of differences between conditions in some aspect.
+Inferential hypothesis tests do not by themselves provide such a measure. A high *p*-value does not allow one to state with confidence that the two conditions are practically equivalent.
+We repeat: statistical tests estimate numerical hypotheses and provide us with information regarding *statistical* significance, or the confidence with which we may assume a *statistical difference*. They do not answer questions regarding *practical* significance, or how meaningful an estimated difference is. Yet the best explanation regarding our finding that *B&L* contributors consider inferential tests in such situations appropriate is that researchers intuitively apply these tests because they are hoping for an objective measure of practical significance, meaningfulness, or relevance (the alternative, which we think less likely, is that they do not understand fundamental concepts of statistics such as sampling, error and p(D|H)).
+
+Heidegger [@Heidegger1996, p. 70ff and 154ff] debates ontology using a very simple example: *the hammer is too heavy*. This quality is not inherent to the hammer, as might be that the hammer is made of wood, or that it might be 14 inches long. Rather, it is a relationship between somebody who uses the hammer, and problem he wants to solve, and the hammer, and the sentence is only meaningful in relation to a specific situation of somebody wishing to hammer a certain nail into a certain wall. The *p*-value is not the right tool to establish equivalence; it concerns only a point estimate, for example in a nil-null hypothesis. Proper tools for establishing equivalence exists, and we will discuss them shortly. However, as far as they are inferential, they would not be appropriate for our purposes either.
+
+Standardized effect sizes [@Kline:2004vb][@Cohen:1994uk][@Hentschke2011][@Wilkinson:1999wd] are arguably more interesting parameters than *p*-values from point null hypotheses. As an example, Cohen's *d* estimates the ratio between the difference between populations and their standard deviation. If *d* is large, the difference between groups is large compared to the within-group variance. Cohen even provides rules of thumb, where *d* = .5 is a moderate effect. By itself, this may be considered just a descriptive statistic.
+Can standardized effect sizes give the information researchers wish to deduce from hypothesis tests? No. Cohen's rules of thumb were always only meant as rules of thumb. How meaningful a *d* of .3 or 1.3 is in a certain context is still subjective, unless an external criterion is applied.
+
+In a Fischerian interpretation [@Cumming:2005hy][@Christensen:2005fp] of the confidence interval (originally better associated with Neyman-Pearson), the (1-α)% CI gives the range of point hypotheses for which the data would be surprising at the level of α. A CI thereby estimates a range of values regarding if we may with confidence reject them as the parameter for the population from which the sample was drawn. It may be seen as an upper and lower bound for the difference between two populations, based on the sample - a vastly more informative measure beyond simply estimating if the difference is exactly zero!
+However, how meaningful a certain difference might be is still up to the researcher to decide.
+Confidence intervals are used for explicit tests of equivalence [@Kruschke:2013jy][@Tryon:2008hg][@Lesaffre:2001je][@Lindquist:2013gj], for example, in medical research comparing the effectivity of two treatments. Here, researchers specify a priori an equivalence region; if the CI of the estimated mean difference falls entirely within that region, equivalence can be assumed with a certain confidence. However, this Region of Perceived Equivalence/RoPE must be set up in advance based on a judgement by the researcher - is a difference of not more than .3 syllables equivalence? Can it be considered equivalence if the 95% CI of *d* is contained between -.1 and .1? Of course, sometimes, once a researcher has decided on his rope, he must not conduct an inferential test/a parameter estimate, such as a CI, anymore, because the precise difference between conditions is known.
+
+Lastly, Bayesian methods allow the acceptance of the null hypothesis [@Dienes:2011cd][@Wagenmakers:2008ti]. Of course, leaving aside such problems as specifying a prior or alternative hypotheses, a test of evidence in favour of the null is superior when one wishes to find the level of support for the null. However, still, there is no reason to calculate a Bayes factor to aid in statistical inference when the sample in question has been measured without error and is an exhaustive sample of the population under question.
+
+The only inferential test that establishes the relevance of the difference between stimuli regarding the primary outcomes we can think of is a regression from the factor that is hoped to be equivalent to the primary outcome. A multilevel/mixed model may provide a precise estimate of the effect of the stimulus parameters hoped to be equivalent between conditions on the primary outcome.
+
+## Stop the ritual
+
+Beyond the potentially overused cliché of the man who sees only nails because he only has a hammer, we wish to invoke a certain imagery here: the princess is about to be sacrificed at the altar of Cthulhu. The princess, here, may be the truth or the data; Cthulhu is best mapped to our thesis supervisor or grant institute; the sacrificial obsidian knife is the *t*-test. We must stop the ritual.
+Researchers are not stupid. They see patterns in complex, underdetermined situations, Yet, when they attempt to formalize their visions, they sometimes produce pointless, incoherent practices. Why? We can only assume that the procedure of submitting data to the next thing that will give a *p*-value has become so habituated, ritualized, that researchers apply it even in situations where it makes no sense. We fear that such mindless applications of a statistical ritual [@Gigerenzer2004] also impacts far more interesting and important aspects of research [carcrash]. If researchers have wrong intuitions regarding the comparatively simple statistics involved in comparing two lists of 40 words each for their mean length, how confident can we be when trying to understand fMRI data, multilevel regressions or gene association studies?
+We must progress from the mindless statistical ritual to careful consideration of the appropriate statistical tool for a given scientific problem. Statistics estimate parameters; it is up to us to create theories that can be tested by estimating parameters, and to properly estimate what an estimated parameter tells us about brain and behavior.
+
+[^carcrash]: There are also reports of similar misuses of significance tests resulting in the loss of life, for example, in accident statistics influencing public policies [@Hauer:2004fz].
+
+
+# Prevalence of the problem in B&L
 The initial three examples for the problem where collected nonsystematically. 
 To estimate how common the problem is in neurolinguistics, a high-quality neurolinguistic journal, *Brain & Language*, was investigated. 
 Instances of the error can be easily found, not only in recent, but also in older publications:
 
 > concrete primes were rated high, and abstract primes low, in both concreteness and imageability, and were significantly different on both dimensions: concreteness, t(59) = 17.84,p < .OOO1; imageability, t(59) = 23.64, p < .OOO1. 
-However, the two prime categories were equivalent in text frequency (Carroll et al., 1971), and in length (both t’s < 1.1
+However, the two prime categories were equivalent in text frequency (Carroll et al., 1971), and in length (both t's < 1.1
 [@Chiarello:1987ui]
 
 Here, the authors commit the "double sin" of both estimating a known quantity, and deducing equivalence (acceptance of the null) from a failed test - in this case, a test that leads the authors to accept a wrong null hypothesis; the difference in word length in this study was 0.16, a small quantity, but certainly not exactly zero.
 
-### Methods
+## Methods
 The analysis was restricted to current volumes. 
 For all articles published by B&L in the years 2012 and 2013 as of yet, two independent raters, neither of which was blind to the purpose of the experiment, investigated all published experimental papers (excluding reviews, simulation studies, editorials etc.). 
-For each experiment reported in a study, the stimulus/materials sections were investigated for descriptive and inferential statistics of known quantities. 
+For each experiment reported in a study, the stimulus/materials sections were investigated for descriptive and inferential statistics derived from populations that were exhaustively sampled without error. 
 If a descriptive and/or inferential statistic (such as mean and standard deviation) were reported, the study was coded as one where the researchers were interested in a known quantity, otherwise it was discarded. 
-If an inferential statistic (such as a *p*-value) was reported, the study was coded as one where researchers answered that interest with an erroneous parameter estimate, otherwise as one where researchers did not commit the error. 
+If an inferential statistic (such as a *p*-value) was reported, the study was coded as one where researchers answered that interest with an erroneous parameter estimate, otherwise as one where researchers did not commit the error.
+Furthermore, if a statement of the form that two populations were thought equivalent in the parameter was made, such as a statement containing the forms “matched”, “equal” or “did not differ”, and this statement was followed by a *p*-value greater than .05, the study as coded as accepting the null.
 Rater agreement was generally good (yy%); in cases of disagreement, the author made the final call. 
-Representative statements from every study committing the error are presented in the appendix. 
+Representative statements from every study committing an error are presented in the appendix. 
+We abstain from computing the statistical significance of this finding; the evaluation of the significance of the findings is left to the reader.
 
-### Results
-In total, N studies where found where researchers reported known quantities in their stimulus/materials section, and M (xx%) of these reported inferential statistics of these known values.
-I abstain from computing the statistical significance of this finding; the evaluation of the significance of the findings is left to the reader.
-
-[^2]: There is also a legitimate interpretation of the estimate of e.g. 
-stimulus parameters; it reflects the capabilities of the stimulus selectors to provide adequate stimuli *as a probabilistic measure*. 
-Of course, it is typically of little interest if the people in charge of stimulus creation were *likely* to obtain adequate stimuli; rather, for the interpretation of a study's main outcome, it might be relevant if they did in fact do so.
-
-
-## References
+## Results
+In total, N studies where found where researchers reported known quantities in their stimulus/materials section, and M (xx%) of these reported inferential statistics of these known values. O (zz%%) accepted the null hypothesis.

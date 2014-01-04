@@ -1,0 +1,2 @@
+Jona:
+In the end, the main theoretical point is that inference tests estimate the confidence we have in quantitative hypotheses regarding an unknown population based on known quantities, and the main practical point is that hypothesis tests in contexts of 0 sampling error demonstrate that one has not understood this - but instead, that one uses hypothesis tests to generate fake qualitative results, which is not afforded by the method. Keep it as simple as possible.
