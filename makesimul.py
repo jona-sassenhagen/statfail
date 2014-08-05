@@ -3,6 +3,7 @@ import random
 import numpy as np
 from scipy import stats
 from matplotlib import pyplot as plt
+from collections import Counter
 
 n = 10000
 
@@ -81,5 +82,12 @@ df['Correlation'] = [str(corrvals[i-1]) + '% variance explained by parameter' fo
 
 df.to_csv('simul.csv')
 
-for i in df:
-    outs[i] = 
+one = df.query('exps == 1')
+two = df.query('exps == 2')
+three = df.query('exps == 3')
+four = df.query('exps == 4')
+
+Counter(one.Result)
+Counter(two.Result)
+Counter(three.Result)
+Counter(four.Result)
