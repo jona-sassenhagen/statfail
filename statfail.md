@@ -132,7 +132,8 @@ Those simulated experiments where these tests did not disagree regarding the sta
 
 ## Simulation Result
 When 20% of the variance in the primary outcome was explained by the nuisance variable, we observed one false positive (a significant primary test where no difference in the nuisance levels was detected) for every two detected false positives (50.6% nondetected surplus positives). We also observed a similar number of false negatives.
-When 1% of the variance was explained by the nuisance parameter, we observed two nondetected false positives for every three detected false positives (66% nondetected surplus positives), and a similar number of false negatives. The results are presented graphically in Figure 1.
+When 1% of the variance was explained by the nuisance parameter, we observed two nondetected false positives for every three detected false positives (66% nondetected surplus positives), and a similar number of false negatives. In total, we observed false positive rates inflated by up to 30%.
+The results are presented graphically in Figure 1.
 We conclude that the ratio of problematic cofounds by nuisance parameters is extremely badly controlled by treating nuisance parameters as dependent variables.
 
 # Survey: Prevalence of the problem in B&L
@@ -157,4 +158,7 @@ Representative statements from every study committing an error are presented in 
 In total, 86 articles where found where researchers reported known quantities in their stimulus/materials section, and 58 (**67%**) of these reported inferential statistics of these known values. Of these, 47 (**81%**) "accepted" the null hypothesis (i.e., concluded that stimuli or subjects were matched following a nonsignificant test). We conclude that in a majority of those cases where researchers published in *B&L* are concerned about nuisance parameters of experimental stimuli, they conduct meaningless tests and misinterpret the results of these tests in a potentially dangerous manner.
 
 # Conclusion
-Attempting to control confounding of experimental outcomes by statistical inference directly on the values of potential confounds is philosophically unjustified, ineffective, and yet extremely common. If one is worried about participant's age influencing the outcome in question, testing participant's age using inferential tests is pointless. We hope these observations contribute to a less ritualistic statistical practice in the brain and behavioral sciences.
+Attempting to control confounding of experimental outcomes by statistical inference directly on the values of potential confounds is philosophically unjustified, ineffective, and yet extremely common. If one is worried about participant's age or stimulus length influencing the outcome in question, testing participant's age or stimulus length using inferential tests is pointless. We hope these observations contribute to a less ritualistic statistical practice in the brain and behavioral sciences.
+Beyond our philosophical and mathematical discussion, we support these assertions with a survey study observing a high rate of improper methods in recent issues of *B&L*, and with a simulation study showing extremely high cost/benefit ratios of these tests. We propose concrete examples of how to better deal with potential confounds: treating them as IVs, not DVs, and including them as covariates in multilevel regression analyses. However, these should not simply result in a replacement of the current ritual with a new ritual. Statistical analysis requires attention and understanding to be meaningful.
+
+# References
