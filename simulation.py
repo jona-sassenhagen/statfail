@@ -17,9 +17,33 @@ import numpy as np
 import scipy
 import seaborn as sns
 import matplotlib.pyplot as plt
+import sys
 
 # Set seed to ensure reproducible simulation
 np.random.seed(42)
+
+def main(argv=None):
+    n=20
+    stims=40
+    effect_size=.5
+    confound_size=.3
+    runs=100000
+
+    plot_hist(*run_stim(n=n, stims=stims, effect_size=effect_size, confound_size=confound_size, runs=runs), 
+              n=n, effect_size=effect_size, confound_size=confound_size, runs=runs,
+              ax=plt.gca(), pltx=True)
+
+    plt.gcf().savefig("simulation.pdf")
+    
+    n=30
+    stims=40
+    effect_size=0.
+    confound_size=.5
+    runs=100000
+
+    plot_hist(*run_stim(n=n, stims=stims, effect_size=effect_size, confound_size=confound_size, runs=runs), 
+          n=n, effect_size=effect_size, confound_size=confound_size, runs=runs,
+          ax=plt.gca(), pltx=True)
 
 
 def run(n=20, effect_size=.5, confound_size=.5, runs=10000):
@@ -107,23 +131,6 @@ def run_stim(n=20, stims=40, effect_size=.5, confound_size=.3, runs=100000):
                                                           np.where(unconfounded_results < .05)[0])]
 
     return no_alarm, good_alarm, false_rejection
-n=20
-stims=40
-effect_size=.5
-confound_size=.3
-runs=100000
 
-plot_hist(*run_stim(n=n, stims=stims, effect_size=effect_size, confound_size=confound_size, runs=runs), 
-          n=n, effect_size=effect_size, confound_size=confound_size, runs=runs,
-          ax=plt.gca(), pltx=True)
-
-plt.gcf().savefig("simulation.pdf")
-n=30
-stims=40
-effect_size=0.
-confound_size=.5
-runs=100000
-
-plot_hist(*run_stim(n=n, stims=stims, effect_size=effect_size, confound_size=confound_size, runs=runs), 
-          n=n, effect_size=effect_size, confound_size=confound_size, runs=runs,
-          ax=plt.gca(), pltx=True)
+if __name__ == "__main__":
+    sys.exit(main())
