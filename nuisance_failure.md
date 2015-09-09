@@ -1,5 +1,8 @@
-% A common misapplication of statistical inference: nuisance parameter control with null hypothesis rejection tests
-% Jona Sassenhagen; Phillip Alday(?)
+---
+title: A common misapplication of statistical inference: nuisance parameter control with null-hypothesis rejection tests
+author: Jona Sassenhagen; Phillip Alday
+date: September 2016
+---
 
 # Abstract
 Much experimental research on behavior and cognition rests on stimulus or subject selection where not all parameters can be fully controlled, even when attempting strict matching. For example, when contrasting patients to controls, factors such as intelligence or socioeconomic status are often correlated with patient status; when presenting word stimuli, factors such as word frequency are often correlated with primary variables of interest. One procedure very commonly employed to control for such nuisance parameter effects is conducting inferential tests on confounding stimulus or subject characteristics. For example, if word length/age is not significantly different for two stimulus sets/subject groups, they are considered as matched for word length/age. Such a test has extremely high failure rates and is conceptually extremely misguided. We discuss the pragmatic and philosophical futility of this procedure, present a survey showing its high prevalence, conduct a simulation study showing the high expected failure rates, and briefly discuss an alternative in the form of regression including nuisance parameters.
