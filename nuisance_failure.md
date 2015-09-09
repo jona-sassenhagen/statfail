@@ -5,18 +5,20 @@ date: September 2016
 ---
 
 # Abstract
-Much experimental research on behavior and cognition rests on stimulus or subject selection where not all parameters can be fully controlled, even when attempting strict matching. For example, when contrasting patients to controls, factors such as intelligence or socioeconomic status are often correlated with patient status; when presenting word stimuli, factors such as word frequency are often correlated with primary variables of interest. One procedure very commonly employed to control for such nuisance parameter effects is conducting inferential tests on confounding stimulus or subject characteristics. For example, if word length/age is not significantly different for two stimulus sets/subject groups, they are considered as matched for word length/age. Such a test has extremely high failure rates and is conceptually extremely misguided. We discuss the pragmatic and philosophical futility of this procedure, present a survey showing its high prevalence, conduct a simulation study showing the high expected failure rates, and briefly discuss an alternative in the form of regression including nuisance parameters.
+Much experimental research on behavior and cognition rests on stimulus or subject selection where not all parameters can be fully controlled, even when attempting strict matching. For example, when contrasting patients to controls, factors such as intelligence or socioeconomic status are often correlated with patient status; when presenting word stimuli, factors such as word frequency are often correlated with primary variables of interest. One procedure very commonly employed to control for such nuisance parameter effects is conducting inferential tests on confounding stimulus or subject characteristics. For example, if word length is not significantly different for two stimulus sets, they are considered as matched for word length. Such a test has extremely high failure rates and is conceptually misguided. We discuss the pragmatic and philosophical futility of this procedure, present a survey showing its high prevalence, conduct a simulation study showing the high expected failure rates, and briefly discuss an alternative in the form of regression including nuisance parameters.
 
 # Introduction
-A common problem in quasi-experimental research, where not all parameters of stimuli or subjects can be freely chosen by the experimenter, is the control of confounding/nuisance parameters. This is especially common in studies of language. Typically, stimuli cannot be constructed ad hoc, but have to be chosen from existing words (which differ in many parameters); stimuli are processed by subjects in the context of a rich vocabulary; and subject populations have usually been exposed to very diverse environments and events in their acquisition of language. The basic question researchers are faced with is then to prevent reporting e.g. an effect of word length, or bilingualism, when the effect truly stems from differences in word frequency, or socioeconomic status, which may be highly correlated with the parameters of interest. A very prevalent method we find in the literature is worse than useless and highlights common statistical misconceptions.
+A common problem in brain and behavioral research, where the experimenter cannot freely determine every stimulus and participant parameter, is the control of confounding/nuisance parameters. This is especially common in studies of language. Typically, stimuli cannot be constructed out of whole cloth, but have to be chosen from existing words (which differ in many parameters); stimuli are processed by subjects in the context of a rich vocabulary; and subject populations have usually been exposed to very diverse environments and events in their acquisition of language. The basic question researchers are faced with is then to prevent reporting e.g. an effect of word length, or bilingualism, when the effect truly stems from differences in word frequency, or socioeconomic status, which may be highly correlated with the parameters of interest. A very prevalent method we find in the literature highlights common statistical misconceptions and fails to perform the necessary control.
 
-# NHST and nuisance control
-Often, researchers will attempt to demonstrate that stimuli are selected so as to concentrate their differences on the parameter of interest by conducting some of the tests typically also employed for the testing of research hypotheses: *t*-tests or ANOVA; in addition or even instead of showing e.g. descriptive statistics in the form of measures of central tendency and spread. We assume the underlying intuition is that these tests establish if two samples differ on a parameter, or are "equal" on that parameter. In practice, we find insignificant tests are used as a necessary (and sometimes even sufficient) condition for accepting a stimulus set as "controlled".
+## NHST and nuisance control
+Often, researchers will attempt to demonstrate that stimuli are selected so as to concentrate their differences on the parameter of interest by conducting null-hypothesis testing: *t*-tests or ANOVA; in addition or even instead of showing e.g. descriptive statistics in the form of measures of location and scale. The underlying intuition is that these tests establish if two conditions differ in a given parameter and serve as proof that the conditions are "equal" on that parameter. In practice, we find insignificant tests are used as a necessary (and sometimes even sufficient) condition for accepting a stimulus set as "controlled".
 This approach fails dramatically on multiple levels.
 
-* Pragmatically, tests are conservative and rejection of stimulus sets based on the (in)significance of tests both fails to detect problematic confounds, and rejects stimulus sets as confounded where proper statistical protocols could have detected a true effect.
-* Philosophically, tests are employed to test hypotheses that are neither the hypotheses researchers actually care about, nor in any way related to the problem at hand.
-* The preferable solution is easy and readily implemented with increasingly popular hierarchical regression models from linear mixed or Bayesian techniques.
+* Pragmatically, the rejection of stimulus sets based on the (in)significance of tests both fails to detect problematic confounds and discards stimulus sets as confounded where proper statistical protocols could have detected a true effect.
+* Philosophically, these tests carry all the usual problems of Null Hypothesis Siginficance Testing (cf. **REF**), including its inability to accept the null hypothesis directly.
+* Statistically, the hypothesis being tested is not the hypothesis of interest.
+
+The preferred solution, inclusion of nuisance parameters in the statistical model, is readily implemented with increasingly popular multilevel regression models [@gelmanhill:2006;@fox:2016], whether Bayesian or classical.
 
 A fundamental pragmatic problem stems from the set-up of null hypothesis significance tests (NHST). Such tests can only ever reject hypotheses, and the parameters with which they are typically performed (e.g., alpha, the probability  of rejecting true hypotheses, is set to 5%) entail conservative tests, that is, tests which fail to reject many false hypotheses so as to not falsely reject correct hypotheses. Conversely, if alpha is set to such a value, beta (the probability of failing to reject false hypotheses) practically becomes low (because it is the one statistical parameter, out of effect size, sample size, alpha and beta, that is left to float) for linguistics, psychology and neuroscience (e.g. Button et al., 2013); for typical effect and sample sizes, it is rarely above 50%, meaning that truly false nulls are rejected at a rate no better than if researchers were to flip a coin. Thus, nothing is gained from not rejecting a hypothesis in this context - not rejecting the hypothesis that the difference in word length is zero is of very little relevance as the chance of detecting this difference, even where it exists, is low in typical samples, and strongly depends on sample size.
 
@@ -34,7 +36,7 @@ In the context of baseline differences between treatment and control groups in c
 We assume the issue in the context of quasi-experimental researcher has also been noted and probably even included in some of the better textbooks, but are not aware of similar discussions in the psychological, linguistic or neurocognitive literature.
 
 
-# Prevalence and impact
+# Results: Prevalence and impact
 We performed a literature survey of neurolinguistic studies to estimate the prevalence of inferential tests of nuisance parameters.
 
 ## Survey: Prevalence of the problem in B&L
@@ -44,16 +46,6 @@ Instances of the error can be easily found not only in recent, but also in older
 
 Here, the authors commit the "double sin" of both estimating a known quantity, and deducing equivalence (acceptance of the null) from a failed test - in this case, a test that leads the authors to accept the null hypothesis.
 To estimate how common the problem is in neurolinguistics, a high-quality neurolinguistic journal, *Brain & Language*, was investigated. 
-
-### Survey Methods
-The analysis was restricted to current volumes. 
-For all articles published by *B&L* from 2011 to the 3rd issue of 2013, three raters (not blinded to the purpose of the experiment) investigated all published experimental papers (excluding reviews, simulation studies, editorials etc.). 
-For each experiment reported in a study, the stimulus/materials sections were investigated for descriptive and inferential statistics derived from populations that were exhaustively sampled without error. 
-If a descriptive and/or inferential statistic (such as mean and standard deviation) were reported, the study was coded as one where the researchers were interested in a known quantity, otherwise it was discarded. 
-If an inferential statistic (such as a *p*-value) was reported, the study was coded as one where researchers answered that interest with an erroneous parameter estimate, otherwise as one where researchers did not commit the error.
-If a statement of the form that groups were thought equivalent regarding the parameter was made, such as claims that they were “matched”, “equal” or “did not differ”, and this statement was backed up by a *p*-value greater than .05, the study was coded as "accepting the null".
-In cases of rater disagreement, the majority vote was registered.
-Representative statements from every study committing an error are presented in the appendix.
 
 ### Survey Results
 In total, 86 articles where found where researchers reported known quantities in their stimulus/materials section, and 58 (**67%**) of these reported inferential statistics of these known values. Of these, 47 (**81%**) "accepted" the null hypothesis (i.e., implicitly assumed that stimuli or subjects were matched following a nonsignificant test). We conclude that in a large fraction of those cases where researchers published in *B&L* are concerned about nuisance parameters of experimental stimuli, they conduct meaningless tests and misinterpret the results of these tests in a potentially dangerous manner.
@@ -79,7 +71,7 @@ We observe major failure rates of the described procedure, both in the form of u
 
 We observe that the primary determinant of this procedure is the ratio of the confound effect compared to the real effect. For example, if the real effect is 0 and the confound effect is .5, over 25% correct rejections stand against 4% false rejections and 4% missed rejections.
 
-![Simulation study results\label{fig1}](/Users/jona/Dropbox/manuscripts/statfail/v2/statfail_simul.pdf)
+![Simulation study results\label{fig1}](statfail_simul.pdf)
 
 
 # Discussion and recommendation
@@ -109,6 +101,19 @@ We thank Sarah Tune for helpful discussion and Tal Linzen for bringing to our at
 
 # Funding
 This work was supported in part by the German Research Foundation (BO 2471/3-2) and by the ERC grant (....).
+
+# Methods
+## Survey
+The analysis was restricted to current volumes. 
+For all articles published by *B&L* from 2011 to the 3rd issue of 2013, three raters (not blinded to the purpose of the experiment) investigated all published experimental papers (excluding reviews, simulation studies, editorials etc.). 
+For each experiment reported in a study, the stimulus/materials sections were investigated for descriptive and inferential statistics derived from populations that were exhaustively sampled without error. 
+If a descriptive and/or inferential statistic (such as mean and standard deviation) were reported, the study was coded as one where the researchers were interested in a known quantity, otherwise it was discarded. 
+If an inferential statistic (such as a *p*-value) was reported, the study was coded as one where researchers answered that interest with an erroneous parameter estimate, otherwise as one where researchers did not commit the error.
+If a statement of the form that groups were thought equivalent regarding the parameter was made, such as claims that they were “matched”, “equal” or “did not differ”, and this statement was backed up by a *p*-value greater than .05, the study was coded as "accepting the null".
+In cases of rater disagreement, the majority vote was registered.
+Representative statements from every study committing an error are presented in the appendix.
+
+## Simulation
 
 # References
 Bates D, Maechler M, Bolker BM and Walker S (2015). *Fitting Linear Mixed-Effects Models using lme4.* ArXiv e-print; in press, Journal of Statistical Software, http://arxiv.org/abs/1406.5823.
