@@ -18,6 +18,10 @@ import scipy
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Set seed to ensure reproducible simulation
+np.random.seed(42)
+
+
 def run(n=20, effect_size=.5, confound_size=.5, runs=10000):
     effect = np.random.randn(runs, n) + effect_size
     confound = np.random.randn(runs, n) + confound_size
