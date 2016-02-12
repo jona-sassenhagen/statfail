@@ -13,8 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/
 
+nuisance_failure.pdf: nuisance_failure.md methods.tex references.bib
+	pandoc -o $@ $< --include-after-body=methods.tex --bibliography=references.bib
 
-nuisance_failure.pdf: nuisance_failure.md statfail_simul.pdf
+%.tex: %.md
 	pandoc -o $@ $<
 	
 statfail_simul.pdf: simulation.py
