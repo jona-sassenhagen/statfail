@@ -1,2 +1,4 @@
-
 .DS_Store
+.virtualenv
+*.tex
+.ipynb_checkpoints/
