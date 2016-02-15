@@ -21,13 +21,18 @@ pdf: $(paper).pdf
 
 docx: $(paper).docx
 
-draft: draft_pdf draft_docx
+tex: $(paper).tex
+
+draft: draft_pdf draft_docx draft_tex
 	
 draft_pdf: $(paper).pdf
 	cp $(paper).pdf $(paper)_`git show -s --format=%ci HEAD | awk '{print $$1}'`_`git rev-parse --short HEAD`.pdf
 
 draft_docx: $(paper).docx
 	cp $(paper).docx $(paper)_`git show -s --format=%ci HEAD | awk '{print $$1}'`_`git rev-parse --short HEAD`.docx
+
+draft_tex: $(paper).tex
+	cp $(paper).tex $(paper)_`git show -s --format=%ci HEAD | awk '{print $$1}'`_`git rev-parse --short HEAD`.tex
 
 $(paper).docx: $(paper).tex template.docx
 	pandoc -o $@ $< --reference-docx=template.docx
