@@ -4,5 +4,6 @@
 .ipynb_checkpoints/
 methods.docx
 methods.html
-nuisance_failure.docx
-nuisance_failure.html
+nuisance_failure*.docx
+nuisance_failure*.html
+nuisance_failure_*.pdf

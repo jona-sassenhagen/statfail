@@ -29,11 +29,8 @@ draft_pdf: $(paper).pdf
 draft_docx: $(paper).docx
 	cp $(paper).docx $(paper)_`git show -s --format=%ci HEAD | awk '{print $$1}'`_`git rev-parse --short HEAD`.docx
 
-$(paper).docx: $(paper).html methods.md references.bib template.docx
-	pandoc -o $@ $< --include-after-body=methods.md --bibliography=references.bib --reference-docx=template.docx
-
-$(paper).html: $(paper).md methods.html references.bib
-	pandoc -o $@ $< --include-after-body=methods.html --bibliography=references.bib
+$(paper).docx: $(paper).tex template.docx
+	pandoc -o $@ $< --reference-docx=template.docx
 
 $(paper).pdf: $(paper).md methods.tex references.bib
 	pandoc -o $@ $< --include-after-body=methods.tex --bibliography=references.bib
@@ -42,8 +39,9 @@ $(paper).tex: $(paper).md methods.tex references.bib
 	pandoc -o $@ $< --include-after-body=methods.tex --bibliography=references.bib
 	
 clean:
-	rm -f $(paper).{pdf,docx,tex,html}
-	rm -f methods.{pdf,docx,tex,html}
+	rm -f $(paper)*.{pdf,docx,tex,html,rst}
+	rm -f $(paper)_full.md
+	rm -f methods.{pdf,docx,tex,html,rst}
 
 %.tex: %.md
 	pandoc -o $@ $<
@@ -52,6 +50,9 @@ clean:
 	pandoc -o $@ $<
 
 %.html: %.md
+	pandoc -o $@ $<
+
+%.rst: %.md
 	pandoc -o $@ $<
 	
 statfail_simul.pdf: simulation.py
