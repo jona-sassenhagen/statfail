@@ -2,16 +2,16 @@
 title: "A common misapplication of statistical inference: nuisance parameter control with null-hypothesis rejection tests"
 author: Jona Sassenhagen; Phillip Alday
 date: February 2016
+abstract: |
+    Much experimental research on behavior and cognition rests on stimulus or subject selection where not all parameters can be fully controlled, even when attempting strict matching.
+    For example, when contrasting patients to controls, factors such as intelligence or socioeconomic status are often correlated with patient status. When presenting word stimuli, factors such as word frequency are often correlated with primary variables of interest.
+    One procedure very commonly employed to control for such nuisance parameter effects is conducting inferential tests on confounding stimulus or subject characteristics.
+    For example, if word length is not *significantly* different for two stimulus sets, they are considered as matched for word length.
+    Such a test has high failure rates and is conceptually misguided.
+    It stems from a common and wrong understanding of statistical tests.
+    We show this procedure to be inappropriate both pragmatically and philosophically, present a survey showing its high prevalence, and briefly discuss an alternative in the form of regression including nuisance parameters.
+keywords: design, experimental balance, confound, mixed models
 ---
-
-# Abstract
-Much experimental research on behavior and cognition rests on stimulus or subject selection where not all parameters can be fully controlled, even when attempting strict matching.
-For example, when contrasting patients to controls, factors such as intelligence or socioeconomic status are often correlated with patient status. When presenting word stimuli, factors such as word frequency are often correlated with primary variables of interest.
-One procedure very commonly employed to control for such nuisance parameter effects is conducting inferential tests on confounding stimulus or subject characteristics.
-For example, if word length is not *significantly* different for two stimulus sets, they are considered as matched for word length.
-Such a test has high failure rates and is conceptually misguided.
-It stems from a common and wrong understanding of statistical tests.
-We show this procedure to be inappropriate both pragmatically and philosophically, present a survey showing its high prevalence, and briefly discuss an alternative in the form of regression including nuisance parameters.
 
 # Introduction
 Methods sections in many issues of *Brain & Language* and similar journals feature sentences such as
