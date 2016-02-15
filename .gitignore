@@ -3,6 +3,7 @@
 *.tex
 *.aux
 *.log
+*.out
 *.synctex.gz
 .ipynb_checkpoints/
 methods.docx
