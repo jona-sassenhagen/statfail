@@ -11,7 +11,7 @@ abstract: |
     One procedure very commonly employed to control for such nuisance parameter effects is conducting inferential tests on confounding stimulus or subject characteristics.
     For example, if word length is not *significantly* different for two stimulus sets, they are considered as matched for word length.
     Such a test has high failure rates and is conceptually misguided.
-    It stems from a common misunderstanding of statistical tests.
+    It reflects a common misunderstanding of statistical tests: interpreting significance not to refer to inference about a particular value for a parameter of a population, but about 1. the sample in question, 2. the *practical relevance* of a sample difference.
     We show inferential testing to be inappropriate both pragmatically and philosophically, present a survey showing its high prevalence, and briefly discuss an alternative in the form of regression including nuisance parameters.
 keywords: design, experimental balance, confound, mixed models
 ---
@@ -96,14 +96,14 @@ To directly and objectively estimate the influence of a set of stimuli on the de
 For traditional $t$-tests, ANOVAs and regression models, this corresponds to using multiple regression with the stimuli properties as additional nuisance parameters (including continuous factors).
 In multiple regression, all parameters are jointly estimated and the total variance is allocated over all parameters depending on their independent impact.
 Thus, a condition effect estimated by a model also containing nuisance parameters corresponds to the effect of condition while accounting for nuisance parameter influence.
-Importantly, to prevent $p$-value fishing, the choice of selecting covariates to include must be made on principled grounds, and either a priori, or via unbiased model selection procedures.
+Importantly, to prevent $p$-value "fishing", the choice of selecting covariates to include must be made on principled grounds, and either a priori, or via unbiased model selection procedures.
 
 Hierarchical/multilevel modeling [a.k.a mixed-effects modeling; see also @pinheirobates2000a;@gelman.hill:2006; @fox:2016] provides the necessary extension to the regression procedure for repeated-measures designs.
 Multilevel regression models have the additional advantage of accounting for the combined variance of subjects and items in one model [@clark1973a; @baayendavidsonbates2008a; @judd.westfall.etal:2012pp].
 
 One problem in this context is that these stimulus confounds can be assumed to be correlated not only with one another and the dependent variables, but often also with the independent variables of interest (e.g., word frequency and word length correlate).
 This leads to model collinearity -- the problem that models become hard to estimate and have biased variance estimates due to strongly correlated parameters.
-Popular software for mixed-effects models such as lme4 automatically provides a summary of correlation between effects [@bates.maechler.etal:2015].
+Popular software for mixed-effects models such as *lme4* automatically provides a summary of correlation between effects [@bates.maechler.etal:2015].
 
 The main technique for dealing with collinearity is one that researchers traditionally already employ: attempting to balance stimulus/subject selection so that differences in nuisance parameters are minimised, e.g. via matching or blocking.
 That is, matching should generally still be performed in addition to multivariate estimation.
@@ -123,6 +123,6 @@ Thus, our recommendations for the control of nuisance parameters are:
 Each step in this list is (hopefully) uncontroversial and helpful, unlike null-hypothesis testing of stimulus balance.
 
 # Acknowledgements
-We thank Sarah Tune for helpful discussion and Tal Linzen for bringing to our attention the randomization check literature. This work was supported in part by the German Research Foundation (BO 2471/3-2) and by the ERC grant 617891.
+We thank Sarah Tune for helpful discussion and Tal Linzen for bringing to our attention the randomization check literature; Katerina Starikova, Miriam Burk and Antonia Götz are to be thanked for collecting the survey data. This work was supported in part by the German Research Foundation (BO 2471/3-2) and by the ERC grant 617891.
 
 # References
