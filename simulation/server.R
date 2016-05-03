@@ -16,24 +16,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 library(shiny)
-library(ggplot2)
-library(gridExtra)
-library(scales)
-library(reshape)
-library(zoo)
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+# a near drop-in replacement for ggplot2 on the web
+library(plotly)
+#library(scales)
+#library(reshape2)
+#library(zoo)
 
-library(shiny)
-
-# Define server logic required to draw a histogram
 shinyServer(function(input, output) {
+  runSimulation <- reactive({
+    # force update when user clicks on "Run Again"
+    input$run
+    simulate(n=input$n,alpha=input$alphaValue,maxiter=input$maxiter)
+  })
 
   output$which.sim <- renderUI({
     if(input$n.sims > 1){
@@ -43,11 +37,16 @@ shinyServer(function(input, output) {
     #  em("Iteration selection disabled for single iteration.")
     #}
     })
+  output$plt.population.distribution <- renderPlot({
+  })
+
+  output$plt.sample.distribution <- renderPlot({
+  })
   output$distPlot <- renderPlot({
 
     input$manipulation.effect.size
     input$confound.effect.size
-    input$confound.manipulation.correlation
+    #input$confound.manipulation.correlation
     input$n.items
     input$n.sims
 

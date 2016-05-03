@@ -16,24 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 library(shiny)
-library(ggplot2)
-library(gridExtra)
-library(scales)
-library(reshape)
-library(zoo)
 
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-library(shiny)
-
-# Define UI for application that draws a histogram
 shinyUI(fluidPage(
 
   # Application title
@@ -44,25 +27,31 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(h3("Simulation Parameters")
        ,sliderInput("manipulation.effect.size",
-                   "Manipulation effect size",
-                   min = -1,
-                   max = 1,
-                   value = 0.5,
+                   "Difference in outcome variable due to manipulation (Cohen's \\(d\\))",
+                   min = -10,
+                   max = 10,
+                   value = 2,
                    round = -1)
-       ,sliderInput("confound.effect.size",
-                   "Confound effect size",
-                   min = -1,
-                   max = 1,
-                   value = 0.3,
+       ,sliderInput("confound.feature.size",
+                   "Difference in confounding feature between groups (Cohen's \\(d\\))",
+                   min = -10,
+                   max = 10,
+                   value = 1,
                    round = -1)
-       ,sliderInput("confound.manipulation.correlation",
-                    "Confound-manipulation correlation",
+       # ,sliderInput("confound.effect.size",
+       #              "Difference in outcome variable due to confound (Cohen's \\(d\\))",
+       #              min = -10,
+       #              max = 10,
+       #              value = 1,
+       #              round = -1)
+       ,sliderInput("confound.feature.effect.correlation",
+                    "Impact of confounding feature (correlation between measured confounding feature and outcome variable)",
                     min = -1,
                     max = 1,
-                    value = 0.6,
+                    value = 1.0,
                     round = -1)
        ,sliderInput("n.items",
-                    "Number of items to draw (from each manipulation-level/group/condition)",
+                    HTML("Number of items to draw </br > (from each manipulation-level)"),
                     min = 10,
                     max = 100,
                     value = 20,
@@ -77,7 +66,8 @@ shinyUI(fluidPage(
 
     # Show a plot of the generated distribution
     mainPanel(h1("Single Simulation Results")
-        ,uiOutput("which.sim")
+       ,uiOutput("which.sim")
+       ,fluidRow("plt.population.distribution","plt.sample.distribution")
        ,h1("Repeated Simulation Results")
        ,h1("Theoretical background")
        ,includeMarkdown("inference_failure.md")
