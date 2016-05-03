@@ -22,29 +22,15 @@
 library(reshape2)
 library(plyr)
 
-simulate <- function(manipulation.effect.size, confound.effect.size, confound.feature.size, n.items){
+simulate <- function(manipulation.effect.size, confound.feature.size,
+                     confound.feature.effect.correlation, n.items){
+
   control <- rnorm(n.items,mean=0)
   manipulation <- control + rnorm(n.items,mean=manipulation.effect.size)
-  confound <- rnorm(n.items,mean=confound.effect.size)
 
   control.feature <- rnorm(n.items,0)
   manipulation.feature <- rnorm(n.items, mean=confound.feature.size)
 
-
-  # # http://stats.stackexchange.com/a/15035/26743
-  # #
-  # cfeature <- rnorm(n.items,mean=0)
-  # ceffect <- rnorm(n.items,mean=confound.feature.size)
-  # X <- cbind(cfeature,ceffect)
-  #
-  # rho <- 0.5
-  # C <- matrix(rho, nrow = 2, ncol = 2)
-  # diag(C) <- 1
-  # C <- chol(C)
-  #
-  # XC <-  X %*% C
-  #
-  # cor(XC[,1],XC[,2])
 
   outcomes <- data.frame(item=1:n.items,
                         control=control,
@@ -55,6 +41,16 @@ simulate <- function(manipulation.effect.size, confound.effect.size, confound.fe
 
   outcomes <- melt(outcomes,id.vars="item",variable.name="condition",value.name="outcome")
   features <- melt(features,id.vars="item",variable.name="condition",value.name="feature")
+
+  #matrix(cbind(features[[2]],features[[2]]))
+  # based on http://stats.stackexchange.com/a/15035/26743
+  confound <- rnorm(n.items,mean=confound.feature.size)
+  X <- cbind(confound.feature,confound)
+
+  C <- matrix(confound.feature.effect.correlation, nrow = 2, ncol = 2)
+  diag(C) <- 1
+  C <- chol(C)
+  XC <-  X %*% C
 
   results <- join(outcomes,features,by=c("item","condition"))
 
