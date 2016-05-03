@@ -13,3 +13,4 @@ nuisance_failure*.html
 nuisance_failure_*.pdf
 .*.swp
 *.*\~
+.Rproj.user
