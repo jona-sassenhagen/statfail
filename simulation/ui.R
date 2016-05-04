@@ -59,7 +59,9 @@ shinyUI(fluidPage(
        ,sliderInput("n.sims",
                     "Number of simulations to run",
                     min = 1,
-                    max = 1000000,
+                    max = 1000, # This has several second latency on a fast machine with lots of RAM, so we'll cap it here.
+                                # If you know enough to tune this yourself, then go ahead -- the time growth curve is
+                                # superlinear, perhaps roughly quadratic because of the way R does COW in its memory management
                     value = 1)
        ,actionButton("run",label = "Run simulation (again)")
     ),
