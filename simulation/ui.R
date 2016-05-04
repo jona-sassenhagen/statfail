@@ -69,7 +69,8 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(h1("Single Simulation Results")
        ,uiOutput("which.sim")
-       ,fluidRow("plt.population.distribution","plt.sample.distribution")
+       ,fluidRow(column(6,plotOutput("plt.sample.distribution")))
+       #,dataTableOutput("simulation.table")
        ,h1("Repeated Simulation Results")
        ,h1("Theoretical background")
        ,includeMarkdown("inference_failure.md")

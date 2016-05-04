@@ -23,10 +23,15 @@ library(plotly)
 #library(zoo)
 
 shinyServer(function(input, output) {
+
   runSimulation <- reactive({
     # force update when user clicks on "Run Again"
     input$run
-    simulate(n=input$n,alpha=input$alphaValue,maxiter=input$maxiter)
+    with(input,resimulate(n=input$n.sims
+                          ,manipulation.effect.size=manipulation.effect.size
+                          ,confound.feature.size=confound.feature.size
+                          ,confound.feature.effect.correlation=confound.feature.effect.correlation
+                          ,n.items=n.items))
   })
 
   output$which.sim <- renderUI({
@@ -36,11 +41,25 @@ shinyServer(function(input, output) {
     #else{
     #  em("Iteration selection disabled for single iteration.")
     #}
-    })
+  })
+
+  which.sim <- reactive({
+    if(is.null(input$which.sim)){
+      1
+    }else{
+      input$which.sim
+    }
+  })
+
+  output$simulation.table <- renderDataTable(runSimulation())
+
   output$plt.population.distribution <- renderPlot({
   })
 
   output$plt.sample.distribution <- renderPlot({
+    simulation <- subset(runSimulation(), iter == which.sim())
+    print(simulation)
+    ggplot(simulation) + geom_density(aes(color=condition,fill=condition,x=feature),alpha=0.4)
   })
   output$distPlot <- renderPlot({
 
