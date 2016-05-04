@@ -22,16 +22,18 @@ library(plotly)
 #library(reshape2)
 #library(zoo)
 
+source("statfail.R")
+
 shinyServer(function(input, output) {
 
   runSimulation <- reactive({
     # force update when user clicks on "Run Again"
     input$run
-    with(input,resimulate(n=input$n.sims
-                          ,manipulation.effect.size=manipulation.effect.size
-                          ,confound.feature.size=confound.feature.size
-                          ,confound.feature.effect.correlation=confound.feature.effect.correlation
-                          ,n.items=n.items))
+    resimulate(n=input$n.sims
+              ,manipulation.effect.size=input$manipulation.effect.size
+              ,confound.feature.size=input$confound.feature.size
+              ,confound.feature.effect.correlation=input$confound.feature.effect.correlation
+              ,n.items=input$n.items)
   })
 
   output$which.sim <- renderUI({

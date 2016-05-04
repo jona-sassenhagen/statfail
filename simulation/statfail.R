@@ -62,8 +62,8 @@ simulate <- function(manipulation.effect.size, confound.feature.size,
 
   # this is the manipulation itself -- two normally distributed groups with sd=1
   # and difference in means given by Cohen's d (whose denominator is the sd is 1)
-  manipulation <- control + rnorm(n.items,mean=manipulation.effect.size)
   control <- rnorm(n.items,mean=0)
+  manipulation <- control + rnorm(n.items,mean=manipulation.effect.size)
 
   # this is the feature as measured, which is *not* the same as the impact of that
   # feature on the outcome variable
