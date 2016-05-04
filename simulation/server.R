@@ -60,7 +60,6 @@ shinyServer(function(input, output) {
 
   output$plt.sample.distribution <- renderPlotly({
     simulation <- subset(runSimulation(), iter == which.sim())
-    print(simulation)
     ggplot(simulation) + geom_density(aes(color=condition,fill=condition,x=feature),alpha=0.4)
   })
   output$distPlot <- renderPlot({
