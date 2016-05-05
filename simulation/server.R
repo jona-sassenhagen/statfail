@@ -45,7 +45,7 @@ shinyServer(function(input, output) {
     stats
   })
 
-  # runManipulationStats <- reactive({
+  # runManipulationOurcomeStats <- reactive({
   #   simulation <- runSimulation()
   #   #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
   #
@@ -55,7 +55,17 @@ shinyServer(function(input, output) {
   #   stats
   # })
   #
-  # runOutcomeConfoundRegression <- reactive({
+  # runFeatureOutcomeStats <- reactive({
+  #   simulation <- runSimulation()
+  #   #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
+  #
+  #   x <- ddply(simulation,"iter",summarise,htest = t.test(confounded.outcome ~ condition,var.equal=TRUE))
+  #   x$field <- rep(c("t","df","p","conf.int","means","H0","tails","test","data"))
+  #   stats <- dcast(data=x, iter ~ field, value.var = "htest")
+  #   stats
+  # })
+  #
+  # runMultipleRegression <- reactive({
   #   simulation <- runSimulation()
   #   #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
   #
@@ -69,7 +79,7 @@ shinyServer(function(input, output) {
 
   output$which.sim <- renderUI({
     if(input$n.sims > 1){
-      sliderInput("which.sim","Iteration to display",min=1,max=input$n.sims,value=42,round=TRUE,animate=FALSE)
+      sliderInput("which.sim","Iteration to display",min=1,max=input$n.sims,value=42,round=1,animate=FALSE)
     }
     #else{
     #  em("Iteration selection disabled for single iteration.")
@@ -115,11 +125,7 @@ shinyServer(function(input, output) {
     simulation <- subset(runSimulation(), iter == which.sim())
     g <- ggplot(simulation,aes(x=as.numeric(condition)-1,y=confounded.outcome)) +
       geom_smooth(method=lm) +
-      #geom_histogram(alpha=0.4) +
-      #geom_rug(size=1.5,alpha=0.4) +
-      #scale_color_discrete(name="Condition",labels=c("control","manipulation")) +
-      guides(fill="none",color="none") +
-      ggtitle("Stimuli as selected for experiment")
+      ggtitle("Simple regression for manipulation")
     ggplotly(g)
   })
 
@@ -127,11 +133,7 @@ shinyServer(function(input, output) {
     simulation <- subset(runSimulation(), iter == which.sim())
     g <- ggplot(simulation,aes(x=feature,y=confounded.outcome)) +
       geom_smooth(method=lm) +
-      #geom_histogram(alpha=0.4) +
-      #geom_rug(size=1.5,alpha=0.4) +
-      #scale_color_discrete(name="Condition",labels=c("control","manipulation")) +
-      guides(fill="none",color="none") +
-      ggtitle("Stimuli as selected for experiment")
+      ggtitle("Simple regression feature")
     ggplotly(g)
   })
 
