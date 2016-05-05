@@ -133,7 +133,16 @@ shinyServer(function(input, output) {
     simulation <- subset(runSimulation(), iter == which.sim())
     g <- ggplot(simulation,aes(x=feature,y=confounded.outcome)) +
       geom_smooth(method=lm) +
-      ggtitle("Simple regression feature")
+      ggtitle("Simple regression for feature")
+    ggplotly(g)
+  })
+
+  output$plt.multiple.regression <- renderPlotly({
+    simulation <- subset(runSimulation(), iter == which.sim())
+    g <- ggplot(simulation,aes(x=feature,y=confounded.outcome,color=condition,fill=condition)) +
+      geom_smooth(method=lm,fullrange=TRUE) +
+      guides(fill="none",color="none") +
+      ggtitle("Multiple regression for manipulation and feature")
     ggplotly(g)
   })
 

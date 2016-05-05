@@ -78,6 +78,7 @@ shinyUI(fluidPage(
                             ,column(4,plotlyOutput("plt.feature.regression"))
                             )
                   ,fluidRow(column(4,htmlOutput("feature.test")))
+                  ,plotlyOutput("plt.multiple.regression")
                   ,h1("Repeated Simulation Results")
           )
          ,tabPanel("Theoretical background",includeMarkdown("inference_failure.md"))
