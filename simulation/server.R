@@ -18,9 +18,8 @@
 library(shiny)
 # a near drop-in replacement for ggplot2 on the web
 library(plotly)
-#library(scales)
-#library(reshape2)
-#library(zoo)
+library(plyr)
+library(reshape2)
 
 source("statfail.R")
 
@@ -36,9 +35,41 @@ shinyServer(function(input, output) {
               ,n.items=input$n.items)
   })
 
+  runFeatureStats <- reactive({
+    simulation <- runSimulation()
+    #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
+
+    x <- ddply(simulation,"iter",summarise,htest = t.test(feature ~ condition,var.equal=TRUE))
+    x$field <- rep(c("t","df","p","conf.int","means","H0","tails","test","data"))
+    stats <- dcast(data=x, iter ~ field, value.var = "htest")
+    stats
+  })
+
+  # runManipulationStats <- reactive({
+  #   simulation <- runSimulation()
+  #   #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
+  #
+  #   x <- ddply(simulation,"iter",summarise,htest = t.test(confounded.outcome ~ condition,var.equal=TRUE))
+  #   x$field <- rep(c("t","df","p","conf.int","means","H0","tails","test","data"))
+  #   stats <- dcast(data=x, iter ~ field, value.var = "htest")
+  #   stats
+  # })
+  #
+  # runOutcomeConfoundRegression <- reactive({
+  #   simulation <- runSimulation()
+  #   #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
+  #
+  #   x <- ddply(simulation,"iter",summarise,htest = summary(lm(confounded.outcome ~ condition*feature)))
+  #   x$field <- rep(c("t","df","p","conf.int","means","H0","tails","test","data"))
+  #   stats <- dcast(data=x, iter ~ field, value.var = "htest")
+  #   stats
+  # })
+
+  output$testing.table <- renderDataTable(runStats())
+
   output$which.sim <- renderUI({
     if(input$n.sims > 1){
-      sliderInput("which.sim","Iteration to display",min=1,max=input$n.sims,value=42)
+      sliderInput("which.sim","Iteration to display",min=1,max=input$n.sims,value=42,round=TRUE,animate=FALSE)
     }
     #else{
     #  em("Iteration selection disabled for single iteration.")
@@ -53,23 +84,57 @@ shinyServer(function(input, output) {
     }
   })
 
-  output$simulation.table <- renderDataTable(runSimulation())
 
-  output$plt.population.distribution <- renderPlot({
-  })
-
-  output$plt.sample.distribution <- renderPlotly({
+  output$plt.feature.distribution <- renderPlotly({
     simulation <- subset(runSimulation(), iter == which.sim())
-    ggplot(simulation) + geom_density(aes(color=condition,fill=condition,x=feature),alpha=0.4)
+    g <- ggplot(simulation,aes(color=condition,fill=condition,x=feature)) +
+      geom_density(alpha=0.4) +
+      #geom_histogram(alpha=0.4) +
+      #geom_rug(size=1.5,alpha=0.4) +
+      #scale_color_discrete(name="Condition",labels=c("control","manipulation")) +
+      guides(fill="none",color="none") +
+      ggtitle("Stimuli as selected for experiment")
+    ggplotly(g)
   })
-  output$distPlot <- renderPlot({
 
-    input$manipulation.effect.size
-    input$confound.effect.size
-    #input$confound.manipulation.correlation
-    input$n.items
-    input$n.sims
+  output$feature.test <- renderUI({
+    stats <- runFeatureStats()
+    stats <- subset(stats,iter == which.sim())
+    # stim_stats$test,"\n with H0: \\(\\mu=",stim_stats$H0,"\\):\n",
+    text <- paste("<center>$$t(",stats$df,")=",signif(as.numeric(stats$t),2),", p = ",signif(as.numeric(stats$p),2),"$$")
+    if(as.numeric(stats$p) < 0.05){
+      text <- paste(text,"\n <font color='red'>SIGNIFICANT</font>")
+    }else{
+      text <- paste(text,"\n <b>NOT</b> SIGNIFICANT </center>")
+    }
 
+    withMathJax(HTML(text))
   })
+
+  output$plt.manipulation.regression <- renderPlotly({
+    simulation <- subset(runSimulation(), iter == which.sim())
+    g <- ggplot(simulation,aes(x=as.numeric(condition)-1,y=confounded.outcome)) +
+      geom_smooth(method=lm) +
+      #geom_histogram(alpha=0.4) +
+      #geom_rug(size=1.5,alpha=0.4) +
+      #scale_color_discrete(name="Condition",labels=c("control","manipulation")) +
+      guides(fill="none",color="none") +
+      ggtitle("Stimuli as selected for experiment")
+    ggplotly(g)
+  })
+
+  output$plt.feature.regression <- renderPlotly({
+    simulation <- subset(runSimulation(), iter == which.sim())
+    g <- ggplot(simulation,aes(x=feature,y=confounded.outcome)) +
+      geom_smooth(method=lm) +
+      #geom_histogram(alpha=0.4) +
+      #geom_rug(size=1.5,alpha=0.4) +
+      #scale_color_discrete(name="Condition",labels=c("control","manipulation")) +
+      guides(fill="none",color="none") +
+      ggtitle("Stimuli as selected for experiment")
+    ggplotly(g)
+  })
+
+  #summary(lm(confounded.outcome ~ condition*feature,data=simulation))
 
 })

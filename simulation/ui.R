@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 library(shiny)
+library(plotly)
 
 shinyUI(fluidPage(
 
@@ -67,13 +68,21 @@ shinyUI(fluidPage(
     ),
 
     # Show a plot of the generated distribution
-    mainPanel(h1("Single Simulation Results")
-       ,uiOutput("which.sim")
-       ,fluidRow(column(6,plotlyOutput("plt.sample.distribution")))
-       #,dataTableOutput("simulation.table")
-       ,h1("Repeated Simulation Results")
-       ,h1("Theoretical background")
-       ,includeMarkdown("inference_failure.md")
+    mainPanel(
+        tabsetPanel(
+          tabPanel("Simulation"
+                  ,h1("Single Simulation Results")
+                  ,uiOutput("which.sim")
+                  ,fluidRow(column(4,plotlyOutput("plt.feature.distribution"))
+                            ,column(4,plotlyOutput("plt.manipulation.regression"))
+                            ,column(4,plotlyOutput("plt.feature.regression"))
+                            )
+                  ,fluidRow(column(4,htmlOutput("feature.test")))
+                  ,h1("Repeated Simulation Results")
+          )
+         ,tabPanel("Theoretical background",includeMarkdown("inference_failure.md"))
+         ,tabPanel("Debugging",tableOutput("testing.table"))
+       )
     )
   )
 ))
