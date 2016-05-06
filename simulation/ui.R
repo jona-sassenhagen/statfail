@@ -65,6 +65,7 @@ shinyUI(fluidPage(
                                 # superlinear, perhaps roughly quadratic because of the way R does COW in its memory management
                     value = 1)
        ,actionButton("run",label = "Run simulation (again)")
+       ,width = 2
     ),
 
     # Show a plot of the generated distribution
@@ -73,16 +74,29 @@ shinyUI(fluidPage(
           tabPanel("Simulation"
                   ,h1("Single Simulation Results")
                   ,uiOutput("which.sim")
+                  ,h2("Detection with traditional tests")
                   ,fluidRow(column(4,plotlyOutput("plt.feature.distribution"))
                             ,column(4,plotlyOutput("plt.manipulation.regression"))
                             ,column(4,plotlyOutput("plt.feature.regression"))
                             )
-                  ,fluidRow(column(4,htmlOutput("feature.test")))
-                  ,plotlyOutput("plt.multiple.regression")
+                  ,fluidRow(column(4,htmlOutput("feature.test"))
+                            ,column(4,htmlOutput("manipulation.regression"))
+                            ,column(4,htmlOutput("feature.regression"))
+                            )
+                  ,h2("Multiple regression")
+                  ,fluidRow(column(8,plotlyOutput("plt.multiple.regression"))
+                            ,column(4,tableOutput("multiple.regression"),htmlOutput("multiple.regression.sigs")))
+                  ,h2("Comparison")
+                  ,htmlOutput("single.sim.results")
                   ,h1("Repeated Simulation Results")
+                  ,tableOutput("tbl.aggregate.results")
+                  # ,tabsetPanel(
+                  #   tabPanel("Feature distribution across groups", plotlyOutput("plt.feature.distribution.all"))
+                  #   ,tabPanel("Multiple regression", plotlyOutput("plt.multiple.regression.all"))
+                  # )
           )
-         ,tabPanel("Theoretical background",includeMarkdown("inference_failure.md"))
-         ,tabPanel("Debugging",tableOutput("testing.table"))
+          ,tabPanel("Simulation notes",includeMarkdown("simulation_notes.md"))
+          ,tabPanel("Theoretical background",includeMarkdown("inference_failure.md"))
        )
     )
   )
