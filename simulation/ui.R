@@ -29,16 +29,16 @@ shinyUI(fluidPage(
     sidebarPanel(h3("Simulation Parameters")
        ,sliderInput("manipulation.effect.size",
                    "Difference in outcome variable due to manipulation (Cohen's \\(d\\))",
-                   min = -10,
+                   min = -5,
                    max = 10,
                    value = 2,
-                   round = -1)
+                   step = 0.1)
        ,sliderInput("confound.feature.size",
                    "Difference in confounding feature between groups (Cohen's \\(d\\))",
-                   min = -10,
-                   max = 10,
-                   value = 1,
-                   round = -1)
+                   min = -5,
+                   max = 5,
+                   value = 1.0,
+                   step = 0.1)
        # ,sliderInput("confound.effect.size",
        #              "Difference in outcome variable due to confound (Cohen's \\(d\\))",
        #              min = -10,
@@ -50,13 +50,13 @@ shinyUI(fluidPage(
                     min = -1,
                     max = 1,
                     value = 1.0,
-                    round = -1)
+                    step = 0.1)
        ,sliderInput("n.items",
                     HTML("Number of items to draw </br > (from each manipulation-level)"),
                     min = 10,
                     max = 100,
                     value = 20,
-                    round = -1)
+                    step = 1)
        ,sliderInput("n.sims",
                     "Number of simulations to run",
                     min = 1,
