@@ -95,11 +95,11 @@ simulate <- function(manipulation.effect.size, confound.feature.size,
   results
 }
 
-resimulate <- function(n,...){
+resimulate <- function(n,...,lapply.fnc=lapply){
   # strip out the iteration number being passed via lapply
   lambda <- function(x,...) simulate(...)
 
-  x <- lapply(1:n,lambda,...)
+  x <- lapply.fnc(1:n,lambda,...)
   result <- do.call(rbind,x)
 
   result$iter <- sort(rep(seq(n),nrow(result)/n))
@@ -107,19 +107,19 @@ resimulate <- function(n,...){
   result
 }
 
-compute.feature.stats <- function(simulation){
+compute.feature.stats <- function(simulation,...){
   # allow for processing of a single simulated dataset generated with simulate()
   if( !("iter" %in% names(simulation)) ) {
     simulation$iter <- 1
   }
 
-  x <- ddply(simulation,"iter",summarise,htest = t.test(feature ~ condition,var.equal=TRUE))
+  x <- ddply(simulation,"iter",summarise,htest = t.test(feature ~ condition,var.equal=TRUE),...)
   x$field <- rep(c("t","df","p","conf.int","means","H0","tails","test","data"))
   stats <- dcast(data=x, iter ~ field, value.var = "htest")
   stats
 }
 
-compute.manipulation.regression <- function(simulation){
+compute.manipulation.regression <- function(simulation,...){
   # allow for processing of a single simulated dataset generated with simulate()
   if( !("iter" %in% names(simulation)) ) {
     simulation$iter <- 1
@@ -129,7 +129,7 @@ compute.manipulation.regression <- function(simulation){
              htest = {
                m <- lm(confounded.outcome ~ condition)
                c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
-             })
+             },...)
   n_anova_params <- 2 # condition + residuals
   n_lm_params <- 2    # Intercept + condition[manipulation]
   n_anova_cols <- 5   # df, SS, MSS, F, p
@@ -158,7 +158,7 @@ compute.manipulation.regression <- function(simulation){
   stats
 }
 
-compute.feature.regression <- function(simulation){
+compute.feature.regression <- function(simulation,...){
   # allow for processing of a single simulated dataset generated with simulate()
   if( !("iter" %in% names(simulation)) ) {
     simulation$iter <- 1
@@ -168,7 +168,7 @@ compute.feature.regression <- function(simulation){
              htest = {
                m <- lm(confounded.outcome ~ feature)
                c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
-             })
+             },...)
   n_anova_params <- 2 # feature + residuals
   n_lm_params <- 2    # Intercept + feature[manipulation]
   n_anova_cols <- 5   # df, SS, MSS, F, p
@@ -197,7 +197,7 @@ compute.feature.regression <- function(simulation){
   stats
 }
 
-compute.multiple.regression <- function(simulation){
+compute.multiple.regression <- function(simulation,...){
   # allow for processing of a single simulated dataset generated with simulate()
   if( !("iter" %in% names(simulation)) ) {
     simulation$iter <- 1
@@ -207,7 +207,7 @@ compute.multiple.regression <- function(simulation){
              htest = {
                m <- lm(confounded.outcome ~ condition*feature)
                c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
-             })
+             },...)
   n_anova_params <- 4 # condition,feature, condition:feature,residuals
   n_lm_params <- 4    # Intercept,condition[manipulation],feature, condition[manipulation]:feature
   n_anova_cols <- 5   # df, SS, MSS, F, p
@@ -259,3 +259,4 @@ compute.aggregate.results <- function(feat.test,manip.reg,feat.reg,mult.reg){
   stats$feature.multiple <- multiple$p.val[multiple$term == "feature"]
 
   stats
+}
