@@ -91,6 +91,7 @@ shinyUI(fluidPage(
           )
           ,tabPanel("Simulation notes",includeMarkdown("simulation_notes.md"))
           ,tabPanel("Theoretical background",includeMarkdown("inference_failure.md"))
+          ,tabPanel("About",includeMarkdown("about.md"))
        )
     )
   )
