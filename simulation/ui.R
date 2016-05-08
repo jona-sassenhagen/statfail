@@ -78,7 +78,7 @@ shinyUI(fluidPage(
                             ,column(4,htmlOutput("feature.regression"))
                             )
                   ,h2("Multiple regression")
-                  ,fluidRow(column(7,plotlyOutput("plt.multiple.regression"))
+                  ,fluidRow(column(7,plotlyOutput("plt.multiple.regression"),includeMarkdown("interpret_multiple.md"))
                             ,column(5,h3("Linear Model"),tableOutput("multiple.regression"),h3("ANOVA"),htmlOutput("multiple.regression.sigs")))
                   ,h2("Comparison")
                   ,htmlOutput("single.sim.results")
