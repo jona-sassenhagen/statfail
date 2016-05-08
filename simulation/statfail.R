@@ -15,10 +15,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#n.items <- 20; manipulation.effect.size <- 2; confound.effect.size <- 0.5; confound.feature.size <- 0.5; confound.feature.effect.correlation <- 1;
-#library(MASS)
-#confound.feature.effect.correlation
-#confound.feature.size
 library(reshape2)
 library(plyr)
 
@@ -99,12 +95,6 @@ simulate <- function(manipulation.effect.size, confound.feature.size,
   results
 }
 
-# x <- simulate(manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=0.8,n.items=20)
-# summary(lm(outcome ~ condition, data=x))
-# t.test(outcome~condition,data=x)
-# t.test(confounded.outcome~condition,data=x)
-# t.test(feature~condition,data=x)
-
 resimulate <- function(n,...){
   # strip out the iteration number being passed via lapply
   lambda <- function(x,...) simulate(...)
@@ -117,4 +107,155 @@ resimulate <- function(n,...){
   result
 }
 
-#resimulate(n=100,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=0.8,n.items=20)
+compute.feature.stats <- function(simulation){
+  # allow for processing of a single simulated dataset generated with simulate()
+  if( !("iter" %in% names(simulation)) ) {
+    simulation$iter <- 1
+  }
+
+  x <- ddply(simulation,"iter",summarise,htest = t.test(feature ~ condition,var.equal=TRUE))
+  x$field <- rep(c("t","df","p","conf.int","means","H0","tails","test","data"))
+  stats <- dcast(data=x, iter ~ field, value.var = "htest")
+  stats
+}
+
+compute.manipulation.regression <- function(simulation){
+  # allow for processing of a single simulated dataset generated with simulate()
+  if( !("iter" %in% names(simulation)) ) {
+    simulation$iter <- 1
+  }
+
+  x <- ddply(simulation,"iter",summarise,
+             htest = {
+               m <- lm(confounded.outcome ~ condition)
+               c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
+             })
+  n_anova_params <- 2 # condition + residuals
+  n_lm_params <- 2    # Intercept + condition[manipulation]
+  n_anova_cols <- 5   # df, SS, MSS, F, p
+  n_lm_cols <- 4      # estimate, std. error, t, p
+
+  x$field <- rep( c(rep("estimate",n_lm_params)
+                    ,rep("std.err",n_lm_params)
+                    ,rep("t.val",n_lm_params)
+                    ,rep("p.val",n_lm_params)
+                    ,rep("df",n_anova_params)
+                    ,rep("SS",n_anova_params)
+                    ,rep("MSS",n_anova_params)
+                    ,rep("F.val",n_anova_params)
+                    ,rep("p.val",n_anova_params)
+  ))
+  # first the terms of the LM, then the "terms" of the ANOVA
+  x$term <-  rep( c(
+    rep(c("Intercept","condition[manipulation]"),n_lm_cols),
+    rep(c("condition", "residual"), n_anova_cols)))
+  x$method <- rep( c(rep("lm",n_lm_params*n_lm_cols), rep("anova",n_anova_params*n_anova_cols)) )
+  stats <- dcast(data=x, iter  + term + method ~ field, value.var = "htest")
+  stats.anova <- stats[stats$method=="anova", c("iter","term","df","SS","MSS","F.val","p.val")]
+  stats.lm   <- stats[stats$method=="lm", c("iter","term","estimate","std.err","t.val","p.val")]
+
+  stats <- list(lm=stats.lm,anova=stats.anova)
+  stats
+}
+
+compute.feature.regression <- function(simulation){
+  # allow for processing of a single simulated dataset generated with simulate()
+  if( !("iter" %in% names(simulation)) ) {
+    simulation$iter <- 1
+  }
+
+  x <- ddply(simulation,"iter",summarise,
+             htest = {
+               m <- lm(confounded.outcome ~ feature)
+               c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
+             })
+  n_anova_params <- 2 # feature + residuals
+  n_lm_params <- 2    # Intercept + feature[manipulation]
+  n_anova_cols <- 5   # df, SS, MSS, F, p
+  n_lm_cols <- 4      # estimate, std. error, t, p
+
+  x$field <- rep( c(rep("estimate",n_lm_params)
+                    ,rep("std.err",n_lm_params)
+                    ,rep("t.val",n_lm_params)
+                    ,rep("p.val",n_lm_params)
+                    ,rep("df",n_anova_params)
+                    ,rep("SS",n_anova_params)
+                    ,rep("MSS",n_anova_params)
+                    ,rep("F.val",n_anova_params)
+                    ,rep("p.val",n_anova_params)
+  ))
+  # first the terms of the LM, then the "terms" of the ANOVA
+  x$term <-  rep( c(
+    rep(c("Intercept","feature"),n_lm_cols),
+    rep(c("feature", "residual"), n_anova_cols)))
+  x$method <- rep( c(rep("lm",n_lm_params*n_lm_cols), rep("anova",n_anova_params*n_anova_cols)) )
+  stats <- dcast(data=x, iter  + term + method ~ field, value.var = "htest")
+  stats.anova <- stats[stats$method=="anova", c("iter","term","df","SS","MSS","F.val","p.val")]
+  stats.lm   <- stats[stats$method=="lm", c("iter","term","estimate","std.err","t.val","p.val")]
+
+  stats <- list(lm=stats.lm,anova=stats.anova)
+  stats
+}
+
+compute.multiple.regression <- function(simulation){
+  # allow for processing of a single simulated dataset generated with simulate()
+  if( !("iter" %in% names(simulation)) ) {
+    simulation$iter <- 1
+  }
+
+  x <- ddply(simulation,"iter",summarise,
+             htest = {
+               m <- lm(confounded.outcome ~ condition*feature)
+               c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
+             })
+  n_anova_params <- 4 # condition,feature, condition:feature,residuals
+  n_lm_params <- 4    # Intercept,condition[manipulation],feature, condition[manipulation]:feature
+  n_anova_cols <- 5   # df, SS, MSS, F, p
+  n_lm_cols <- 4      # estimate, std. error, t, p
+
+  x$field <- rep( c(rep("estimate",n_lm_params)
+                    ,rep("std.err",n_lm_params)
+                    ,rep("t.val",n_lm_params)
+                    ,rep("p.val",n_lm_params)
+                    ,rep("df",n_anova_params)
+                    ,rep("SS",n_anova_params)
+                    ,rep("MSS",n_anova_params)
+                    ,rep("F.val",n_anova_params)
+                    ,rep("p.val",n_anova_params)
+  ))
+  # first the terms of the LM, then the "terms" of the ANOVA
+  x$term <-  rep( c(
+    rep(c("Intercept","condition[manipulation]","feature","condition[manipulation]:feature"),n_lm_cols),
+    rep(c("condition", "feature", "condition:feature","residual"), n_anova_cols)))
+  x$method <- rep( c(rep("lm",n_lm_params*n_lm_cols), rep("anova",n_anova_params*n_anova_cols)) )
+  stats <- dcast(data=x, iter  + term + method ~ field, value.var = "htest")
+  stats.anova <- stats[stats$method=="anova", c("iter","term","df","SS","MSS","F.val","p.val")]
+  stats.lm   <- stats[stats$method=="lm", c("iter","term","estimate","std.err","t.val","p.val")]
+
+  stats <- list(lm=stats.lm,anova=stats.anova)
+  stats
+
+}
+
+compute.aggregate.results <- function(feat.test,manip.reg,feat.reg,mult.reg){
+
+  confounds     <- feat.test[,c("iter","p")]
+  features      <- feat.reg$anova[feat.reg$anova$term != "residual",c("iter","term","p.val")]
+  manipulation  <- manip.reg$anova[feat.reg$anova$term != "residual",c("iter","term","p.val")]
+  multiple      <- mult.reg$anova[feat.reg$anova$term != "residual",c("iter","term","p.val")]
+
+  names(confounds) <- c("iter","p.val")
+
+  confounds$test <- "stimulus"
+  features$test <- "feature.regression"
+  manipulation$test <- "manipulation.regression"
+  multiple$test <- "multiple.regression"
+
+  stats <- data.frame(iter=confounds$iter)
+  stats$pretest <- confounds$p.val
+  stats$manipulation.simple <- manipulation$p.val
+  stats$feature.simple <- features$p.val
+  stats$manipulation.multiple <- multiple$p.val[multiple$term == "condition"]
+  stats$feature.multiple <- multiple$p.val[multiple$term == "feature"]
+
+  stats

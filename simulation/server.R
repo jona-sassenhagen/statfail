@@ -46,123 +46,19 @@ shinyServer(function(input, output, session) {
   })
 
   runFeatureStats <- reactive({
-    simulation <- runSimulation()
-    #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
-
-    x <- ddply(simulation,"iter",summarise,htest = t.test(feature ~ condition,var.equal=TRUE))
-    x$field <- rep(c("t","df","p","conf.int","means","H0","tails","test","data"))
-    stats <- dcast(data=x, iter ~ field, value.var = "htest")
-    stats
+    compute.feature.stats( runSimulation() )
   })
 
   runManipulationRegression <- reactive({
-    simulation <- runSimulation()
-    #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
-
-    x <- ddply(simulation,"iter",summarise,
-               htest = {
-                 m <- lm(confounded.outcome ~ condition)
-                 c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
-                 })
-    n_anova_params <- 2 # condition + residuals
-    n_lm_params <- 2    # Intercept + condition[manipulation]
-    n_anova_cols <- 5   # df, SS, MSS, F, p
-    n_lm_cols <- 4      # estimate, std. error, t, p
-
-    x$field <- rep( c(rep("estimate",n_lm_params)
-                      ,rep("std.err",n_lm_params)
-                      ,rep("t.val",n_lm_params)
-                      ,rep("p.val",n_lm_params)
-                      ,rep("df",n_anova_params)
-                      ,rep("SS",n_anova_params)
-                      ,rep("MSS",n_anova_params)
-                      ,rep("F.val",n_anova_params)
-                      ,rep("p.val",n_anova_params)
-                      ))
-    # first the terms of the LM, then the "terms" of the ANOVA
-    x$term <-  rep( c(
-                      rep(c("Intercept","condition[manipulation]"),n_lm_cols),
-                      rep(c("condition", "residual"), n_anova_cols)))
-    x$method <- rep( c(rep("lm",n_lm_params*n_lm_cols), rep("anova",n_anova_params*n_anova_cols)) )
-    stats <- dcast(data=x, iter  + term + method ~ field, value.var = "htest")
-    stats.anova <- stats[stats$method=="anova", c("iter","term","df","SS","MSS","F.val","p.val")]
-    stats.lm   <- stats[stats$method=="lm", c("iter","term","estimate","std.err","t.val","p.val")]
-
-    stats <- list(lm=stats.lm,anova=stats.anova)
-    stats
+    compute.manipulation.regression( runSimulation() )
   })
 
   runFeatureRegression <- reactive({
-    simulation <- runSimulation()
-
-    x <- ddply(simulation,"iter",summarise,
-               htest = {
-                 m <- lm(confounded.outcome ~ feature)
-                 c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
-               })
-    n_anova_params <- 2 # feature + residuals
-    n_lm_params <- 2    # Intercept + feature[manipulation]
-    n_anova_cols <- 5   # df, SS, MSS, F, p
-    n_lm_cols <- 4      # estimate, std. error, t, p
-
-    x$field <- rep( c(rep("estimate",n_lm_params)
-                      ,rep("std.err",n_lm_params)
-                      ,rep("t.val",n_lm_params)
-                      ,rep("p.val",n_lm_params)
-                      ,rep("df",n_anova_params)
-                      ,rep("SS",n_anova_params)
-                      ,rep("MSS",n_anova_params)
-                      ,rep("F.val",n_anova_params)
-                      ,rep("p.val",n_anova_params)
-    ))
-    # first the terms of the LM, then the "terms" of the ANOVA
-    x$term <-  rep( c(
-      rep(c("Intercept","feature"),n_lm_cols),
-      rep(c("feature", "residual"), n_anova_cols)))
-    x$method <- rep( c(rep("lm",n_lm_params*n_lm_cols), rep("anova",n_anova_params*n_anova_cols)) )
-    stats <- dcast(data=x, iter  + term + method ~ field, value.var = "htest")
-    stats.anova <- stats[stats$method=="anova", c("iter","term","df","SS","MSS","F.val","p.val")]
-    stats.lm   <- stats[stats$method=="lm", c("iter","term","estimate","std.err","t.val","p.val")]
-
-    stats <- list(lm=stats.lm,anova=stats.anova)
-    stats
+    compute.feature.regression( runSimulation() )
   })
 
   runMultipleRegression <- reactive({
-    simulation <- runSimulation()
-    #simulation <- resimulate(n=3,manipulation.effect.size=2,confound.feature.size=1,confound.feature.effect.correlation=1,n.items=20)
-
-    x <- ddply(simulation,"iter",summarise,
-               htest = {
-                 m <- lm(confounded.outcome ~ condition*feature)
-                 c(as.list(summary(m)$coefficients),as.matrix(anova(m)))
-               })
-    n_anova_params <- 4 # condition,feature, condition:feature,residuals
-    n_lm_params <- 4    # Intercept,condition[manipulation],feature, condition[manipulation]:feature
-    n_anova_cols <- 5   # df, SS, MSS, F, p
-    n_lm_cols <- 4      # estimate, std. error, t, p
-
-    x$field <- rep( c(rep("estimate",n_lm_params)
-                      ,rep("std.err",n_lm_params)
-                      ,rep("t.val",n_lm_params)
-                      ,rep("p.val",n_lm_params)
-                      ,rep("df",n_anova_params)
-                      ,rep("SS",n_anova_params)
-                      ,rep("MSS",n_anova_params)
-                      ,rep("F.val",n_anova_params)
-                      ,rep("p.val",n_anova_params)
-    ))
-    # first the terms of the LM, then the "terms" of the ANOVA
-    x$term <-  rep( c(
-      rep(c("Intercept","condition[manipulation]","feature","condition[manipulation]:feature"),n_lm_cols),
-      rep(c("condition", "feature", "condition:feature","residual"), n_anova_cols)))
-    x$method <- rep( c(rep("lm",n_lm_params*n_lm_cols), rep("anova",n_anova_params*n_anova_cols)) )
-    stats <- dcast(data=x, iter  + term + method ~ field, value.var = "htest")
-    stats.anova <- stats[stats$method=="anova", c("iter","term","df","SS","MSS","F.val","p.val")]
-    stats.lm   <- stats[stats$method=="lm", c("iter","term","estimate","std.err","t.val","p.val")]
-
-    stats <- list(lm=stats.lm,anova=stats.anova)
-    stats
+    compute.multiple.regression( runSimulation() )
   })
 
   output$which.sim <- renderUI({
@@ -375,7 +271,7 @@ shinyServer(function(input, output, session) {
       text <- paste0(text,"<li>The pretest accepted your manipulation as <b>not</b> confounded. ")
 
       if(cmp$feature.multiple){
-        text <- paste0(text,"<li>However, in the multiple regression, the confounding feature did significance! ")
+        text <- paste0(text,"<li>However, in the multiple regression, the confounding feature did reach significance! ")
       }else{
         text <- paste0(text,"<li>This was matched by the confounding feature failing to achieve significance in the multiple regression. ")
       }
@@ -393,32 +289,8 @@ shinyServer(function(input, output, session) {
   })
 
   runAggregateResults <- reactive({
-    feat.test <- runFeatureStats()
-
-    feat.reg <- runFeatureRegression()
-    manip.reg <- runManipulationRegression()
-    mult.reg <- runMultipleRegression()
-
-    confounds     <- feat.test[,c("iter","p")]
-    features      <- feat.reg$anova[feat.reg$anova$term != "residual",c("iter","term","p.val")]
-    manipulation  <- manip.reg$anova[feat.reg$anova$term != "residual",c("iter","term","p.val")]
-    multiple      <- mult.reg$anova[feat.reg$anova$term != "residual",c("iter","term","p.val")]
-
-    names(confounds) <- c("iter","p.val")
-
-    confounds$test <- "stimulus"
-    features$test <- "feature.regression"
-    manipulation$test <- "manipulation.regression"
-    multiple$test <- "multiple.regression"
-
-    stats <- data.frame(iter=confounds$iter)
-    stats$pretest <- confounds$p.val
-    stats$manipulation.simple <- manipulation$p.val
-    stats$feature.simple <- features$p.val
-    stats$manipulation.multiple <- multiple$p.val[multiple$term == "condition"]
-    stats$feature.multiple <- multiple$p.val[multiple$term == "feature"]
-
-    stats
+    compute.aggregate.results(runFeatureStats(), runManipulationRegression(),
+                              runFeatureRegression(), runMultipleRegression())
   })
 
   output$tbl.aggregate.results <- renderTable({

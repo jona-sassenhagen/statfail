@@ -39,12 +39,6 @@ shinyUI(fluidPage(
                    max = 5,
                    value = 1.0,
                    step = 0.1)
-       # ,sliderInput("confound.effect.size",
-       #              "Difference in outcome variable due to confound (Cohen's \\(d\\))",
-       #              min = -10,
-       #              max = 10,
-       #              value = 1,
-       #              round = -1)
        ,sliderInput("confound.feature.effect.correlation",
                     "Impact of confounding feature (correlation between measured confounding feature and outcome variable)",
                     min = -1,
