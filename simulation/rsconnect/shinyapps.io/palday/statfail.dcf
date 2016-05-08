@@ -1,0 +1,10 @@
+name: statfail
+account: palday
+server: shinyapps.io
+appId: 100631
+bundleId: 444747
+url: https://palday.shinyapps.io/statfail/
+when: 1462694008.80428
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: statfail.Rmd
