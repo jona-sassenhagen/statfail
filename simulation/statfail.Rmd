@@ -1,0 +1,215 @@
+---
+title: 'Inference failure: Confound and control in BBS experiments'
+author: "Phillip M. Alday"
+date: "May  2016"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    code_folding: hide
+    self_contained: TRUE
+    highlight: textmate
+params:
+  n: 500
+  use_plotly: FALSE
+---
+
+# Read the paper
+Sassenhagen, Jona and Phillip M. Alday (under review): A common misapplication of statistical inference: nuisance control with null-hypothesis significance tests. Brain & Language. [arXiv preprint](http://arxiv.org/abs/1602.04565). [Repository](https://github.com/jona-sassenhagen/statfail/). 
+
+The title will probably change in the near feature, as some of our initial reviewer feedback has been some very helpful terminological suggestions.
+
+Another Python-based simulation will soon be made available on Binder, but the preliminary code is already in the GitHub repository.
+
+A Shiny app that allows you to more closely individual simulated experiments for a given set of simulation parameters is available in the GitHub repository. This will be posted on [shinyapps.io](https://www.shinyapps.io/) as soon as we RStudio updates their server version of R or we have a chance to install and test an extra, older version of R.
+
+
+# Simulation
+Here, we repeat the simulation in the Shiny app, but iterate over different possibilities for
+
+1. **manipulation effect size:** the effect size from the manipulation of interest
+2. **confound feature size:** the measured size of the confounding feature
+3. **confound feature-effect correlation:**the correlation between that measured size the and the effect size of the feature
+
+The last two emphasize a subtle point -- one of the many problems with doing inferential tests on group attributes (e.g. word frequency vs. condition in language studies) is that you're testing the difference in the feature and not the impact of that (difference in the) feature on the outcome. 
+In other words, you're assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is a fairly strong assumption.
+
+## Setup
+
+```{r setup, include=FALSE}
+set.seed(42) # use a fixed random seed for reproducability
+
+# use some parallel magic to speed things long
+library(parallel)
+options(mc.cores=2)
+library(doMC)
+library(foreach)
+registerDoMC(2)
+
+library(reshape2)
+library(plyr)
+library(ggplot2)
+# if plotly isn't loaded, then just pass through ggplot's output
+if(params$use_plotly){ 
+  library(plotly) 
+}else{
+  ggplotly <- function(x) x
+}
+# this is the meat of the simulation
+source("statfail.R")
+```
+
+The difficult part of the simulation is performed by `statfail.R`, which is shared with the Shiny app.
+Both the source code and an explanation of the general principles (`simulation_notes.md`) are available in the GitHub repository.
+Here, we only need to iterate over a few possibilities for the manipulation effect size, confound feature size and confound feature-effect correlation.
+The number of simulated experiments is held constant for all combinations of these (set via the document parameter `n`, which had the value `r params$n` when this document was generated).
+Increasing this value will of course help detect rare phenomena, but will drastically increase time and memory needed.
+
+```{r simulate, cache = TRUE,message=FALSE,dependson=params}
+results <- data.frame()
+for(mes in seq(0,2,by=0.5)){
+  for(cfs in seq(0,2,by=0.5)){
+    for(cfec in c(0, 0.1, 0.3, 0.5, 0.8, 1)){  
+      input <- list(n.sims=params$n,
+                manipulation.effect.size=mes,               # in Cohen's d
+                confound.feature.size=cfs,                  # in Cohen's d
+                confound.feature.effect.correlation = cfec, # Pearson
+                n.items=20)
+      simulation <- resimulate(n=input$n.sims
+                      ,manipulation.effect.size=input$manipulation.effect.size
+                      ,confound.feature.size=input$confound.feature.size
+                      ,confound.feature.effect.correlation=input$confound.feature.effect.correlation
+                      ,n.items=input$n.item
+                      ,lapply.fnc=mclapply)
+      
+      pretest <- compute.feature.stats(simulation,.parallel=TRUE)
+      manipulation <- compute.manipulation.regression(simulation,.parallel=TRUE)
+      feature <- compute.feature.regression(simulation,.parallel=TRUE)
+      multiple <- compute.multiple.regression(simulation,.parallel=TRUE)
+      
+      r <- compute.aggregate.results(pretest,manipulation,feature,multiple)
+      cmp <- mclapply(r,function(x) x < 0.05)
+      cmp <- as.data.frame(cmp)
+      
+      ## the rejections based on the pretest
+      rejections <- sum(cmp$pretest) / input$n.sims
+      manipulation_still_significant <- sum(with(subset(cmp,pretest), manipulation.multiple)) / input$n.sims
+      feature_has_no_effect <- sum(with(subset(cmp,pretest), !feature.simple)) / input$n.sims
+      feature_irrelevant_in_multiple <- sum(with(subset(cmp,pretest), !feature.multiple)) / input$n.sims
+
+      ## the acceptances based on the pretest
+      not_rejected <- (input$n.sims - rejections) / input$n.sims
+      feature_relevant_in_multiple <- sum(with(subset(cmp,!pretest), feature.multiple)) / input$n.sims
+      manipulation_only_in_simple <-  sum(with(subset(cmp,!pretest), manipulation.simple & !manipulation.multiple)) / input$n.sims
+      
+      rsum <- data.frame(rejections
+                         ,manipulation_still_significant
+                         ,feature_has_no_effect
+                         ,feature_irrelevant_in_multiple
+                         ,not_rejected
+                         ,feature_relevant_in_multiple
+                         ,manipulation_only_in_simple
+                         ,mes,cfs,cfec)
+    
+      results <- rbind(results, rsum)
+    }
+  }
+}
+
+# Convert the data to long format for easy plotting
+rejections <- melt(results
+                   ,id.vars=c("mes","cfs","cfec")
+                   ,measure.vars=c("rejections"
+                                   ,"manipulation_still_significant" 
+                                   ,"feature_has_no_effect"
+                                   ,"feature_irrelevant_in_multiple")
+                   ,variable.name="type"
+                   ,value.name = "percent.studies")
+rejections$result <- "reject"
+
+acceptances <- melt(results
+                    ,id.vars=c("mes","cfs","cfec")
+                    ,measure.vars=c("not_rejected"
+                                    ,"feature_relevant_in_multiple"
+                                    ,"manipulation_only_in_simple")
+                    ,variable.name="type"
+                    ,value.name = "percent.studies")
+acceptances$result <- "accept"
+
+results.long <- join(rejections,acceptances,type="full")
+results.long$percent.studies <- results.long$percent.studies * 100
+```
+
+
+## Generate graphics
+```{r generate.graphics, dependson='simulate',cache=TRUE,message=FALSE}
+# prettier names for the legend
+results.long$type <-factor(results.long$type
+                           ,levels=c("rejections"
+                                     ,"manipulation_still_significant"
+                                     ,"feature_has_no_effect"
+                                     ,"feature_irrelevant_in_multiple"
+                                     ,"not_rejected"
+                                     ,"feature_relevant_in_multiple"
+                                     ,"manipulation_only_in_simple")
+                           ,labels = c("rejected"
+                                       ,"but significant manipulation missed"
+                                       ,"when feature was not significant in simple regression"
+                                       ,"when feature was not significant in multiple regression"
+                                       ,"accepted"
+                                       ,"but feature still had an effect in multiple regression",
+                                       "and the manipulation was only significant in simple regression"))
+
+# This uses the deprecated labeller API for ggplot.
+facet_labeller <- function(variable,value){
+  lbl <- NULL
+  if (variable=='cfs') {
+    lbl <- paste("Feature:",value)
+  }else if (variable == 'mes') {
+    lbl <- paste("Manipulation:",value)
+  }else if (variable == 'cfec') {
+    lbl <- paste("Feature-size/effect correlation:",value)
+  } else {
+    lbl <- as.character(value)
+  }
+}
+
+# generate the graphic for rejections
+gg.reject <- ggplot(subset(results.long,result=="reject"),aes(color=type,x=cfec,y=percent.studies)) +
+  geom_line(stat="identity") + 
+  facet_grid(cfs ~ mes,labeller = facet_labeller) + 
+  xlab("Correlation of feature as measured and effect of feature on outcome") + 
+  ylab("Percent of simulated studies") + 
+  theme(legend.position="top") + #coord_fixed(ratio=1/100) +
+  guides(color=guide_legend(title="Result based on inferential pretesting of measured feature",
+                            title.position="top",
+                            nrow=2))
+
+# generate the same graphic for acceptances
+gg.accept <- gg.reject %+% subset(results.long,result=="accept")
+
+```
+
+# Results  {.tabset .tabset-fade .tabset-pills}
+The results in the following are whether or not a particular experimental manipulation was "allowed", i.e. accepted or rejected, based on inferential testing on the difference in confounding feature between experimental groups. 
+
+- *Manipulation* is the effect size in Cohen's $d$ from the experimental manipulation.
+- *Feature* is the difference in Cohen's $d$ of the confounding feature between groups (again **not** its effect).
+
+## Rejections
+* Rejections where the significant manipulation was missed are an example of throwing the baby out with the bathwater.
+* Rejections where the confounding feature was not a significant predictor in simple or multiple regression are arguably rejections where there is no effect of the feature.
+
+```{r reject, echo=FALSE, fig.align="center", cache=FALSE}
+ggplotly(gg.reject)
+```
+
+## Acceptances
+* Acceptances where the feature still had an effect in multiple rejection are failed detections of a real confounding effect.
+* Acceptances where the manipulation was only significant in simple regression are failed detections of a real confounding effect *that completes subsumes the manipulation effect*.
+
+```{r accept, echo=FALSE, fig.align="center", cache=FALSE}
+ggplotly(gg.accept)
+```
+
+
