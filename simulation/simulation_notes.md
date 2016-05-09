@@ -33,12 +33,14 @@ The actual impact of the confounding feature is determined by the difference in 
 For this, we start with a "seed" vector (the feature variable for a given group) and a randomly "noise" vector (unit scale centered at 0) and [use the geometric interpretation of correlation to compute a new vector](http://stats.stackexchange.com/a/15040/26743) that has the necessary correlation with the seed vector.
 The output is thus the confounding effect of the feature on the outcome variable.
 This confounding effect is added to the outcome variable to produce the confounded outcome. 
+In other words, the confounding effect is **additive**, i.e.**does not interact** with the manipulation variable.
 
 In the case of zero correlation, this procedure essentially just adds noise to the outcome variable, i.e. the same thing as controlling for the wrong variable in an experimental setting.
 In the case of perfect correlation, this procedure just uses the feature variable vector as the confound (multiplied by -1 in the case of negative correlation), which is an idealized case of perfect correlation that avoids some numerical issues.
 
 # Statistical testing
 Statistical testing is performed via 
+
 1. $t$-tests
   a. either two-tailed independent (without the Welsh correction, as the true variance of each group is equal)  or
   b. Wald tests on the coefficients in a linear model
