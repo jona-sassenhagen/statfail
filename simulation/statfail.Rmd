@@ -31,7 +31,7 @@ Here, we repeat the simulation in the Shiny app, but iterate over different poss
 
 1. **manipulation effect size:** the effect size from the manipulation of interest
 2. **confound feature size:** the measured size of the confounding feature
-3. **confound feature-effect correlation:**the correlation between that measured size the and the effect size of the feature
+3. **confound feature-effect correlation:** the correlation between that measured size the and the effect size of the feature
 
 The last two emphasize a subtle point -- one of the many problems with doing inferential tests on group attributes (e.g. word frequency vs. condition in language studies) is that you're testing the difference in the feature and not the impact of that (difference in the) feature on the outcome. 
 In other words, you're assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is a fairly strong assumption.
