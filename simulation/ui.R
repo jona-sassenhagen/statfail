@@ -25,6 +25,7 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("Inference failure: Confound and control in BBS experiments"),
   withMathJax(),
+  HTML("<i>If you're going to do lots of computations, please run the app locally so that server time remains available for others.</i>"),
 
   # Sidebar with a slider input for number of bins
   sidebarLayout(

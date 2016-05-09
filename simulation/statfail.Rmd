@@ -22,7 +22,8 @@ The title will probably change in the near feature, as some of our initial revie
 
 Another Python-based simulation will soon be made available on Binder, but the preliminary code is already in the GitHub repository.
 
-A Shiny app that allows you to more closely individual simulated experiments for a given set of simulation parameters is available in the GitHub repository. This will be posted on [shinyapps.io](https://www.shinyapps.io/) as soon as we RStudio updates their server version of R or we have a chance to install and test an extra, older version of R.
+A Shiny app that allows you to more closely individual simulated experiments for a given set of simulation parameters is available in the GitHub repository and on [shinyapps.io](https://palday.shinyapps.io/statfail/).
+If you're going to do lots of computations, please run the app locally so that server time remains available for others.
 
 
 # Simulation

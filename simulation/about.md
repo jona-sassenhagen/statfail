@@ -6,7 +6,7 @@ The title will probably change in the near feature, as some of our initial revie
 
 Another Python-based simulation will soon be made available on Binder, but the preliminary code is already in the GitHub repository.
 
-A more comprehensive aggregrate, static simulation showing the effects across many settings of the simulation parameters simultaneously will be made available on RPubs in the near future. 
+A more comprehensive aggregrate, static simulation showing the effects across many settings of the simulation parameters simultaneously is available on [RPubs](http://rpubs.com/palday/statfail).
 
 # Copyright
 Shiny app, including R code and accompanying Markdown text, is copyright 2016, Phillip M. Alday.
