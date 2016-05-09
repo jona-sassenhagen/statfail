@@ -221,7 +221,7 @@ shinyServer(function(input, output, session) {
 
     stats.lm
 
-  },include.rownames=TRUE,digits=c(0,2,2,2,2),display=c("s","s","g","f","g"))
+  },include.rownames=TRUE,digits=c(0,2,2,2,2),display=c("s","g","g","f","g"))
 
   output$multiple.regression.sigs <- renderTable({
     stats <- runMultipleRegression()
