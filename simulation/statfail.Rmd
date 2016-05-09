@@ -12,6 +12,7 @@ output:
 params:
   n: 500
   use_plotly: FALSE
+  cores: 2
 ---
 
 # Read the paper
@@ -41,10 +42,10 @@ set.seed(42) # use a fixed random seed for reproducability
 
 # use some parallel magic to speed things long
 library(parallel)
-options(mc.cores=2)
+options(mc.cores=params$cores)
 library(doMC)
 library(foreach)
-registerDoMC(2)
+registerDoMC(params$cores)
 
 library(reshape2)
 library(plyr)
