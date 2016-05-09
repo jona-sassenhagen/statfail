@@ -100,7 +100,7 @@ for(mes in seq(0,2,by=0.5)){
       feature_irrelevant_in_multiple <- sum(with(subset(cmp,pretest), !feature.multiple)) / input$n.sims
 
       ## the acceptances based on the pretest
-      not_rejected <- (input$n.sims - rejections) / input$n.sims
+      not_rejected <-  sum(!cmp$pretest) / input$n.sims
       feature_relevant_in_multiple <- sum(with(subset(cmp,!pretest), feature.multiple)) / input$n.sims
       manipulation_only_in_simple <-  sum(with(subset(cmp,!pretest), manipulation.simple & !manipulation.multiple)) / input$n.sims
       
