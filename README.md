@@ -17,7 +17,7 @@ if(!require(shiny)){
   install.packages("shiny")
   library(shiny)
 }
-runGitHub("statfail",username="jona-sassenhagen",ref="shiny",subdir="simulation")
+runGitHub("statfail",username="jona-sassenhagen",ref="master",subdir="simulation")
 ```
 
 ## Try it out slow on shinyapps.io
