@@ -17,6 +17,8 @@
 
 library(shiny)
 library(plotly)
+# add this so that the includeMarkdown() stuff works on shinyapps.io
+library(rmarkdown)
 
 shinyUI(fluidPage(
 

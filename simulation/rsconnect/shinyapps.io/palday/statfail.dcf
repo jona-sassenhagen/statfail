@@ -2,9 +2,9 @@ name: statfail
 account: palday
 server: shinyapps.io
 appId: 100631
-bundleId: 444747
+bundleId: 445225
 url: https://palday.shinyapps.io/statfail/
-when: 1462694008.80428
+when: 1462754966.78176
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: statfail.Rmd
+ignoredFiles: statfail.Rmd|statfail_cache/html/__packages|statfail_cache/html/generate.graphics_d5834f348b12bf706336fd87234fa143.RData|statfail_cache/html/generate.graphics_d5834f348b12bf706336fd87234fa143.rdb|statfail_cache/html/generate.graphics_d5834f348b12bf706336fd87234fa143.rdx|statfail_cache/html/simulate_32a7e7cc0e932cb190d54f387f5a6aff.RData|statfail_cache/html/simulate_32a7e7cc0e932cb190d54f387f5a6aff.rdb|statfail_cache/html/simulate_32a7e7cc0e932cb190d54f387f5a6aff.rdx|statfail_files/figure-html/accept-1.png|statfail_files/figure-html/reject-1.png
