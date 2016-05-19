@@ -5,7 +5,7 @@ Beyond their overall encouragement, they have identified terminological and conc
 We note the reviewers were largely in agreement with regards to their overall evaluation and particular criticisms.
 We have found it straight-forward to include all of their advice, and think this has greatly improved the manuscript.
 
-In particular, reviewer #1 has pointed out that we employed the term parameter not only in the sense of e.g. a population parameter with which inference is concerned, but also incorrectly to refer to factors ("nuisance parameter").
+In particular, reviewer #1 has pointed out that we employed the term parameter not only in the sense of e.g. a population parameter with which inference is concerned, but also incorrectly to refer to (confounding) covariates ("nuisance parameter").
 In the reworked version of the manuscript, the term parameter is only employed in the sense of a population parameter to be estimated.
 We have also corrected the other confusingly written or wrong uses of statistical terminology and concepts, such as those concerning variance in parameter estimation via multiple regression (which reviewer #2 has also pointed out).
 

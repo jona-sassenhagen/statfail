@@ -24,13 +24,13 @@ Methods sections in many issues of *Brain & Language* and similar journals featu
 > Controls and aphasics did not differ in age ($p$ > 0.05).
 
 In the following, we discuss the inappropriateness of this practice.
-A common problem in brain and behavioral research, where the experimenter cannot freely determine every stimulus and participant characteristic, is the control of confounding/nuisance control.
+A common problem in brain and behavioral research, where the experimenter cannot freely determine every stimulus and participant characteristic, is the control of confounding/nuisance variables.
 This is especially common in studies of language.
 Typically, word stimuli cannot be constructed out of whole cloth, but must be chosen from existing words (which differ in many aspects).
 Stimuli are processed by subjects in the context of a rich vocabulary; and subject populations have usually been exposed to very diverse environments and events in their acquisition of language.
 A similar problem exists, for example, when comparing controls to specific populations, such as bilingual individuals or slow readers.
-The basic problem researchers are faced with is then to prevent reporting e.g. an effect of word length, or bilingualism, when the effect truly stems from differences in word frequency, or socioeconomic status, which may be correlated with the factor of interest.
-A prevalent method we find in the literature, namely inferential null hypothesis significance testing/NHST of stimuli, fails to perform the necessary control.
+The basic problem researchers are faced with is then to prevent reporting e.g. an effect of word length, or bilingualism, when the effect truly stems from differences in word frequency, or socioeconomic status, which may be correlated with the variable of interest.
+A prevalent method we find in the literature, namely inferential null hypothesis significance testing (NHST) of stimuli, fails to perform the necessary control.
 
 ## NHST and nuisance control
 Often, researchers will attempt to demonstrate that stimuli or participants are selected so as to concentrate their differences on the factor of interest, i.e. reduce confounds, by conducting null-hypothesis testing such as $t$-tests or ANOVA on the potential confound in addition or even instead of showing descriptive statistics in the form of measures of location and scale.
@@ -58,7 +58,7 @@ In typical contexts (e.g. setting the Type I rate to the conventional 5% level),
 Especially with small samples (e.g., 10 subjects per group, or 20 items per condition), the probability of detecting moderate confound effects is thus low -- even if there are substantial differences, tests will not reject the null hypothesis, and stimulus sets might be accepted as being balanced based on a test with a low probability of rejecting even moderately imbalanced samples of such a size.
 
 In other words, these tests are incapable of actually informing us about the influence of potential confounds, but may give researchers a false sense of security.
-This inferential stage offers no benefit beyond examining the descriptive measures of location and scale (e.g. mean and variance) and determining if the stimuli groups are "similar enough".
+This inferential stage offers no benefit beyond examining the descriptive measures of location and scale (e.g. mean and standard deviation) and determining if the stimuli groups are "similar enough".
 For perceptual experiments, there may even be established discrimination thresholds below which the differences are considered indistinguishable.
 The preferred solution is directly examining to what extent these potential confounds have an influence on the results, such as by including these confounds in the statistical model.
 This is often readily implemented via multiple regression, particularly "mixed-effect" approaches [@gelman.hill:2006;@fox:2016].
@@ -89,6 +89,17 @@ To estimate how common the problem is in neurolinguistics, a high-quality neurol
 In total, 86 articles were found where researchers reported known quantities (e.g. perfectly measurable characteristics of a fixed set of stimuli) in their stimulus/materials section, and 58 (**67%**) of these reported inferential statistics of these known values.
 Of these, 47 (**81%**) "accepted" the null hypothesis (i.e., implicitly assumed that stimuli or subjects were matched following a nonsignificant test).
 We conclude that in a large fraction of those cases where researchers published in *B&L* are concerned about confounds of subject groups or experimental stimuli, they conduct inappropriate tests and misinterpret the results of these tests in a potentially misleading manner.
+
+# Simulation 
+In addition to our survey of the literature, we also performed a simulation examining the interaction between effect size of the experimental manipulation, difference in confounding feature between groups, and the correlation between this difference and effect of the confounding feature.
+<!--The first two 
+
+
+The feature variable is **not** the effect of the feature, but rather the difference in the raw measured feature. 
+For example, the difference in word frequency between stimuli groups is not equal to the difference in reaction time, EEG response, etc. between stimuli groups in language experiments. For that we, need the strength of the correlation between the difference in feature variable and the difference in outcome variable.
+
+The last two emphasize a subtle point -- one of the many problems with doing inferential tests on group attributes (e.g. word frequency vs. condition in language studies) is that you're testing the difference in the feature and not the impact of that (difference in the) feature on the outcome. 
+In other words, you're assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is a fairly strong assumption.-->
 
 # Discussion and recommendation
 In sum, NHST control of nuisance factors is prevalent and inappropriate, based on a flawed application of statistics to an irrelevant hypothesis.
