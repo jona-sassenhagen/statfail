@@ -110,36 +110,36 @@ In particular, we find that when the correlation between feature size and featur
 ![Simulation results for acceptances. The difference in feature size and the effect size of the manipulation are given in Cohen's $d$. The feature size is not the size of its effect, but rather the measured difference in the feature itself. The impact of the feature is determined by the correlation between its measured size and effect size. Acceptances where the feature still had an effect in multiple rejection are failed detections of a real confounding effect. Acceptances where the manipulation was only significant in simple regression are failed detections of a real confounding effect that completely subsumes the manipulation effect.](sim-accept.pdf)
 
 # Discussion and recommendation
-In sum, NHST control of nuisance factors is prevalent and inappropriate, based on a flawed application of statistics to an irrelevant hypothesis.
+In sum, NHST control of nuisance variables is prevalent and inappropriate, based on a flawed application of statistics to an irrelevant hypothesis.
 Proper nuisance control (of known and measurable variables) is not complex, although it can require more effort and computer time.
 
 Researchers should still use descriptive statistics to demonstrate the success of balancing.
 That is, quantifying e.g. differences between stimuli via variances, raw means and standardized means (Cohen's *d*), and correlation coefficients, which many researchers already often do, can be highly informative, and should be routinely done.
-For more complex designs, cross correlation matrices can visualize the degree of confounding.
+For more complex designs, cross-correlation matrices can visualize the degree of confounding.
 In contrast, $p$ values from statistical tests on the stimulus properties offer no reliable, objective guideline.
 
 To directly and objectively estimate the influence of a set of stimuli on the dependent variables of interest, researchers can include confounds in their statistical model for the data.
 For traditional $t$-tests, ANOVAs and regression models, this corresponds to using multiple regression with the confounds as additional nuisance factors (including continuous factors).
-In multiple regression, all parameters are jointly estimated, and assuming the model is correct (includes all relevant factors) and the included factors are reliably measured [@westfall2016], these estimates are unbiased.
-Thus, a condition effect estimated by a model also containing nuisance factors corresponds to the effect of condition while accounting for nuisance influence.
-Importantly, to prevent $p$-value "fishing", the choice of selecting covariates to include must be made on principled grounds, and either a priori, or via unbiased model selection procedures.
+In multiple regression, all parameters are jointly estimated, and assuming the model is correct (includes all relevant variables) and the included variables are reliably measured [@westfall2016], these estimates are unbiased.^[More precisely, the ordinary least-squares procedure is, under the usual assumption of homoskedastic errors with mean zero, the best linear unbiased estimator (BLUE) of the model coefficients.]
+Thus, a manipulation effect estimated by a model also containing nuisance factors corresponds to the effect of manipulation while accounting for nuisance influence.
+Importantly, to prevent $p$-value "fishing", the choice of selecting covariates to include must be made on principled grounds, either *a priori* or via unbiased model selection procedures.
 
 Hierarchical/multilevel modeling [a.k.a mixed-effects modeling; see also @pinheirobates2000a;@gelman.hill:2006; @fox:2016] provides the necessary extension to the regression procedure for repeated-measures designs.
-Multilevel regression models such as *lme4* [@bates.maechler.etal:2015] have the additional advantage of accounting for the combined variance of subjects and items in one model [@clark1973a; @baayendavidsonbates2008a; @judd.westfall.etal:2012pp] and automatically provide a summary of correlation between effects
+Multilevel regression models (computed with e.g *lme4* [@bates.maechler.etal:2015]) have the additional advantage of accounting for the combined variance of subjects and items in one model [@clark1973a; @baayendavidsonbates2008a; @judd.westfall.etal:2012pp] and automatically provide a summary of correlation between effects.
 
 One problem in this context is that these stimulus confounds are often correlated with one another, the dependent variables, and the independent variables of interest (e.g., word frequency and word length correlate).
-Under multicollinearity, parameter estimates have inflated variance due to.
+Under multicollinearity, standard errors may be inflated.
 The main technique for dealing with collinearity is one that researchers traditionally already employ: attempting to balance stimulus/subject selection so that differences in confounds are minimised, e.g. via matching or blocking.
 That is, matching should generally still be performed in addition to multivariate estimation.
-However, often, they can not be entirely abolished, and significant correlations remain.
-Effective parameter estimation in complex regression models requires more data, as power is lost with each additional parameter being estimated.
+
+Finally, effective parameter estimation in complex regression models requires more data, as power is lost with each additional parameter being estimated.
 We view this as a good thing because studies in the brain and behavioral sciences are chronically underpowered [@buttonioannidismokrysz2013a].
 
 Thus, our recommendations for nuisance control are:
 
 * attempt to match nuisance factors to a reasonable degree
 * use descriptive, but not inferential statistics to guide stimulus selection
-* add reliable confounding factors as covariates into the final data analysis process
+* add potentially confounding factors as covariates into the final data analysis process
 * use larger samples to provide adequate power
 
 Each step in this list is (hopefully) uncontroversial and helpful, unlike null-hypothesis testing of stimulus balance.
