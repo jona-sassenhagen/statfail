@@ -91,15 +91,23 @@ Of these, 47 (**81%**) "accepted" the null hypothesis (i.e., implicitly assumed 
 We conclude that in a large fraction of those cases where researchers published in *B&L* are concerned about confounds of subject groups or experimental stimuli, they conduct inappropriate tests and misinterpret the results of these tests in a potentially misleading manner.
 
 # Simulation 
-In addition to our survey of the literature, we also performed a simulation examining the interaction between effect size of the experimental manipulation, difference in confounding feature between groups, and the correlation between this difference and effect of the confounding feature.
-<!--The first two 
+In addition to our survey of the literature, we also performed a simulation to examine the impact of inferential tests on confounding variables.
+In our simulation, we examined the role of:
 
+1. **manipulation effect size:** the effect size from the manipulation of interest
+2. **confound feature size:** the measured size of the confounding feature
+3. **confound feature-effect correlation:** the correlation between that measured size the and the effect size of the feature
 
-The feature variable is **not** the effect of the feature, but rather the difference in the raw measured feature. 
-For example, the difference in word frequency between stimuli groups is not equal to the difference in reaction time, EEG response, etc. between stimuli groups in language experiments. For that we, need the strength of the correlation between the difference in feature variable and the difference in outcome variable.
+The last two emphasize the pragmatic problem the procedure:  inferential tests on group attributes (e.g. word frequency vs. condition in language studies) examine difference in the feature and not the impact of that (difference in the) feature on the outcome. 
+In our simulation, this is equivalent to assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is a fairly strong assumption.
 
-The last two emphasize a subtle point -- one of the many problems with doing inferential tests on group attributes (e.g. word frequency vs. condition in language studies) is that you're testing the difference in the feature and not the impact of that (difference in the) feature on the outcome. 
-In other words, you're assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is a fairly strong assumption.-->
+The results of this simulation for several statice values of the above factors are available online on [RPubs](http://rpubs.com/palday/statfail), while an interactive version is available online at [ShinyApps](https://palday.shinyapps.io/statfail/). All source code (in R) is available on [GitHub](https://github.com/jona-sassenhagen/statfail), including the ability to run the simulation on a local computer. 
+
+In particular, we find that when the correlation between feature size and feature effect is not perfect, testing covariates can lead to false rejections of manipulations as "confounded" in 50% or more of studies for even large effects (20 items each for 2 groups, Cohen's $d = 2$ for manipulation, Pearson's $r = 0.75$ between feature and its effect; rejection rate > 60% for Cohen's $d = 1$ for feature attribute, rejetion rate = 75% for Cohen's $d = 2$ for feature attribute), *even when the confounding covariate was not significant in multiple regression*.
+
+![Simulation results for rejections. The difference in feature size and the effect size of the manipulation are given in Cohen's $d$. The feature size is not the size of its effect, but rather the measured difference in the feature itself. The impact of the feature is determined by the correlation between its measured size and effect size. Rejections where the significant manipulation was missed are an example of throwing the baby out with the bathwater. Rejections where the confounding feature was not a significant predictor in simple or multiple regression are arguably rejections where there is no effect of the feature.](sim-reject.pdf)
+
+![Simulation results for acceptances. The difference in feature size and the effect size of the manipulation are given in Cohen's $d$. The feature size is not the size of its effect, but rather the measured difference in the feature itself. The impact of the feature is determined by the correlation between its measured size and effect size. Acceptances where the feature still had an effect in multiple rejection are failed detections of a real confounding effect. Acceptances where the manipulation was only significant in simple regression are failed detections of a real confounding effect that completely subsumes the manipulation effect.](sim-accept.pdf)
 
 # Discussion and recommendation
 In sum, NHST control of nuisance factors is prevalent and inappropriate, based on a flawed application of statistics to an irrelevant hypothesis.
