@@ -5,7 +5,7 @@ author:
     - Phillip M. Alday
 date: May 2016
 abstract: |
-    Much experimental research on behavior and cognition rests on stimulus or subject selection where not all characteristics can be fully controlled, even when attempting strict matching.
+    Experimental research on behavior and cognition frequently rests on stimulus or subject selection where not all characteristics can be fully controlled, even when attempting strict matching.
     For example, when contrasting patients to controls, factors such as intelligence or socioeconomic status are often correlated with patient status.
     Similarly, when presenting word stimuli, factors such as word frequency are often correlated with primary factors of interest.
     One procedure very commonly employed to control for such nuisance effects is conducting inferential tests on confounding stimulus or subject characteristics.
@@ -33,9 +33,9 @@ The basic problem researchers are faced with is then to prevent reporting e.g. a
 A prevalent method we find in the literature, namely inferential null hypothesis significance testing (NHST) of stimuli, fails to perform the necessary control.
 
 ## NHST and nuisance control
-Often, researchers will attempt to demonstrate that stimuli or participants are selected so as to concentrate their differences on the factor of interest, i.e. reduce confounds, by conducting null-hypothesis testing such as $t$-tests or ANOVA on the potential confound in addition or even instead of showing descriptive statistics in the form of measures of location and scale.
+Often, researchers will attempt to demonstrate that stimuli or participants are selected so as to concentrate their differences on the factor of interest, i.e. reduce confounds, by conducting null-hypothesis testing such as $t$-tests or ANOVA on the potential confound in addition to or even instead of showing descriptive statistics in the form of measures of location and scale.
 The underlying intuition is that these tests establish whether two conditions differ in a given aspect and serve as proof that the conditions are "equal" on it.
-This is, in turn, based on the common, but wrong intuition that significance in NHST establishes that a contrast shows a *meaningful effect*, and the related issue that non-significant tests indicate the absence of meaningful effects.
+This is, in turn, based on the common, but incorrect intuition that significance in NHST establishes that a contrast shows a *meaningful effect*, and the related issue that non-significant tests indicate the absence of meaningful effects.
 
 In practice, we find insignificant tests are used as a necessary (and often sufficient) condition for accepting a stimulus set as "controlled".
 This approach fails on multiple levels.
@@ -72,23 +72,25 @@ But in the case of non-medical, quasi-experimental research (i.e. research where
 That is, in the case of medical studies with randomization checks, experimental validity is achieved by selecting subjects from a given population and randomizing their assignment to treatment.
 In the case of studies in the brain and behavioral sciences, stimuli are constructed so as to differ on one factor which we highly expect to be correlated with others, e.g. word frequency and word length, and the concern of researchers is not if assignment was random (in fact, it is known to not have been random), but if stimuli differ systematically on factors expected to impact the dependent variable of interest.
 We are not aware of similar discussions in the psychological, linguistic or neurocognitive literature.
-Nonetheless, the clinical trial literature provides important considerations for experimental design choices e.g. by discussing the proper way of blocking and matching [@imai.king.etal:2008jrss], and can thus inform preparing stimulus sets or participant groups even for non-clinical experiments.
+Nonetheless, the clinical trial literature provides important considerations for experimental design choices, e.g. the proper way of blocking and matching [@imai.king.etal:2008jrss], and can thus inform preparing stimulus sets or participant groups even for non-clinical experiments.
 
 # Prevalence
-We performed a literature survey of neurolinguistic studies to estimate the prevalence of inferential tests of nuisance factors (see Methods section).
+We performed a literature survey of neurolinguistic studies to estimate the prevalence of inferential tests of nuisance factors.
 
 ## Qualitative impressions
 Instances of the error can be easily found not only in recent, but also in older publications, such as this example from the 1980s:
 
-> the two prime categories were equivalent in text frequency ([...] et al., 1971), and in length (both $t$'s < 1.1)
+> the two prime categories were equivalent in text frequency [...], and in length (both $t$'s < 1.1)
 
-Here, the authors deduce equivalence (acceptance of the null) from a failed test (in this case, a test that leads the authors to accept the null hypothesis), with regards to the population of stimuli they did not present rather than the sample at hand.
+Here, the authors deduce equivalence (acceptance of the null) from a failed test (i.e. a test where the null cannot be rejected), with regards to the population of stimuli they did not present rather than the sample at hand.
 To estimate how common the problem is in neurolinguistics, a high-quality neurolinguistic journal, *Brain & Language*, was investigated.
 
 ## Quantitative prevalence of the problem in recent issues of *Brain & Language*
 In total, 86 articles were found where researchers reported known quantities (e.g. perfectly measurable characteristics of a fixed set of stimuli) in their stimulus/materials section, and 58 (**67%**) of these reported inferential statistics of these known values.
 Of these, 47 (**81%**) "accepted" the null hypothesis (i.e., implicitly assumed that stimuli or subjects were matched following a nonsignificant test).
-We conclude that in a large fraction of those cases where researchers published in *B&L* are concerned about confounds of subject groups or experimental stimuli, they conduct inappropriate tests and misinterpret the results of these tests in a potentially misleading manner.
+We conclude that in a large fraction of those cases, where researchers published in *B&L* are concerned about confounds of subject groups or experimental stimuli, they conduct inappropriate tests and misinterpret the results of these tests in a potentially misleading manner.
+
+Representative statements from every study committing an error as well as further details on the precise survey methodology are available online at https://github.com/jona-sassenhagen/statfail.
 
 # Simulation 
 In addition to our survey of the literature, we also performed a simulation to examine the impact of inferential tests on confounding variables.
@@ -101,7 +103,7 @@ In our simulation, we examined the role of:
 The last two emphasize the pragmatic problem the procedure:  inferential tests on group attributes (e.g. word frequency vs. condition in language studies) examine difference in the feature and not the impact of that (difference in the) feature on the outcome. 
 In our simulation, this is equivalent to assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is a fairly strong assumption.
 
-The results of this simulation for several statice values of the above factors are available online on [RPubs](http://rpubs.com/palday/statfail), while an interactive version is available online at [ShinyApps](https://palday.shinyapps.io/statfail/). All source code (in R) is available on [GitHub](https://github.com/jona-sassenhagen/statfail), including the ability to run the simulation on a local computer. 
+The results of this simulation for several static values of the above factors are available online on [RPubs (http://rpubs.com/palday/statfail)](http://rpubs.com/palday/statfail), while an interactive version is available online at [ShinyApps (https://palday.shinyapps.io/statfail/)](https://palday.shinyapps.io/statfail/). All source code (in R) is available on [GitHub (https://github.com/jona-sassenhagen/statfail)](https://github.com/jona-sassenhagen/statfail), including the ability to run the simulation on a local computer. 
 
 In particular, we find that when the correlation between feature size and feature effect is not perfect, testing covariates can lead to false rejections of manipulations as "confounded" in 50% or more of studies for even large effects (20 items each for 2 groups, Cohen's $d = 2$ for manipulation, Pearson's $r = 0.75$ between feature and its effect; rejection rate > 60% for Cohen's $d = 1$ for feature attribute, rejetion rate = 75% for Cohen's $d = 2$ for feature attribute), *even when the confounding covariate was not significant in multiple regression*.
 
