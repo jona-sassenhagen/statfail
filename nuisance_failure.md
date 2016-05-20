@@ -3,7 +3,7 @@ title: "A common misapplication of statistical inference: nuisance control with 
 author:
     - Jona Sassenhagen
     - Phillip M. Alday
-date: February 2016
+date: May 2016
 abstract: |
     Much experimental research on behavior and cognition rests on stimulus or subject selection where not all characteristics can be fully controlled, even when attempting strict matching.
     For example, when contrasting patients to controls, factors such as intelligence or socioeconomic status are often correlated with patient status.
