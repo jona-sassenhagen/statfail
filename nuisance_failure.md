@@ -12,7 +12,7 @@ abstract: |
     For example, if word length is not *significantly* different for two stimulus sets, they are considered as matched for word length.
     Such a test has high error rates and is conceptually misguided.
     It reflects a common misunderstanding of statistical tests: interpreting significance not to refer to inference about a particular population parameter, but about 1. the sample in question, 2. the *practical relevance* of a sample difference (so that a nonsignificant test is taken to indicate evidence for the absence of relevant differences).
-    We show inferential testing to be inappropriate both pragmatically and philosophically, present a survey showing its high prevalence, and briefly discuss an alternative in the form of regression including nuisance variables.
+    We show inferential testing for assessing nuisance effects to be inappropriate both pragmatically and philosophically, present a survey showing its high prevalence, and briefly discuss an alternative in the form of regression including nuisance variables.
 keywords: design, experimental balance, confound, mixed models
 ---
 
@@ -35,7 +35,7 @@ A prevalent method we find in the literature, namely inferential null hypothesis
 ## NHST and nuisance control
 Often, researchers will attempt to demonstrate that stimuli or participants are selected so as to concentrate their differences on the variable of interest, i.e. reduce confounds, by conducting null-hypothesis testing such as $t$-tests or ANOVA on the potential confound in addition to or even instead of showing descriptive statistics in the form of measures of location and scale.
 The underlying intuition is that these tests establish whether two conditions differ in a given aspect and serve as proof that the conditions are "equal" on it.
-This is, in turn, based on the common, but incorrect intuition that significance in NHST establishes that a contrast shows a *meaningful effect*, and the related issue that non-significant tests indicate the absence of meaningful effects.
+This is, in turn, based on the related, but also incorrect intuition that significance in NHST establishes that a contrast shows a *meaningful effect*, and the related issue that non-significant tests indicate the absence of meaningful effects.
 
 In practice, we find insignificant tests are used as a necessary (and often sufficient) condition for accepting a stimulus set as "controlled".
 This approach fails on multiple levels.
@@ -60,18 +60,13 @@ Especially with small samples (e.g., 10 subjects per group, or 20 items per cond
 In other words, these tests are incapable of actually informing us about the influence of potential confounds, but may give researchers a false sense of security.
 This inferential stage offers no benefit beyond examining the descriptive measures of location and scale (e.g. mean and standard deviation) and determining if the stimuli groups are "similar enough".
 For perceptual experiments, there may even be established discrimination thresholds below which the differences are considered indistinguishable.
-The preferred solution is directly examining to what extent these potential confounds have an influence on the results, such as by including these confounds in the statistical model.
+A preferred approach is directly examining to what extent these potential confounds have an influence on the results, such as by including these confounds in the statistical model.
 This is often readily implemented via multiple regression, particularly "mixed-effect" approaches [@gelman.hill:2006;@fox:2016].
 
 ## Randomization checks in clinical research
-In the context of baseline differences between treatment and control groups in clinical trials, a similar debate has been waged [e.g. @senn:1994sm].
-The procedure is called a "randomization check" as it refers to checking if assignment of subjects to treatments has truly been performed randomly.
-Philosophically, this is somewhat less misguided, but has also been determined to be pragmatically inappropriate.
-In truly experimental research such as clinical trials, the effect of treatment is the variable of interest, and true randomization can be performed with regards to the multitude of other variables that might influence results.
-But in the case of non-medical, quasi-experimental research (i.e. research where full control is not possible and thus confounds are unavoidable), stimuli or subjects are typically *known* to not have been selected randomly, but by specific criteria (e.g., animate vs. inanimate nouns, or patients with vs. without a particular lesion).
-That is, in the case of medical studies with randomization checks, experimental validity is achieved by selecting subjects from a given population and randomizing their assignment to treatment.
-In the case of studies in the brain and behavioral sciences, stimuli are constructed so as to differ on one variable which we highly expect to be correlated with others, e.g. word frequency and word length, and the concern of researchers is not if assignment was random (in fact, it is known to not have been random), but if stimuli differ systematically on variables expected to impact the dependent variable of interest.
-We are not aware of similar discussions in the psychological, linguistic or neurocognitive literature.
+In the context of baseline differences between treatment and control groups in clinical trials, a similar debate has been waged [e.g. @senn:1994sm] under the term "randomization check" as it refers to checking if assignment of subjects to treatments has truly been performed randomly.
+In interventional clinical trials, assignment can indeed be truly random (unlike in the kind of study in brain and behavioral sciences we are referring to here).
+Yet even here, inferential tests have been judged inappropriate for achieving their intended aims.
 Nonetheless, the clinical trial literature provides important considerations for experimental design choices, e.g. the proper way of blocking and matching [@imai.king.etal:2008jrss], and can thus inform preparing stimulus sets or participant groups even for non-clinical experiments.
 
 # Prevalence
@@ -93,23 +88,15 @@ We conclude that in a large fraction of those cases, where researchers published
 Representative statements from every study committing an error as well as further details on the precise survey methodology are available online at https://github.com/jona-sassenhagen/statfail.
 
 # Simulation
-We performed a simulation to investigate the impact of inferential tests of confounding variables.
-In our simulation, we examined the role of:
-
-1. **manipulation effect size:** the effect size from the manipulation of interest
-2. **confound feature size:** the measured size of the confounding feature
-3. **confound feature-effect correlation:** the correlation between that measured size the and the effect size of the feature
-
-The last two emphasize the pragmatic problem the procedure:  inferential tests on group attributes (e.g. word frequency vs. condition in language studies) examine difference in the feature and not the impact of that (difference in the) feature on the outcome.
-In our simulation, this is equivalent to assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is an unwarranted assumption.
+We performed a simulation to investigate the impact of inferential tests of confounding variables. ... **rewrite**
 
 The results of this simulation for several values of the above factors are available online on [RPubs (http://rpubs.com/palday/statfail)](http://rpubs.com/palday/statfail), while an interactive version is available online at [ShinyApps (https://palday.shinyapps.io/statfail/)](https://palday.shinyapps.io/statfail/). All source code (in R) is available on [GitHub (https://github.com/jona-sassenhagen/statfail)](https://github.com/jona-sassenhagen/statfail), including the ability to run the simulation on a local computer.
 
+**rewrite ... maybe add power calc here**
+
 In particular, we find that when the correlation between feature size and feature effect is not perfect, testing covariates can lead to false rejections of manipulations as "confounded" in 50% or more of studies for even large effects (20 items each for 2 groups, Cohen's $d = 2$ for manipulation, Pearson's $r = 0.75$ between feature and its effect; rejection rate > 60% for Cohen's $d = 1$ for feature attribute, rejection rate = 75% for Cohen's $d = 2$ for feature attribute).
 
-![Simulation results for rejections. The difference in feature size and the effect size of the manipulation are given in Cohen's $d$. Feature size is the measured difference in the feature itself. The impact of the feature is determined by the correlation between its measured size and effect size. Rejections where the significant manipulation was missed are an example of "throwing the baby out with the bathwater".](sim-reject.pdf)
-
-![Simulation results for acceptances. The difference in feature size and the effect size of the manipulation are given in Cohen's $d$. Feature size is the measured difference in the feature itself. The impact of the feature is determined by the correlation between its measured size and effect size. Acceptances where the feature still had an effect in multiple regression are failed detections of a real confounding effect. Acceptances where the manipulation was only significant in simple regression are failed detections of a real confounding effect that completely subsumes the manipulation effect.](sim-accept.pdf)
+**rewrite ... possibly focus on b errors over a errors**
 
 # Discussion and recommendation
 In sum, NHST control of nuisance variables is prevalent and inappropriate, based on a flawed application of statistics to an irrelevant hypothesis.
