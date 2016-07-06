@@ -1,5 +1,5 @@
 ---
-title: 'Inference failure: Confound and control in BBS experiments'
+title: 'A common misapplication of statistical inference: nuisance control with null-hypothesis significance test'
 author: "Phillip M. Alday"
 date: "May  2016"
 output: 
@@ -20,7 +20,7 @@ Sassenhagen, Jona and Phillip M. Alday (under review): A common misapplication o
 
 The title will probably change in the near feature, as some of our initial reviewer feedback has been some very helpful terminological suggestions.
 
-Another Python-based simulation will soon be made available on Binder, but the preliminary code is already in the GitHub repository.
+<!--Another Python-based simulation will soon be made available on Binder, but the preliminary code is already in the GitHub repository.-->
 
 A Shiny app that allows you to more closely individual simulated experiments for a given set of simulation parameters is available in the GitHub repository and on [shinyapps.io](https://palday.shinyapps.io/statfail/).
 If you're going to do lots of computations, please run the app locally so that server time remains available for others.
@@ -29,12 +29,14 @@ If you're going to do lots of computations, please run the app locally so that s
 # Simulation
 Here, we repeat the simulation in the Shiny app, but iterate over different possibilities for
 
-1. **manipulation effect size:** the effect size from the manipulation of interest
-2. **confound feature size:** the measured size of the confounding feature
-3. **confound feature-effect correlation:** the correlation between that measured size the and the effect size of the feature
+1. **manipulation effect size:** the effect size from the manipulation of interest (given as Cohen's $d$ between groups)
+2. **confound size:** the measured size of the confounding feature (given as Cohen's $d$ between groups)
+3. **confound-outcome correlation:** the simple correlation between that the confound size and the outcome (given as Pearson's $r$)
 
 The last two emphasize a subtle point -- one of the many problems with doing inferential tests on group attributes (e.g. word frequency vs. condition in language studies) is that you're testing the difference in the feature and not the impact of that (difference in the) feature on the outcome. 
-In other words, you're assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is a fairly strong assumption.
+In other words, you're assuming that the measured feature difference exactly correlates with the impact that feature has on the outcome, which is a fairly strong assumption. 
+
+In other words, the confound-outcome correlation is the actual effect size of the confounding variable, taken together with the confound size, you can compute the actual impact of confounding on the manipulation.
 
 ## Setup
 
@@ -63,7 +65,7 @@ source("statfail.R")
 
 The difficult part of the simulation is performed by `statfail.R`, which is shared with the Shiny app.
 Both the source code and an explanation of the general principles (`simulation_notes.md`) are available in the GitHub repository.
-Here, we only need to iterate over a few possibilities for the manipulation effect size, confound feature size and confound feature-effect correlation.
+Here, we only need to iterate over a few possibilities for the manipulation effect size, confound size, and confound-outcome  correlation.
 The number of simulated experiments is held constant for all combinations of these (set via the document parameter `n`, which had the value `r params$n` when this document was generated).
 Increasing this value will of course help detect rare phenomena, but will drastically increase time and memory needed.
 
@@ -144,7 +146,7 @@ results.long$percent.studies <- results.long$percent.studies * 100
 
 
 ## Generate graphics
-```{r generate.graphics, dependson='simulate',cache=TRUE,message=FALSE}
+```{r generate.graphics, dependson='simulate',cache=TRUE,message=FALSE,warning=FALSE}
 # prettier names for the legend
 results.long$type <-factor(results.long$type
                            ,levels=c("rejections"
@@ -170,7 +172,7 @@ facet_labeller <- function(variable,value){
   }else if (variable == 'mes') {
     lbl <- paste("Manipulation:",value)
   }else if (variable == 'cfec') {
-    lbl <- paste("Feature-size/effect correlation:",value)
+    lbl <- paste("Feature-outcome correlation",value)
   } else {
     lbl <- as.character(value)
   }
@@ -180,10 +182,10 @@ facet_labeller <- function(variable,value){
 gg.reject <- ggplot(subset(results.long,result=="reject"),aes(color=type,x=cfec,y=percent.studies)) +
   geom_line(stat="identity") + 
   facet_grid(cfs ~ mes,labeller = facet_labeller) + 
-  xlab("Correlation of feature as measured and effect of feature on outcome") + 
+  xlab("Correlation of confounding feature and dependent variable") + 
   ylab("Percent of simulated studies") + 
-  theme(legend.position="top") + #coord_fixed(ratio=1/100) +
-  guides(color=guide_legend(title="Result based on inferential pretesting of measured feature",
+  theme(legend.position="top", axis.text.x = element_text(angle = 45, hjust = 1), strip.text.y = element_text(angle=0)) + #coord_fixed(ratio=1/100) +
+  guides(color=guide_legend(title="Result based on inferential pretesting of confounding feature",
                             title.position="top",
                             nrow=2))
 
@@ -207,8 +209,8 @@ ggplotly(gg.reject)
 ```
 
 ## Acceptances
-* Acceptances where the feature still had an effect in multiple rejection are failed detections of a real confounding effect.
-* Acceptances where the manipulation was only significant in simple regression are failed detections of a real confounding effect *that completes subsumes the manipulation effect*.
+* Acceptances where the feature still had an effect in multiple rejection are failed detections of a real confound.
+* Acceptances where the manipulation was only significant in simple regression are failed detections of a real confound *that completely subsumes the manipulation effect*.
 
 ```{r accept, echo=FALSE, fig.align="center", cache=FALSE}
 ggplotly(gg.accept)
