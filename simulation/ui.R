@@ -23,7 +23,7 @@ library(rmarkdown)
 shinyUI(fluidPage(
 
   # Application title
-  titlePanel("Inference failure: Confound and control in BBS experiments"),
+  titlePanel("A common misapplication of statistical inference: nuisance control with null-hypothesis significance tests"),
   withMathJax(),
   HTML("<i>If you're going to do lots of computations, please run the app locally so that server time remains available for others.</i>"),
 
