@@ -1,7 +1,7 @@
 ---
-title: 'A common misapplication of statistical inference: nuisance control with null-hypothesis significance test'
+title: 'A common misapplication of statistical inference: nuisance control with null-hypothesis significance tests'
 author: "Phillip M. Alday"
-date: "May  2016"
+date: "July  2016"
 output: 
   html_document:
     toc: TRUE
