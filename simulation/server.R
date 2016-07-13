@@ -87,7 +87,7 @@ shinyServer(function(input, output, session) {
       #geom_rug(size=1.5,alpha=0.4) +
       #scale_color_discrete(name="Condition",labels=c("control","manipulation")) +
       guides(fill="none",color="none") +
-      ggtitle("Feature distribution across groups")
+      ggtitle("Feature distribution")
     ggplotly(g) %>% layout(showlegend = FALSE)
   })
 
@@ -154,7 +154,7 @@ shinyServer(function(input, output, session) {
       geom_smooth(method=lm) +
       geom_point(aes(color=condition),alpha=0.3) +
       ylab("outcome") +
-      ggtitle("Simple regression for feature")
+      ggtitle("Regression for feature")
     ggplotly(g) %>% layout(showlegend = FALSE)
   })
 

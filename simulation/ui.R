@@ -26,12 +26,13 @@ shinyUI(fluidPage(
   titlePanel("A common misapplication of statistical inference: nuisance control with null-hypothesis significance tests"),
   withMathJax(),
   HTML("<i>If you're going to do lots of computations, please run the app locally so that server time remains available for others.</i>"),
+  HTML("<p><i>Small screen and the output overlaps horizontally? Try making your window <b>even narrower</b> to force single-column mode.</i>"),
 
   # Sidebar with a slider input for number of bins
   sidebarLayout(
     sidebarPanel(h3("Simulation Parameters")
        ,sliderInput("manipulation.effect.size",
-                   "Difference in outcome variable due to manipulation (Cohen's \\(d\\))",
+                   "Effect of manipulation (Cohen's \\(d\\))",
                    min = -5,
                    max = 10,
                    value = 2,
@@ -43,13 +44,13 @@ shinyUI(fluidPage(
                    value = 1.0,
                    step = 0.1)
        ,sliderInput("confound.feature.effect.correlation",
-                    "Impact of confounding feature (correlation between measured confounding feature and outcome variable)",
+                    "Impact of confounding feature (correlation between confounding feature and outcome)",
                     min = -1,
                     max = 1,
                     value = 1.0,
                     step = 0.1)
        ,sliderInput("n.items",
-                    HTML("Number of items to draw </br > (from each manipulation-level)"),
+                    HTML("Number of items to draw (per group)"),
                     min = 10,
                     max = 100,
                     value = 20,
@@ -72,13 +73,9 @@ shinyUI(fluidPage(
                   ,h1("Single Simulation Results")
                   ,uiOutput("which.sim")
                   ,h2("Detection with traditional tests")
-                  ,fluidRow(column(4,plotlyOutput("plt.feature.distribution"))
-                            ,column(4,plotlyOutput("plt.manipulation.regression"))
-                            ,column(4,plotlyOutput("plt.feature.regression"))
-                            )
-                  ,fluidRow(column(4,htmlOutput("feature.test"))
-                            ,column(4,htmlOutput("manipulation.regression"))
-                            ,column(4,htmlOutput("feature.regression"))
+                  ,fluidRow(column(4,plotlyOutput("plt.feature.distribution"),htmlOutput("feature.test"))
+                            ,column(4,plotlyOutput("plt.manipulation.regression"),htmlOutput("manipulation.regression"))
+                            ,column(4,plotlyOutput("plt.feature.regression"),htmlOutput("feature.regression"))
                             )
                   ,h2("Multiple regression")
                   ,fluidRow(column(7,plotlyOutput("plt.multiple.regression"),includeMarkdown("interpret_multiple.md"))
