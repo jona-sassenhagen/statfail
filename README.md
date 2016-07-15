@@ -1,6 +1,6 @@
 # StatFail: Confusing Descriptive and Inferential Statistics in Experimental Design 
 
-[https://zenodo.org/badge/23206/jona-sassenhagen/statfail.svg](https://zenodo.org/badge/latestdoi/23206/jona-sassenhagen/statfail)
+[![DOI](https://zenodo.org/badge/23206/jona-sassenhagen/statfail.svg)](https://zenodo.org/badge/latestdoi/23206/jona-sassenhagen/statfail)
 
 # Read the paper
 
