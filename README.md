@@ -1,5 +1,7 @@
 # StatFail: Confusing Descriptive and Inferential Statistics in Experimental Design 
 
+[https://zenodo.org/badge/23206/jona-sassenhagen/statfail.svg](https://zenodo.org/badge/latestdoi/23206/jona-sassenhagen/statfail)
+
 # Read the paper
 
 Sassenhagen, Jona and Phillip M. Alday (under review): A common misapplication of statistical inference: nuisance control with null-hypothesis significance tests. Brain & Language. [arXiv preprint](http://arxiv.org/abs/1602.04565). [Repository](https://github.com/jona-sassenhagen/statfail/). 
