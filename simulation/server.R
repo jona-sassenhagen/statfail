@@ -303,11 +303,12 @@ shinyServer(function(input, output, session) {
     feature_has_no_effect <- sum(with(subset(cmp,pretest), !feature.simple))
     feature_irrelevant_in_multiple <- sum(with(subset(cmp,pretest), !feature.multiple))
 
-    vals <- c(rejections, manipulation_still_significant, feature_has_no_effect, feature_irrelevant_in_multiple)
+    vals <- c(n-rejections, rejections, manipulation_still_significant, feature_has_no_effect, feature_irrelevant_in_multiple)
 
     out <- data.frame(count=vals,percentage=signif(vals/n,2)*100)
 
-    rownames(out) <- c("Rejected studies"
+    rownames(out) <- c("Accepted studies"
+                       ,"Rejected studies"
                        ,"where the manipulation was still significant in the multiple regression"
                        ,"where the feature had no effect on the outcome in simple regression"
                        ,"where the feature was irrelevant in the multiple regression")
