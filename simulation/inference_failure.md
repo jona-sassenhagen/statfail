@@ -13,7 +13,7 @@
 
 ### Philosophy
 1. You can't accept the null in NHST, only fail to reject it.
-  - Simply put, NHST doesn't have the notion of 'accepting' hypotheses, especially not the null. 
+  - Simply put, NHST doesn't have the notion of 'accepting' hypotheses, especially not the null.
   - You only reject a hypothesis as having a likelihood (probability conditional on your data model) that is too low to be taken seriously.
 
 ### Statistics
@@ -23,22 +23,22 @@
 3. You've performing inferences on a population you don't care about.
   - Inferential statistics, including statistical testing, draw conclusions from the data present about the data absent.
   - The absent data are things we don't care about:
-     - The set of all animate vs. all inanimate nouns 
+     - The set of all animate vs. all inanimate nouns
      - The set of all possible patients vs. all possible controls
   - Alternatively, we have a completely sampled population and there are no absent data.
   - So just use descriptive statistics and make sure they match!
 
 ### Pragmatics
 4. You're failing to perform the inference you actually care about.
-  - Even if we could 
+  - Even if we could
       - accept the null and
       - pretend that we're sampling randomly
       - from a population we care about
-  - we're still answering a boring question: 
-  
+  - we're still answering a boring question:
+
     > do these two populations differ systematically in the given feature?
 
-  - when we actually care about: 
+  - when we actually care about:
 
     > is the variance observed in my manipulation (better or at least partially) explained by the differences in the given feature?
 
@@ -49,3 +49,5 @@
     - Painful with ANOVA / ANCOVA / other 1970s statistics
     - Not a problem with modern (explicit) regression techniques like mixed-effects models
     - Which you really should be using anyway for many BBS designs [cf. @clark1973a; @judd.westfall.etal:2012pp; @westfallkennyjudd2014a]
+
+# References

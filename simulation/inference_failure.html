@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<h2 id="control-and-ecological-validity-in-conflict">Control and ecological validity in conflict</h2>
+<ul>
+<li>Experimental control not possible in the brain &amp; behavioural sciences in the same way as in the physical sciences:
+<ul>
+<li>truly artificial stimuli problematic (novel as types &amp; tokens, etc.)</li>
+<li>natural stimuli strongly confounded, with unclear causality and primacy</li>
+</ul></li>
+<li>Still, we try to match our stimulus, participant, etc. groups</li>
+</ul>
+<h2 id="whats-the-problem">What’s the problem?</h2>
+<blockquote>
+<p>Animate and inanimate words chosen as stimulus materials did not differ in word frequency (<span class="math inline"><em>p</em></span> &gt; 0.05).</p>
+</blockquote>
+<blockquote>
+<p>Controls and aphasics did not differ in age (<span class="math inline"><em>p</em></span> &gt; 0.05).</p>
+</blockquote>
+<h3 id="philosophy">Philosophy</h3>
+<ol style="list-style-type: decimal">
+<li>You can’t accept the null in NHST, only fail to reject it.</li>
+</ol>
+<ul>
+<li>Simply put, NHST doesn’t have the notion of ‘accepting’ hypotheses, especially not the null.</li>
+<li>You only reject a hypothesis as having a likelihood (probability conditional on your data model) that is too low to be taken seriously.</li>
+</ul>
+<h3 id="statistics">Statistics</h3>
+<ol start="2" style="list-style-type: decimal">
+<li>You’re violating testing assumptions because <em>by design</em> you did not randomly sample.</li>
+</ol>
+<ul>
+<li>You just aren’t doing it by any stretch of the imagination.</li>
+<li>You are actively trying to distort measures of both central location and spread.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>You’ve performing inferences on a population you don’t care about.</li>
+</ol>
+<ul>
+<li>Inferential statistics, including statistical testing, draw conclusions from the data present about the data absent.</li>
+<li>The absent data are things we don’t care about:
+<ul>
+<li>The set of all animate vs. all inanimate nouns</li>
+<li>The set of all possible patients vs. all possible controls</li>
+</ul></li>
+<li>Alternatively, we have a completely sampled population and there are no absent data.</li>
+<li>So just use descriptive statistics and make sure they match!</li>
+</ul>
+<h3 id="pragmatics">Pragmatics</h3>
+<ol start="4" style="list-style-type: decimal">
+<li>You’re failing to perform the inference you actually care about.</li>
+</ol>
+<ul>
+<li>Even if we could
+<ul>
+<li>accept the null and</li>
+<li>pretend that we’re sampling randomly</li>
+<li>from a population we care about</li>
+</ul></li>
+<li><p>we’re still answering a boring question:</p>
+<blockquote>
+<p>do these two populations differ systematically in the given feature?</p>
+</blockquote></li>
+<li><p>when we actually care about:</p>
+<blockquote>
+<p>is the variance observed in my manipulation (better or at least partially) explained by the differences in the given feature?</p>
+</blockquote></li>
+</ul>
+<h2 id="what-to-do-what-to-do">What to do, what to do</h2>
+<ul>
+<li>Stop inferential tests for confound control.</li>
+<li>Try to match groups as closely as possible using purely descriptive statistics (reduce confounds and collinearity).</li>
+<li>If you can (and this is a <em>should could</em>!), explicitly model these confounds as a covariate
+<ul>
+<li>Painful with ANOVA / ANCOVA / other 1970s statistics</li>
+<li>Not a problem with modern (explicit) regression techniques like mixed-effects models</li>
+<li>Which you really should be using anyway for many BBS designs <span class="citation">(cf. Clark 1973; Judd, Westfall, and Kenny 2012; Westfall, Kenny, and Judd 2014)</span></li>
+</ul></li>
+</ul>
+<h1 id="references" class="unnumbered">References</h1>
+<div id="refs" class="references">
+<div id="ref-clark1973a">
+<p>Clark, Herbert H. 1973. “The Language-as-Fixed-Effect Fallacy: A Critique of Language Statistics in Psychological Research.” <em>Journal of Verbal Learning and Verbal Behavior</em> 12: 335–59. doi:<a href="https://doi.org/10.1016/S0022-5371(73)80014-3">10.1016/S0022-5371(73)80014-3</a>.</p>
+</div>
+<div id="ref-judd.westfall.etal:2012pp">
+<p>Judd, Charles M., Jacob Westfall, and David A. Kenny. 2012. “Treating Stimuli as a Random Factor in Social Psychology: A New and Comprehensive Solution to a Pervasive but Largely Ignored Problem.” <em>J Pers Soc Psychol</em> 103 (1): 54–69. doi:<a href="https://doi.org/10.1037/a0028347">10.1037/a0028347</a>.</p>
+</div>
+<div id="ref-westfallkennyjudd2014a">
+<p>Westfall, Jacob, David A. Kenny, and Charles M. Judd. 2014. “Statistical Power and Optimal Design in Experiments in Which Samples of Participants Respond to Samples of Stimuli.” <em>Journal of Experimental Psychology</em> 143 (5): 2030–45. doi:<a href="https://doi.org/10.1037/xge0000014">10.1037/xge0000014</a>.</p>
+</div>
+</div>
+</body>
+</html>
