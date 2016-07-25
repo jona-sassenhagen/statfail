@@ -162,7 +162,7 @@ results.long$type <-factor(results.long$type
                                        ,"when feature was not significant in multiple regression"
                                        ,"accepted"
                                        ,"but feature still had an effect in multiple regression",
-                                       "and the manipulation was only significant in simple regression"))
+                                       "and the manipulation was significant only in simple regression"))
 
 # This uses the deprecated labeller API for ggplot.
 facet_labeller <- function(variable,value){
