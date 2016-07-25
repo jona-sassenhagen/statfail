@@ -305,7 +305,7 @@ shinyServer(function(input, output, session) {
 
     vals <- c(n-rejections, rejections, manipulation_still_significant, feature_has_no_effect, feature_irrelevant_in_multiple)
 
-    out <- data.frame(count=vals,percentage=signif(vals/n,2)*100)
+    out <- data.frame(count=vals,percentage=round(vals/n,4)*100)
 
     rownames(out) <- c("Accepted studies"
                        ,"Rejected studies"
