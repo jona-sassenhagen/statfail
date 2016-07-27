@@ -2,9 +2,9 @@ name: statfail
 account: palday
 server: shinyapps.io
 appId: 100631
-bundleId: 445228
+bundleId: 514530
 url: https://palday.shinyapps.io/statfail/
-when: 1462755793.81347
+when: 1469442490.45612
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: statfail.Rmd|statfail_cache/html/__packages|statfail_cache/html/generate.graphics_d5834f348b12bf706336fd87234fa143.RData|statfail_cache/html/generate.graphics_d5834f348b12bf706336fd87234fa143.rdb|statfail_cache/html/generate.graphics_d5834f348b12bf706336fd87234fa143.rdx|statfail_cache/html/simulate_32a7e7cc0e932cb190d54f387f5a6aff.RData|statfail_cache/html/simulate_32a7e7cc0e932cb190d54f387f5a6aff.rdb|statfail_cache/html/simulate_32a7e7cc0e932cb190d54f387f5a6aff.rdx|statfail_files/figure-html/accept-1.png|statfail_files/figure-html/reject-1.png
+ignoredFiles: statfail.Rmd|statfail_cache/html/__packages|statfail_cache/html/generate.graphics_63a0998ea883321a0ef4a9a7d67d3cdd.RData|statfail_cache/html/generate.graphics_63a0998ea883321a0ef4a9a7d67d3cdd.rdb|statfail_cache/html/generate.graphics_63a0998ea883321a0ef4a9a7d67d3cdd.rdx|statfail_cache/html/simulate_f6b257914e3bf7dcaf940f5a36f99787.RData|statfail_cache/html/simulate_f6b257914e3bf7dcaf940f5a36f99787.rdb|statfail_cache/html/simulate_f6b257914e3bf7dcaf940f5a36f99787.rdx|statfail_files/figure-html/accept-1.png|statfail_files/figure-html/reject-1.png
