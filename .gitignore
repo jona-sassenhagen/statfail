@@ -16,3 +16,8 @@ nuisance_failure_*.pdf
 .Rproj.user
 .RData
 .Rhistory
+ipynb_drop_output.py
+poster-snl2016.nav
+poster-snl2016.pdf
+poster-snl2016.snm
+poster-snl2016.toc
