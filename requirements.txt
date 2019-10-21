@@ -64,7 +64,7 @@ nemo-emblems==0.0.1
 netifaces==0.8
 nibabel==2.0.1
 nipy==0.4.0.dev
-nltk==3.0.0
+nltk==3.4.5
 nose==1.3.1
 numpy==1.9.1
 oauthlib==0.6.1
