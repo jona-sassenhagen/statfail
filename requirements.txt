@@ -10,7 +10,7 @@ PsychoPy==1.82.01
 PyAudio==0.2.7
 PyOpenGL==3.0.2
 PyWavelets==0.2.2
-PyYAML==3.10
+PyYAML==5.1
 Pygments==1.6
 Routes==2.0
 Twisted-Core==13.2.0
