@@ -83,7 +83,7 @@ pprocess==0.5
 progressbar==2.3
 protobuf==2.5.0
 psutil==2.1.1
-pyOpenSSL==0.13
+pyOpenSSL==17.5.0
 pycrypto==2.6.1
 pycups==1.9.66
 pycurl==7.19.3
