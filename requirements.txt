@@ -111,7 +111,7 @@ pyxdg==0.25
 pyzmq==14.0.1
 reportlab==3.0
 repoze.lru==0.6
-requests==2.2.1
+requests==2.20.0
 rpy2==2.5.5
 rubber==1.1
 scikit-image==0.10.1
